@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
+import CalendarWeek from './Src/Components/CalendarWeek';
 
-export default function App() {
+const App = () => {
+  const weekDays = ['1', '2', '3', '4', '5', '6', '7']; // Example days for the week
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app! Here is a test ! Does it work ?</Text>
-      <StatusBar style="auto" />
-      <Text>Test 2</Text>
+      <CalendarWeek weekDays={weekDays} />
+      {/* Add more CalendarWeek components or customize as needed */}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    padding: 10,
   },
 });
+
+export default App;
