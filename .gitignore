@@ -1,12 +1,12 @@
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
-node_modules/
+EaseTask/node_modules/
 
 # Expo
-.expo/
-dist/
-web-build/
+EaseTask/.expo/
+EaseTask/dist/
+EaseTask/web-build/
 
 # Native
 *.orig.*
@@ -20,17 +20,17 @@ web-build/
 .metro-health-check*
 
 # debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
+*npm-debug.*
+*yarn-debug.*
+*yarn-error.*
 
 # macOS
-.DS_Store
+*.DS_Store
 *.pem
 *.lock
 
 # local env files
-.env*.local
+*.env*.local
 
 # typescript
 *.tsbuildinfo
