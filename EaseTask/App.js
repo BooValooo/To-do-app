@@ -6,6 +6,7 @@ export default function App() {
     <View style={styles.container}>
       <Text>Open up App.js to start working on your app! Here is a test ! Does it work ?</Text>
       <StatusBar style="auto" />
+      <Text>Test 2</Text>
     </View>
   );
 }
