@@ -34,3 +34,4 @@ EaseTask/web-build/
 
 # typescript
 *.tsbuildinfo
+node_modules
