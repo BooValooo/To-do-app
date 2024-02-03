@@ -1,9 +1,6 @@
-
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
-
+import { AntDesign, FontAwesome } from '@expo/vector-icons'; 
 
 const Headbar = ({ showSearchIcon, headbarText, onSearchPress, onOptionsPress }) => {
   return (
@@ -11,14 +8,16 @@ const Headbar = ({ showSearchIcon, headbarText, onSearchPress, onOptionsPress })
       <Text style={styles.text}>
         {headbarText}
       </Text>
-      {showSearchIcon ?
-        (<TouchableOpacity onPress={onSearchPress} style={styles.iconContainer}>
-          <AntDesign name="search1" size={24} color="black" />
-         </TouchableOpacity>
-        ) : null}
-      <TouchableOpacity onPress={onOptionsPress} style={styles.iconContainer}>
-        <FontAwesome6 name="gear" size={24} color="black" />
-      </TouchableOpacity>
+      <View style={styles.iconsContainer}>
+        {showSearchIcon && (
+          <TouchableOpacity onPress={onSearchPress}>
+            <AntDesign name="search1" size={24} color="black" style={styles.icon} />
+          </TouchableOpacity>
+        )}
+        <TouchableOpacity onPress={onOptionsPress}>
+          <FontAwesome name="gear" size={24} color="black" style={styles.icon} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -28,25 +27,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingTop: 30,
-    backgroundColor: '#e0e0e0',
-    height: 80,
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    backgroundColor: '#ffffff', // Changed to white to match the image
   },
-  iconContainer: {
-    padding: 10,
+  iconsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    marginLeft: 15, 
   },
   text: {
-    flex: 1,
-    height: 40,
-    paddingHorizontal: 10,
-    backgroundColor: '#e0e0e0',
-    borderRadius: 5,
-    marginLeft: 10,
-    fontSize: 30,
-    fontStyle: 'normal',
-    fontWeight: 'bold',
-    textAlign: "auto"
+    fontSize: 32, 
+    fontWeight: 'bold', 
+    color: '#000000', 
+    flex: 1, 
+    marginRight: 15
   },
 });
 
