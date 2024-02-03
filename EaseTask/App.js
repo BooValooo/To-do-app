@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Headbar from './Src/Components/Headbar';
+import Headbar from './src/Components/Headbar';
 
 const App = () => {
   const handleIcon1Press = () => {
