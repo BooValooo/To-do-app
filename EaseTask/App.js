@@ -1,8 +1,8 @@
 // App.js
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import Headbar from './src/Components/Headbar';
-import TaskBox from './src/Components/TaskBox'; 
+import Headbar from './Src/Components/Headbar';
+import TaskBox from './Src/Components/TaskBox'; 
 
 const App = () => {
   const handleIcon1Press = () => {
