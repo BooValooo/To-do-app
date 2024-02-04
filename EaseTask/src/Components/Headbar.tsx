@@ -30,6 +30,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     backgroundColor: '#ffffff', // Changed to white to match the image
+    marginBottom: 15, // Margin to have a better result when there is something below the headbar
+    marginTop: 15
   },
   iconsContainer: {
     flexDirection: 'row',
