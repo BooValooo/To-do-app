@@ -1,27 +1,53 @@
 // App.js
-
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet } from 'react-native';
 import Headbar from './src/Components/Headbar';
+import TaskBox from './src/Components/TaskBox'; 
 
 const App = () => {
   const handleIcon1Press = () => {
-    // Handle the press event for the first icon
-    console.log('Icon 1 pressed');
+    console.log('Search icon pressed');
   };
 
   const handleIcon2Press = () => {
-    // Handle the press event for the second icon
-    console.log('Icon 2 pressed');
+    console.log('Options icon pressed');
   };
 
-  const showSearchIcon = true;
-  const headbarText = "New task"
+  const handleCheckPress = (taskId) => {
+    console.log(`Task ${taskId} checkbox pressed`);
+  };
+
+  const handleMenuPress = (taskId) => {
+    console.log(`Task ${taskId} menu pressed`);
+  };
+
+  const tasks = [
+    { id: 1, name: 'Task 1', priority: 'Priority 1', time: '08:30 PM', isChecked: false },
+    { id: 2, name: 'Task 2', priority: 'Priority 1', time: '08:30 PM', isChecked: false },
+    { id: 3, name: 'Task 3', priority: 'Priority 3', time: '08:30 PM', isChecked: true },
+  ];
 
   return (
     <View style={styles.container}>
-      <Headbar showSearchIcon={showSearchIcon} headbarText={headbarText} onSearchPress={handleIcon1Press} onOptionsPress={handleIcon2Press} />
-      {/* Add the rest of your app components below */}
+      <Headbar
+        showSearchIcon={true}
+        headbarText="New Task"
+        onSearchPress={handleIcon1Press}
+        onOptionsPress={handleIcon2Press}
+      />
+      <ScrollView style={styles.taskList}>
+        {tasks.map((task) => (
+          <TaskBox
+            key={task.id}
+            taskName={task.name}
+            priority={task.priority}
+            time={task.time}
+            isChecked={task.isChecked}
+            onCheckPress={() => handleCheckPress(task.id)}
+            onMenuPress={() => handleMenuPress(task.id)}
+          />
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -30,6 +56,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  taskList: {
+    flex: 1,
+    marginTop: 20, // 为任务列表提供一些顶部空间
   },
 });
 
