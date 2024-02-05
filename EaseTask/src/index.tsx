@@ -1,7 +1,7 @@
 import React from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import MainScreen from './Views/main-screen';
-import Test from './Views/test';
+// import Test from './Views/test';
 import Calendar from './Views/Calendar';
 // import OtherScreen from './Views/OtherScreen'; // 假设你有另一个页面
 
@@ -21,7 +21,7 @@ const App = () => {
       }}
     >
       <Tab.Screen name="Main" component={MainScreen} />
-      <Tab.Screen name="Test" component={Test} />
+      {/* <Tab.Screen name="Test" component={Test} /> */}
       <Tab.Screen name="Calendar" component={Calendar} />
     </Tab.Navigator>
   );
