@@ -1,6 +1,6 @@
 import React from 'react'
-import AppContainer from './Src/Components/app-container'
-import Navigator from './Src/'
+import AppContainer from './src/Components/app-container'
+import Navigator from './src/'
 
 export default function App() {
   return (

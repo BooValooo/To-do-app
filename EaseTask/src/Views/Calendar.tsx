@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import Headbar from '../Components/Headbar';
 import CalendarMonth from '../Components/CalendarMonth';
+import TaskBox from '../Components/TaskBox';
 
 const Calendar = () => {
   const handleIcon1Press = () => {
@@ -24,6 +25,15 @@ const Calendar = () => {
     <View style={styles.container}>
       <Headbar showSearchIcon={showSearchIcon} headbarText={headbarText} onSearchPress={handleIcon1Press} onOptionsPress={handleIcon2Press} />
       <CalendarMonth year={year} month={month}/>
+      <TaskBox
+            key={1}
+            taskName={"Task 1"}
+            priority={"Priority 1"}
+            time={'08:30 PM'}
+            isChecked={false}
+            onCheckPress={() => null}
+            onMenuPress={() => null}
+          /> 
     </View>
   );
 };
