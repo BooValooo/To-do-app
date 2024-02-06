@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Headbar from '../Components/Headbar';
 import TaskBox from '../Components/TaskBox';
+import NoteBox from '../Components/NoteBox';
+import FloatingActionButton from '../Components/FloatingActionButton';
+import ModalOptions from '../Components/ModalOptions';
 
 const MainScreen = () => {
   const handleIcon1Press = () => {
@@ -15,6 +18,20 @@ const MainScreen = () => {
 
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
+    if (task.location !== undefined) {
+      setNote(prevTasks => {
+        const updatedTasks = prevTasks.map(prevTask => {
+          if (prevTask.id === task.id) {
+            return {
+              ...prevTask,
+              isChecked: !prevTask.isChecked
+            };
+          }
+          return prevTask;
+        });
+        return updatedTasks;
+      })
+    } else {
     setTasks(prevTasks => {
       const updatedTasks = prevTasks.map(prevTask => {
         if (prevTask.id === task.id) {
@@ -26,9 +43,22 @@ const MainScreen = () => {
         return prevTask;
       });
       return updatedTasks;
-    });
+    });}
+  };
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const handleMorePress = () => {
+    setModalVisible(true);
   };
 
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleOptionPress = (option) => {
+    console.log(`Option selected: ${option}`);
+    handleCloseModal();
+  };
   const handleMenuPress = (taskId) => {
     console.log(`Task ${taskId} menu pressed`);
   };
@@ -37,6 +67,9 @@ const MainScreen = () => {
     { id: 1, name: 'Task 1', priority: 'Priority 1', time: '08:30 PM', isChecked: true },
     { id: 2, name: 'Task 2', priority: 'Priority 1', time: '08:30 PM', isChecked: false },
     { id: 3, name: 'Task 3', priority: 'Priority 3', time: '08:30 PM', isChecked: false },
+  ]);
+  const [Notes, setNote] = useState([
+    { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm' },
   ]);
 
   return (
@@ -59,7 +92,25 @@ const MainScreen = () => {
             onMenuPress={() => handleMenuPress(task.id)}
           />
         ))}
+        {Notes.map((Note) => (
+          <NoteBox
+            key={Note.id}
+            taskName={Note.name}
+            priority={Note.priority}
+            time={Note.time}
+            isChecked={Note.isChecked}
+            onCheckPress={() => handleCheckPress(Note)}
+            onMenuPress={() => handleMenuPress(Note.id)}
+            location={Note.location}
+          />
+        ))}
       </ScrollView>
+      <FloatingActionButton onPress={handleMorePress} />
+      <ModalOptions
+        isVisible={modalVisible}
+        onClose={handleCloseModal}
+        onOptionPress={handleOptionPress}
+      />
     </View>
   );
 };

@@ -1,28 +1,31 @@
-// TaskBox.tsx is a component that displays a task with its details and a checkbox to mark it as completed.
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
-const TaskBox = ({ taskName, priority, time, isChecked, onCheckPress, onMenuPress }) => {
+const NoteBox = ({ taskName, priority, time, isChecked, onCheckPress, onMenuPress, location }) => {
+  // Convert the priority number to text
+  const priorityText = `Priority ${priority}`;
+
   return (
     <View style={styles.taskContainer}>
       <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
-        {/* Display a checked or unchecked icon based on the isChecked prop */}
         {isChecked ? (
-          <AntDesign name="checkcircle" size={24} color="green" />
+          <AntDesign name="checkcircle" size={24} color="#00E676" />
         ) : (
-          <AntDesign name="checkcircleo" size={24} color="grey" />
+          <AntDesign name="checkcircleo" size={24} color="#BDBDBD" />
         )}
       </TouchableOpacity>
       <View style={styles.taskDetails}>
-        <Text style={styles.taskName}>{taskName}</Text>
+        <View style={styles.taskHeader}>
+          <Text style={styles.taskName}>{taskName}</Text>
+        </View>
         <View style={styles.taskMeta}>
-          <Text style={styles.priority}>{priority}</Text>
+          <Text style={styles.priority}>{priorityText}</Text>
           <Text style={styles.time}>{time}</Text>
         </View>
       </View>
       <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-        <Entypo name="dots-three-vertical" size={24} color="black" />
+        <Entypo name="dots-three-vertical" size={24} color="#BDBDBD" />
       </TouchableOpacity>
     </View>
   );
@@ -38,46 +41,51 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginVertical: 8,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: '#E0E0E0',
     borderRadius: 8,
-    backgroundColor: '#fff',
-    elevation: 2, 
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 1 }, 
-    shadowOpacity: 0.22, 
-    shadowRadius: 2.22, 
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
   },
   checkbox: {
-    // style for the checkbox container, TODO: add styles if needed
+    alignSelf: 'flex-start',
   },
   taskDetails: {
     flex: 1,
     marginLeft: 12,
     justifyContent: 'center',
   },
+  taskHeader: {
+    backgroundColor: '#C8E6C9', // Light green background for the header
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 4,
+  },
   taskName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 4,
+    color: '#1B5E20', // Dark green text for the task name
   },
   taskMeta: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 4,
   },
   priority: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#ff5252',
+    color: '#FF5252', // Red text for priority
     marginRight: 8,
   },
   time: {
     fontSize: 14,
-    color: '#666',
+    color: '#757575', // Grey for the time
   },
   menuButton: {
-    // Style if needed
+    paddingLeft: 12, // Ensuring touchable area is large enough
   },
 });
 
-export default TaskBox;
+export default NoteBox;

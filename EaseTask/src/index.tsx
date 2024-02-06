@@ -3,7 +3,6 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import MainScreen from './Views/main-screen';
 // import Test from './Views/test';
 import Calendar from './Views/Calendar';
-// import OtherScreen from './Views/OtherScreen'; // 假设你有另一个页面
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,7 +16,7 @@ const App = () => {
         tabBarActiveTintColor: 'blue',
         tabBarInactiveTintColor: 'black',
         tabBarIndicatorStyle: { backgroundColor: 'blue' },
-        swipeEnabled: true, // 确保启用了滑动
+        swipeEnabled: true, // スワイプでの画面遷移を許可
       }}
     >
       <Tab.Screen name="Main" component={MainScreen} />
