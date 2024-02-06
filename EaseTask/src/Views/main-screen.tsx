@@ -64,9 +64,9 @@ const MainScreen = () => {
   };
 
   const [tasks, setTasks] = useState([
-    { id: 1, name: 'Task 1', priority: 'Priority 1', time: '08:30 PM', isChecked: true },
-    { id: 2, name: 'Task 2', priority: 'Priority 1', time: '08:30 PM', isChecked: false },
-    { id: 3, name: 'Task 3', priority: 'Priority 3', time: '08:30 PM', isChecked: false },
+    { id: 1, name: 'Task 1', priority: 'Priority 1', year: 2024, month: 2, day: 13, time: '08:30 PM', isChecked: true },
+    { id: 2, name: 'Task 2', priority: 'Priority 1', year: 2024, month: 2, day: 17, time: '08:30 PM', isChecked: false },
+    { id: 3, name: 'Task 3', priority: 'Priority 3', year: 2024, month: 2, day: 20, time: '06:30 AM', isChecked: false },
   ]);
   const [Notes, setNote] = useState([
     { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm' },
@@ -84,10 +84,7 @@ const MainScreen = () => {
         {tasks.map((task) => (
           <TaskBox
             key={task.id}
-            taskName={task.name}
-            priority={task.priority}
-            time={task.time}
-            isChecked={task.isChecked}
+            task={task}
             onCheckPress={() => handleCheckPress(task)}
             onMenuPress={() => handleMenuPress(task.id)}
           />
