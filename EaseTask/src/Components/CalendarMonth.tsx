@@ -6,25 +6,21 @@ import getFirstDayOfMonth from '../Utils/getFirstDayOfMonth';
 import getDaysInMonth from '../Utils/getDaysInMonth';
 import MonthBar from './MonthBar';
 
-const CalendarMonth = ({year, month}) => {
+const CalendarMonth = ({year, month, extended, tasks, handleSelectDay, selectedDay}) => {
     const FirstDayOfMonth = (getFirstDayOfMonth(year, month) != 0) ? getFirstDayOfMonth(year, month) : 7 ;
     const DaysInMonth = getDaysInMonth(year,month);
-    const [selectedDay, setSelectedDay] = useState(null);
 
-    const handleSelectDay = (day) => {
-      setSelectedDay(day);
-      // Add additional logic or dispatch an event if needed
-    };
+
   
     return (
       <View style={styles.monthContainer}>
         <MonthBar year={year} month={month}/>
         <WeekDaysBar/>
-        <CalendarWeek start={1} end={8-FirstDayOfMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
-        <CalendarWeek start={8-FirstDayOfMonth+1} end={8-FirstDayOfMonth+7} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
-        <CalendarWeek start={8-FirstDayOfMonth+8} end={8-FirstDayOfMonth+14} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
-        <CalendarWeek start={8-FirstDayOfMonth+15} end={8-FirstDayOfMonth+21} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
-        <CalendarWeek start={8-FirstDayOfMonth+22} end={DaysInMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} />
+        <CalendarWeek start={1} end={8-FirstDayOfMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
+        <CalendarWeek start={8-FirstDayOfMonth+1} end={8-FirstDayOfMonth+7} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
+        <CalendarWeek start={8-FirstDayOfMonth+8} end={8-FirstDayOfMonth+14} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
+        <CalendarWeek start={8-FirstDayOfMonth+15} end={8-FirstDayOfMonth+21} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks} />
+        <CalendarWeek start={8-FirstDayOfMonth+22} end={DaysInMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
       </View>
     );
   };

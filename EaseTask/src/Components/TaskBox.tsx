@@ -3,22 +3,22 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign, Entypo } from '@expo/vector-icons';
 
-const TaskBox = ({ taskName, priority, time, isChecked, onCheckPress, onMenuPress }) => {
+const TaskBox = ({ task, onCheckPress, onMenuPress }) => {
   return (
     <View style={styles.taskContainer}>
       <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
         {/* Display a checked or unchecked icon based on the isChecked prop */}
-        {isChecked ? (
+        {task.isChecked ? (
           <AntDesign name="checkcircle" size={24} color="green" />
         ) : (
           <AntDesign name="checkcircleo" size={24} color="grey" />
         )}
       </TouchableOpacity>
       <View style={styles.taskDetails}>
-        <Text style={styles.taskName}>{taskName}</Text>
+        <Text style={styles.taskName}>{task.name}</Text>
         <View style={styles.taskMeta}>
-          <Text style={styles.priority}>{priority}</Text>
-          <Text style={styles.time}>{time}</Text>
+          <Text style={styles.priority}>{task.priority}</Text>
+          <Text style={styles.time}>{task.day+'/'+task.month+'  '+task.time}</Text>
         </View>
       </View>
       <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
