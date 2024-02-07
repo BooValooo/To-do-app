@@ -6,6 +6,8 @@ import TaskBox from '../Components/TaskBox';
 import NoteBox from '../Components/NoteBox';
 import FloatingActionButton from '../Components/FloatingActionButton';
 import ModalOptions from '../Components/ModalOptions';
+import Task from '../Utils/task';
+import Note from '../Utils/note';
 
 const MainScreen = () => {
   const handleIcon1Press = () => {
@@ -63,13 +65,13 @@ const MainScreen = () => {
     console.log(`Task ${taskId} menu pressed`);
   };
 
-  const [tasks, setTasks] = useState([
+  const [tasks, setTasks] = useState<Task[]>([
     { id: 1, name: 'Task 1', priority: 'Priority 1', year: 2024, month: 2, day: 13, time: '08:30 PM', isChecked: true },
     { id: 2, name: 'Task 2', priority: 'Priority 1', year: 2024, month: 2, day: 17, time: '08:30 PM', isChecked: false },
     { id: 3, name: 'Task 3', priority: 'Priority 3', year: 2024, month: 2, day: 20, time: '06:30 AM', isChecked: false },
   ]);
-  const [Notes, setNote] = useState([
-    { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm' },
+  const [Notes, setNote] = useState<Note[]>([
+    { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm', year: 2024, month: 2, day: 13 },
   ]);
 
   return (
