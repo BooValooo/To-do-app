@@ -1,90 +1,87 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign, Entypo } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
-const NoteBox = ({ taskName, priority, time, isChecked, onCheckPress, onMenuPress, location }) => {
-  // Convert the priority number to text
-  const priorityText = `Priority ${priority}`;
-
+const NoteBox = ({ taskName, time, isChecked, onCheckPress, onMenuPress, location }) => {
   return (
-    <View style={styles.taskContainer}>
-      <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
-        {isChecked ? (
-          <AntDesign name="checkcircle" size={24} color="#00E676" />
-        ) : (
-          <AntDesign name="checkcircleo" size={24} color="#BDBDBD" />
-        )}
-      </TouchableOpacity>
-      <View style={styles.taskDetails}>
-        <View style={styles.taskHeader}>
-          <Text style={styles.taskName}>{taskName}</Text>
-        </View>
-        <View style={styles.taskMeta}>
-          <Text style={styles.priority}>{priorityText}</Text>
-          <Text style={styles.time}>{time}</Text>
-        </View>
+    <View style={styles.noteContainer}>
+      {/* Title bar */}
+      <View style={styles.titleBar}>
+        <Text style={styles.noteTitle}>{taskName}</Text>
       </View>
-      <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-        <Entypo name="dots-three-vertical" size={24} color="#BDBDBD" />
-      </TouchableOpacity>
+
+      {/* Note content */}
+      <View style={styles.contentContainer}>
+        <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
+          <AntDesign name={isChecked ? "checkcircle" : "checkcircleo"} size={24} color={isChecked ? "#00E676" : "#BDBDBD"} />
+        </TouchableOpacity>
+        <View style={styles.noteDetails}>
+          <View style={styles.noteMeta}>
+            <MaterialIcons name="location-on" size={16} color="#757575" />
+            <Text style={styles.location}>{location}</Text>
+            <Text style={styles.time}>{time}</Text>
+          </View>
+        </View>
+        <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
+          <FontAwesome name="bars" size={24} color="black" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  taskContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 20,
-    paddingHorizontal: 16,
+  noteContainer: {
     marginHorizontal: 16,
     marginVertical: 8,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
     borderRadius: 8,
     backgroundColor: '#FFFFFF',
     shadowColor: '#000000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
+    elevation: 4,
   },
-  checkbox: {
-    alignSelf: 'flex-start',
+  titleBar: {
+    backgroundColor: '#C7EE2B',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 8,
   },
-  taskDetails: {
-    flex: 1,
-    marginLeft: 12,
-    justifyContent: 'center',
-  },
-  taskHeader: {
-    backgroundColor: '#C8E6C9', // Light green background for the header
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    borderRadius: 4,
-  },
-  taskName: {
-    fontSize: 16,
+  noteTitle: {
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#1B5E20', // Dark green text for the task name
+    color: '#1B5E20',
   },
-  taskMeta: {
+  contentContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 4,
+    justifyContent: 'space-between',
+    padding: 16,
   },
-  priority: {
+  checkbox: {
+  },
+  noteDetails: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: 12,
+  },
+  noteMeta: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  location: {
     fontSize: 14,
-    fontWeight: '600',
-    color: '#FF5252', // Red text for priority
+    color: '#757575',
     marginRight: 8,
   },
   time: {
     fontSize: 14,
-    color: '#757575', // Grey for the time
+    fontWeight: 'bold',
+    color: '#D32F2F',
   },
   menuButton: {
-    paddingLeft: 12, // Ensuring touchable area is large enough
   },
 });
 
