@@ -99,7 +99,6 @@ const MainScreen = () => {
           <NoteBox
             key={Note.id}
             taskName={Note.name}
-            priority={Note.priority}
             time={Note.time}
             isChecked={Note.isChecked}
             onCheckPress={() => handleCheckPress(Note)}

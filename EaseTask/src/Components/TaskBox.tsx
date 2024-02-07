@@ -1,14 +1,13 @@
 // TaskBox.tsx is a component that displays a task with its details and a checkbox to mark it as completed.
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign, Entypo } from '@expo/vector-icons';
+import { AntDesign, Entypo,FontAwesome } from '@expo/vector-icons';
 
 const TaskBox = ({ task, onCheckPress, onMenuPress }) => {
   return (
     <View style={styles.taskContainer}>
       <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
-        {/* Display a checked or unchecked icon based on the isChecked prop */}
-        {task.isChecked ? (
+         {task.isChecked ? (
           <AntDesign name="checkcircle" size={24} color="green" />
         ) : (
           <AntDesign name="checkcircleo" size={24} color="grey" />
@@ -22,7 +21,7 @@ const TaskBox = ({ task, onCheckPress, onMenuPress }) => {
         </View>
       </View>
       <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-        <Entypo name="dots-three-vertical" size={24} color="black" />
+        <FontAwesome name="bars" size={24} color="black" />
       </TouchableOpacity>
     </View>
   );
