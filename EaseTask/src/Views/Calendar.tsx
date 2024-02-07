@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import Headbar from '../Components/Headbar';
 import CalendarMonth from '../Components/CalendarMonth';
 import TaskBox from '../Components/TaskBox';
@@ -125,11 +125,12 @@ const Calendar = () => {
 
 
   return (
-      <ScrollView
+    <View style={styles.container}>
+        <Headbar headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
+        <ScrollView
         style={styles.scrollView}
         contentContainerStyle={isExtended ? styles.scrollViewContentExtended : styles.scrollViewContent}
       >
-        <Headbar headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         {tasksForSelectedDay.map(task => (
           <TaskBox
@@ -139,7 +140,8 @@ const Calendar = () => {
             onMenuPress={() => handleMenuPress(task.id)}
           />
         ))}
-      </ScrollView>
+        </ScrollView>
+    </View>
   );
 };
 
@@ -156,6 +158,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     paddingTop: 100, // Adjust as needed for your extended view
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
 });
 
