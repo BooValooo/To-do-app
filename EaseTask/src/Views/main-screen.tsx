@@ -17,6 +17,8 @@ const MainScreen = () => {
   const handleIcon2Press = () => {
     console.log('Options icon pressed');
   };
+  const subHeadBarText = 'Upcoming events';
+  const headBarText = 'Focus';
 
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
@@ -77,10 +79,12 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       <Headbar
-        showSearchIcon={true}
-        headbarText="New Task"
-        onSearchPress={handleIcon1Press}
-        onOptionsPress={handleIcon2Press}
+        onFiltersPress={handleIcon1Press}
+        onSearchPress={handleIcon2Press}
+        onSettingsPress={handleIcon2Press}
+        headBarText={headBarText}
+        subHeadBarText={subHeadBarText}
+        
       />
       <ScrollView style={styles.taskList}>
         {tasks.map((task) => (

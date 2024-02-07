@@ -68,6 +68,7 @@ const Calendar = () => {
 
   const showSearchIcon = true;
   const headbarText = "Calendar"
+  const subHeadbarText = "Events and Tasks"
 
   const task: Task = {
     id: 1,
@@ -128,7 +129,7 @@ const Calendar = () => {
         style={styles.scrollView}
         contentContainerStyle={isExtended ? styles.scrollViewContentExtended : styles.scrollViewContent}
       >
-        <Headbar showSearchIcon={showSearchIcon} headbarText={headbarText} onSearchPress={handleIcon1Press} onOptionsPress={handleIcon2Press} />
+        <Headbar headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         {tasksForSelectedDay.map(task => (
           <TaskBox

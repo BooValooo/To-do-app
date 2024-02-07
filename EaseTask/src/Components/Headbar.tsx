@@ -1,20 +1,22 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { AntDesign, FontAwesome } from '@expo/vector-icons'; 
+import { AntDesign, MaterialCommunityIcons, FontAwesome, FontAwesome6} from '@expo/vector-icons'; 
 
-const Headbar = ({ showSearchIcon, headbarText, onSearchPress, onOptionsPress }) => {
+const Headbar = ({ headBarText,subHeadBarText,onSearchPress, onFiltersPress,onSettingsPress }) => {
   return (
     <View style={styles.headerContainer}>
-      <Text style={styles.text}>
-        {headbarText}
-      </Text>
+      <View>
+        <Text style={styles.focusText}>{headBarText}</Text>
+        <Text style={styles.upcomingEventsText}>{subHeadBarText}</Text>
+      </View>
       <View style={styles.iconsContainer}>
-        {showSearchIcon && (
-          <TouchableOpacity onPress={onSearchPress}>
-            <AntDesign name="search1" size={24} color="black" style={styles.icon} />
+        <TouchableOpacity onPress={onSearchPress}>
+        <FontAwesome6 name="arrow-up-a-z" size={24} color="black" style={styles.icon} /> 
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onFiltersPress}>
+          <MaterialCommunityIcons name="filter" size={24} color="black" style={styles.icon} />
           </TouchableOpacity>
-        )}
-        <TouchableOpacity onPress={onOptionsPress}>
+        <TouchableOpacity onPress={onSettingsPress}>
           <FontAwesome name="gear" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
       </View>
@@ -27,25 +29,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    backgroundColor: '#ffffff', // Changed to white to match the image
-    marginBottom: 15, // Margin to have a better result when there is something below the headbar
-    marginTop: 15
+    padding: 20,
+  },
+  focusText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#000000',
+  },
+  upcomingEventsText: {
+    fontSize: 16,
+    color: '#000000',
+    opacity: 0.6,
   },
   iconsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   icon: {
-    marginLeft: 15, 
-  },
-  text: {
-    fontSize: 32, 
-    fontWeight: 'bold', 
-    color: '#000000', 
-    flex: 1, 
-    marginRight: 15
+    marginLeft: 15,
   },
 });
 
