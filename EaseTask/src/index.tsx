@@ -3,6 +3,8 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import MainScreen from './Views/main-screen';
 // import Test from './Views/test';
 import Calendar from './Views/Calendar';
+import OnBoarding1 from './Views/OnBoarding1';
+import OnBoarding2 from './Views/OnBoarding2';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,9 +21,11 @@ const App = () => {
         swipeEnabled: true, // スワイプでの画面遷移を許可
       }}
     >
+      <Tab.Screen name="Welcome" component={OnBoarding1} />
       <Tab.Screen name="Main" component={MainScreen} />
       {/* <Tab.Screen name="Test" component={Test} /> */}
       <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Welcome2" component={OnBoarding2} />
     </Tab.Navigator>
   );
 }
