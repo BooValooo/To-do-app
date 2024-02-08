@@ -126,7 +126,7 @@ const Calendar = () => {
 
   return (
     <View style={styles.container}>
-        <Headbar headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
+        <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <ScrollView
         style={styles.scrollView}
         contentContainerStyle={isExtended ? styles.scrollViewContentExtended : styles.scrollViewContent}
