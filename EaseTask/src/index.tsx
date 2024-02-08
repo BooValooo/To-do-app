@@ -22,10 +22,10 @@ const App = () => {
       }}
     >
       <Tab.Screen name="Welcome" component={OnBoarding1} />
+      <Tab.Screen name="Welcome2" component={OnBoarding2} />
       <Tab.Screen name="Main" component={MainScreen} />
       {/* <Tab.Screen name="Test" component={Test} /> */}
       <Tab.Screen name="Calendar" component={Calendar} />
-      <Tab.Screen name="Welcome2" component={OnBoarding2} />
     </Tab.Navigator>
   );
 }

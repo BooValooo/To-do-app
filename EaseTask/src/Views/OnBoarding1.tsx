@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet , Text, View, TouchableOpacity} from "react-native";
+import { StyleSheet , Text, View, TouchableOpacity, Image} from "react-native";
 
 const OnBoarding1 = () => {
     const header = "Welcome";
     const caption = "Take notes\neverywhere";
-    const text = "Note down everything you care about.\nAnd of cause the task"
+    const text = "Note down everything you care about.\nCreate new tasks everyday."
     const buText = "Continue"
 
     const handleButton = () => {
@@ -15,6 +15,11 @@ const OnBoarding1 = () => {
     return (
         <View style={styles.background}>
             <Text style={styles.header}>{header}</Text>
+            <Image
+            source={require('../Assets/OnBoarding1.png')}
+            style={styles.image}
+            resizeMode="contain" // Optional: Adjust the resizeMode as needed
+              />
             <Text style={styles.caption}>{caption}</Text>
             <Text style={styles.text}>{text}</Text>
             <TouchableOpacity onPress={() => handleButton()} style={[styles.button]}>
@@ -34,13 +39,13 @@ const styles = StyleSheet.create({
         fontSize: 32,
         fontWeight: 'bold',
         color: '#000000',
-        paddingTop: 80,
+        paddingTop: 40,
     },
     caption:{
         fontSize: 20,
         fontWeight: 'bold',
         color: '#000000',
-        paddingTop: 250,
+        paddingTop: 20,
         textAlign: 'center',
     },
     text:{
@@ -66,6 +71,10 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: 'black',
         marginBottom: 200,
+    },
+    image:{
+        width: 300, 
+        height: 300, 
     }
 })
 
