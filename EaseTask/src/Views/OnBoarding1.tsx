@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
     },
     button:{
         width: '75%',
-        height: 99,
+        height: 100,
         backgroundColor: '#FF634840',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 20,
         borderWidth: 1,
         borderColor: 'black',
-        marginBottom: 200
+        marginBottom: 200,
     }
 })
 

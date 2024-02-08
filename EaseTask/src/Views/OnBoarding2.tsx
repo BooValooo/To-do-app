@@ -1,24 +1,41 @@
 import React from "react";
 import { StyleSheet , Text, View, TouchableOpacity} from "react-native";
-import {GoogleSignin, GoogleSigninButton, statusCodes,
-  } from '@react-native-google-signin/google-signin';
+import { AntDesign } from '@expo/vector-icons';
+
 
 const OnBoarding2 = () => {
     const header = "Welcome";
     const caption = "Your information\nis yours";
     const text = "All your information is encrypted\nwith high level algorithem"
-    const buText = "Continue"
+    const buText = "Sign in with Google"
+    const checkText = "I accept the terms and privacy policy"
 
     const handleButton = () => {
         console.log('Press!');
     }
 
+    let isChecked = false;
+
+    const handleCheckbox = () => {
+        console.log(`checkbox pressed`);
+        isChecked = !isChecked;
+        return (isChecked?<AntDesign name="checkcircle" size={24} color="green" />:<AntDesign name="checkcircleo" size={24} color="grey" />)
+      };
 
     return (
         <View style={styles.background}>
             <Text style={styles.header}>{header}</Text>
             <Text style={styles.caption}>{caption}</Text>
             <Text style={styles.text}>{text}</Text>
+            <TouchableOpacity onPress={() => handleCheckbox()} style={[styles.checkbox]}>
+                {/* Display a checked or unchecked icon based on the isChecked prop */}
+                {isChecked ? (
+                <AntDesign name="checkcircle" size={24} color="green" />
+                ) : (
+                <AntDesign name="checkcircleo" size={24} color="grey" />
+                )}
+                <Text style={styles.checkboxText}>{checkText}</Text>
+            </TouchableOpacity>
             <TouchableOpacity onPress={() => handleButton()} style={[styles.button]}>
                 <Text style={styles.buttonText}>{buText}</Text>
             </TouchableOpacity>
@@ -46,28 +63,37 @@ const styles = StyleSheet.create({
         textAlign: 'center',
     },
     text:{
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 'bold',
         color: '#000000',
         textAlign: 'center',
         paddingVertical: 20,
     },
+    checkbox:{
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+    },
+    checkboxText:{
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: '#000000',
+        textAlign: 'left',
+        paddingVertical: 20,
+    },
     buttonText:{
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: 'bold',
         color: '#000000',
         textAlign: 'center',
     },
     button:{
-        width: '75%',
-        height: 99,
-        backgroundColor: '#5352ED40',
+        width: 230,
+        height: 48,
+        backgroundColor: '#FFFFFF',
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 20,
-        borderWidth: 1,
-        borderColor: 'black',
-        marginBottom: 200
+        borderRadius: 30,
+        marginBottom: 200,
     }
 })
 
