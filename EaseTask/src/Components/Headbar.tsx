@@ -2,13 +2,14 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign, MaterialCommunityIcons, FontAwesome, FontAwesome6} from '@expo/vector-icons'; 
 
-const Headbar = ({ headBarText,subHeadBarText,onSearchPress, onFiltersPress,onSettingsPress }) => {
+const Headbar = ({ showIcons,headBarText,subHeadBarText,onSearchPress, onFiltersPress,onSettingsPress }) => {
   return (
     <View style={styles.headerContainer}>
       <View>
         <Text style={styles.focusText}>{headBarText}</Text>
         <Text style={styles.upcomingEventsText}>{subHeadBarText}</Text>
       </View>
+      {showIcons ? (
       <View style={styles.iconsContainer}>
         <TouchableOpacity onPress={onSearchPress}>
         <FontAwesome6 name="arrow-up-a-z" size={24} color="black" style={styles.icon} /> 
@@ -19,7 +20,7 @@ const Headbar = ({ headBarText,subHeadBarText,onSearchPress, onFiltersPress,onSe
         <TouchableOpacity onPress={onSettingsPress}>
           <FontAwesome name="gear" size={24} color="black" style={styles.icon} />
         </TouchableOpacity>
-      </View>
+      </View>) : null}
     </View>
   );
 };
