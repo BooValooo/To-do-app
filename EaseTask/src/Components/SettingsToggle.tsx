@@ -15,7 +15,7 @@ const SettingsToggle = ({ id, description, value, onCheckPress}) => {
         <View style={styles.field}>
             <Text style={styles.description}>{description}</Text>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
-                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={24} color={isChecked?"green":"black"} />
+                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={30} color={isChecked?"green":"black"} />
             </TouchableOpacity>
         </View>
     )
@@ -23,25 +23,22 @@ const SettingsToggle = ({ id, description, value, onCheckPress}) => {
 
 const styles = StyleSheet.create({
     field:{
-        backgroundColor: '#FFFFFF',
         marginHorizontal: 5, 
-        marginVertical: 8,
-        flexDirection: 'row',
-        alignItems: 'center',
+        marginVertical: 4,
+        flexDirection: 'row',   //destroys other
+        alignItems: 'center',   //destroys other
         justifyContent: 'space-between',
-        padding: 16,
-        borderBottomWidth: 1,
-        borderColor: '#FFFFFF'
+        padding: 5,
     },
     checkbox:{
         alignItems: 'flex-end',
-        marginLeft: 10
+        marginLeft: 10,
     },
     description:{
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         color: '#000000'
-    }
+    },
 });
 
 export default SettingsToggle;
