@@ -48,7 +48,8 @@ const Settings = () => {
                     />
                 ))}
                 {arrow.map((setting) => (
-                    <SettingsShow
+                    <SettingsShow                    
+                    key={setting.id}
                     id={setting.id}
                     description={setting.description}
                     value={setting.value}
