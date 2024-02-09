@@ -79,7 +79,7 @@ const MainScreen = () => {
   return (
     <View style={styles.container}>
       <Headbar
-        showIcons={false}
+        showIcons={true}
         onFiltersPress={handleIcon1Press}
         onSearchPress={handleIcon2Press}
         onSettingsPress={handleIcon2Press}
