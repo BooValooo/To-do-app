@@ -3,6 +3,12 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import MainScreen from './Views/main-screen';
 // import Test from './Views/test';
 import Calendar from './Views/Calendar';
+<<<<<<< Updated upstream
+=======
+import OnBoarding1 from './Views/OnBoarding1';
+import OnBoarding2 from './Views/OnBoarding2';
+import Settings from './Views/Settings';
+>>>>>>> Stashed changes
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -22,6 +28,11 @@ const App = () => {
       <Tab.Screen name="Main" component={MainScreen} />
       {/* <Tab.Screen name="Test" component={Test} /> */}
       <Tab.Screen name="Calendar" component={Calendar} />
+<<<<<<< Updated upstream
+=======
+      <Tab.Screen name="Welcome2" component={OnBoarding2} />
+      <Tab.Screen name="Settings" component={Settings} />
+>>>>>>> Stashed changes
     </Tab.Navigator>
   );
 }
