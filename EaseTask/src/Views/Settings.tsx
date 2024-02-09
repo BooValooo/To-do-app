@@ -1,12 +1,6 @@
 import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Headbar from '../Components/Headbar';
-import TaskBox from '../Components/TaskBox';
-import NoteBox from '../Components/NoteBox';
-import FloatingActionButton from '../Components/FloatingActionButton';
-import ModalOptions from '../Components/ModalOptions';
-import Task from '../Utils/task';
-import Note from '../Utils/note';
 import SettingsToggle from '../Components/SettingsToggle';
 
 const Settings = () => {
@@ -17,14 +11,15 @@ const Settings = () => {
 
     };
 
+
     const handleCheckPress = (setting) =>{
         console.log(setting.id + " pressed");
     }
 
     const settings = [
-        { id: 1, description: "Synchronized", defaultValue: true},
-        { id: 2, description: "Push Notifications", defaultValue: false},
-        { id: 3, description: "Dark Mode", defaultValue: false}
+        { id: 1, description: "Synchronized", value: true},
+        { id: 2, description: "Push Notifications", value: false},
+        { id: 3, description: "Dark Mode", value: false}
     ]
 
     return (
@@ -41,7 +36,7 @@ const Settings = () => {
                     <SettingsToggle
                     id={setting.id}
                     description={setting.description}
-                    defaultValue={setting.defaultValue}
+                    value={setting.value}
                     onCheckPress={handleCheckPress(setting)}
                     />
                 ))}

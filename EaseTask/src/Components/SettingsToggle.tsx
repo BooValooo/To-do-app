@@ -2,35 +2,36 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 
-const SettingsToggle = ({ id, description, defaultValue, onCheckPress}) => {
-    return (
-        <View style={styles.container}>
-            <View style={styles.field}>
-                <Text style={styles.description}>{description}</Text>
-                <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
-                    <FontAwesome name={defaultValue?"toggle-on":"toggle-off"} size={24} color="black" />
-                </TouchableOpacity>
-            </View>
-        </View>
+const SettingsToggle = ({ id, description, value, onCheckPress}) => {
+    
+    const[isChecked, setIsChecked] = useState(false);
 
+    const changeVal = () => {
+        console.log('checkbox pressed');
+        setIsChecked(!isChecked);
+    }
+
+    return (
+        <View style={styles.field}>
+            <Text style={styles.description}>{description}</Text>
+            <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
+                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={24} color={isChecked?"green":"black"} />
+            </TouchableOpacity>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: 5,
-        marginVertical: 8,
-        backgroundColor: '#FFFFFF',
-    },
     field:{
-        borderRadius: 8,
         backgroundColor: '#FFFFFF',
         marginHorizontal: 5, 
         marginVertical: 8,
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: 16,
+        borderBottomWidth: 1,
+        borderColor: '#FFFFFF'
     },
     checkbox:{
         alignItems: 'flex-end',
