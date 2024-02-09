@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import DV from './defaultValues';
 
 const SettingsToggle = ({ id, description, value, onCheckPress}) => {
     
@@ -12,23 +13,19 @@ const SettingsToggle = ({ id, description, value, onCheckPress}) => {
     }
 
     return (
-        <View style={styles.field}>
+        <View style={[DV.globalStyles.settingsEntry, styles.extra]}>
             <Text style={styles.description}>{description}</Text>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
-                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={30} color={isChecked?"green":"black"} />
+                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={DV.iconSize} color={isChecked?"green":"black"} />
             </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    field:{
-        marginHorizontal: 5, 
-        marginVertical: 4,
-        flexDirection: 'row',   //destroys other
-        alignItems: 'center',   //destroys other
-        justifyContent: 'space-between',
-        padding: 5,
+    extra:{
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     checkbox:{
         alignItems: 'flex-end',

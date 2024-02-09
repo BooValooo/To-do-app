@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
+import DV from './defaultValues';
 
 const SettingsShow = ({ id, description, value, onCheckPress}) => {
     
@@ -12,10 +13,10 @@ const SettingsShow = ({ id, description, value, onCheckPress}) => {
     }
 
     return (
-        <View style={styles.entry}>
+        <View style={DV.globalStyles.settingsEntry}>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
                 <Text style={styles.description}>{description}</Text>
-                <AntDesign name="right" size={30} color="black" />
+                <AntDesign name="right" size={DV.iconSize} color="black" />
             </TouchableOpacity>
         </View>
     )
@@ -23,7 +24,7 @@ const SettingsShow = ({ id, description, value, onCheckPress}) => {
 
 const styles = StyleSheet.create({
     checkbox:{
-        alignItems: 'center',
+        alignItems: 'flex-end',
         justifyContent: 'space-between',
         flexDirection: 'row',
     },
@@ -32,12 +33,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000000'
     },
-    entry:{
-        marginHorizontal: 5,    // Distance to something left and right
-        marginVertical: 4,      // Distance to something up and down
-        padding: 5,             // Distance to something inside
-        justifyContent: 'space-between',    // Elements inside are to the right and left
-    }
 });
 
 export default SettingsShow;
