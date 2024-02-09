@@ -34,6 +34,7 @@ const Settings = () => {
             <ScrollView style={styles.settingsList}>
                 {settings.map((setting) => (
                     <SettingsToggle
+                    key={setting.id}
                     id={setting.id}
                     description={setting.description}
                     value={setting.value}
