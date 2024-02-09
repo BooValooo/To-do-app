@@ -5,6 +5,7 @@ import MainScreen from './Views/main-screen';
 import Calendar from './Views/Calendar';
 import OnBoarding1 from './Views/OnBoarding1';
 import OnBoarding2 from './Views/OnBoarding2';
+import Settings from './Views/Settings';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -27,6 +28,7 @@ const App = () => {
       <Tab.Screen name="Main" component={MainScreen} />
       {/* <Tab.Screen name="Test" component={Test} /> */}
       <Tab.Screen name="Calendar" component={Calendar} />
+      <Tab.Screen name="Settings" component={Settings} />
     </Tab.Navigator>
   );
 }
