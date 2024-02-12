@@ -16,7 +16,7 @@ const SettingsShow = ({ id, description, value, onCheckPress}) => {
         <View style={DV.globalStyles.settingsEntry}>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
                 <Text style={styles.description}>{description}</Text>
-                <AntDesign name="right" size={DV.iconSize} color="black" />
+                <AntDesign name="right" size={DV.normalIconSize} color="black" />
             </TouchableOpacity>
         </View>
     )

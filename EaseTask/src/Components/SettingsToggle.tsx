@@ -16,7 +16,7 @@ const SettingsToggle = ({ id, description, value, onCheckPress}) => {
         <View style={[DV.globalStyles.settingsEntry, styles.extra]}> 
             <Text style={styles.description}>{description}</Text>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
-                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={DV.iconSize} color={isChecked?"green":"black"} /> 
+                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={DV.normalIconSize} color={isChecked?"green":"black"} /> 
             </TouchableOpacity>
         </View>
     )
