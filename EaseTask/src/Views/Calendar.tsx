@@ -11,7 +11,7 @@ const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [tasksForSelectedDay, setTasksForSelectedDay] = useState([]);
   const [isExtended, setIsExtended] = useState(false);
-  const [update, setUpdate] = useState(1);
+  const [update, setUpdate] = useState(1); //To force a re-render
 
   const handleToggleExtended = () => { //extended view of the calendar (swipe down)
     setIsExtended(!isExtended);
@@ -49,7 +49,9 @@ const Calendar = () => {
         return prevTask;
       });
     });
+    // Update database
     toggleTaskChecked(task);
+    // Force a re-rendering
     setUpdate(update+1);
   };
 
@@ -76,7 +78,7 @@ const Calendar = () => {
     });
     console.log('Filtered tasks:', filteredTasks);
     setTasksForSelectedDay(filteredTasks);
-  }, [selectedDay,update]); // Only re-run the effect when selectedDay changes
+  }, [selectedDay,update]); // Only re-run the effect when selectedDay or update changes
   
 
 
