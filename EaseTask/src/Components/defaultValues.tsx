@@ -63,7 +63,34 @@ class DV{
         onBoardingText:{
             textAlign: 'center',
             paddingVertical: 20,
-        }
+        },
+
+        // CalendarMonth
+        monthContainer: {
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            marginBottom: 10,
+            width: '100%',
+          },
+        
+        // Calendar
+        calendarScrollView: {
+            flex: 1,
+            backgroundColor: '#fff',
+          },
+        calendarScrollViewContent: {
+            flexGrow: 1,
+            alignItems: 'center',
+          },
+        calendarScrollViewContentExtended: {
+            flexGrow: 1,
+            alignItems: 'center',
+            paddingTop: 100, // Adjust as needed for your extended view
+          },
+        calendarContainer: {
+            flex: 1,
+            backgroundColor: '#fff',
+          },
     });
 
 }
