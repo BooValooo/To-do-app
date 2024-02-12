@@ -2,7 +2,7 @@
 import React from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const ModalOptions = ({ isVisible, onClose, onOptionPress }) => {
+const ModalOptions = ({ isVisible, onClose, onOptionPress, onNewModalPress }) => {
   return (
     <Modal transparent={true} visible={isVisible} animationType="slide">
       <View style={styles.modalContainer}>
@@ -10,6 +10,9 @@ const ModalOptions = ({ isVisible, onClose, onOptionPress }) => {
           {/* Option buttons */}
           <TouchableOpacity onPress={() => onOptionPress('New Task')}>
             <Text>New Task</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onNewModalPress}>
+            <Text>New Chat</Text>
           </TouchableOpacity>
           {/* ... other options */}
           <TouchableOpacity onPress={onClose}>
