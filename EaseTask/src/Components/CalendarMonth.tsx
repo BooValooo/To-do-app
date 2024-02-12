@@ -5,6 +5,7 @@ import WeekDaysBar from './WeekDaysBar';
 import getFirstDayOfMonth from '../Utils/getFirstDayOfMonth';
 import getDaysInMonth from '../Utils/getDaysInMonth';
 import MonthBar from './MonthBar';
+import DV from './defaultValues';
 
 const CalendarMonth = ({year, month, extended, tasks, handleSelectDay, selectedDay}) => {
     const FirstDayOfMonth = (getFirstDayOfMonth(year, month) != 0) ? getFirstDayOfMonth(year, month) : 7 ;
@@ -13,7 +14,7 @@ const CalendarMonth = ({year, month, extended, tasks, handleSelectDay, selectedD
 
   
     return (
-      <View style={styles.monthContainer}>
+      <View style={DV.globalStyles.monthContainer}>
         <MonthBar year={year} month={month}/>
         <WeekDaysBar/>
         <CalendarWeek start={1} end={8-FirstDayOfMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
@@ -24,14 +25,6 @@ const CalendarMonth = ({year, month, extended, tasks, handleSelectDay, selectedD
       </View>
     );
   };
-
-const styles = StyleSheet.create({
-  monthContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-    width: '100%',
-  },
-});
+;
 
 export default CalendarMonth;

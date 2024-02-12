@@ -4,6 +4,7 @@ import Headbar from '../Components/Headbar';
 import CalendarMonth from '../Components/CalendarMonth';
 import TaskBox from '../Components/TaskBox';
 import Task from '../Utils/task';
+import DV from '../Components/defaultValues';
 
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
@@ -125,11 +126,11 @@ const Calendar = () => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={DV.globalStyles.calendarContainer}>
         <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={isExtended ? styles.scrollViewContentExtended : styles.scrollViewContent}
+        style={DV.globalStyles.calendarScrollView}
+        contentContainerStyle={isExtended ? DV.globalStyles.calendarScrollViewContentExtended : DV.globalStyles.calendarScrollViewContent}
       >
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         {tasksForSelectedDay.map(task => (
@@ -144,25 +145,5 @@ const Calendar = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  scrollViewContent: {
-    flexGrow: 1,
-    alignItems: 'center',
-  },
-  scrollViewContentExtended: {
-    flexGrow: 1,
-    alignItems: 'center',
-    paddingTop: 100, // Adjust as needed for your extended view
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
 
 export default Calendar;

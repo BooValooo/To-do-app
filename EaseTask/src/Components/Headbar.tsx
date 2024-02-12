@@ -1,13 +1,14 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { AntDesign, MaterialCommunityIcons, FontAwesome, FontAwesome6} from '@expo/vector-icons'; 
+import DV from './defaultValues';
 
 const Headbar = ({ showIcons,headBarText,subHeadBarText,onSearchPress, onFiltersPress,onSettingsPress }) => {
   return (
     <View style={styles.headerContainer}>
       <View>
-        <Text style={styles.focusText}>{headBarText}</Text>
-        <Text style={styles.upcomingEventsText}>{subHeadBarText}</Text>
+        <Text style={DV.globalStyles.headerCaptionText}>{headBarText}</Text>
+        <Text style={DV.globalStyles.headerSubcaptionText}>{subHeadBarText}</Text>
       </View>
       {showIcons ? (
       <View style={styles.iconsContainer}>
@@ -31,16 +32,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: 20,
-  },
-  focusText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000000',
-  },
-  upcomingEventsText: {
-    fontSize: 16,
-    color: '#000000',
-    opacity: 0.6,
   },
   iconsContainer: {
     flexDirection: 'row',
