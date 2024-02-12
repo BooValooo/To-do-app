@@ -45,7 +45,7 @@ const ChatModal = ({ isVisible, onClose }) => {
             <View key={message.sent.getTime().toString()} style={[styles.messageBubble, isUser ? styles.userBubble : styles.aiBubble]}>
                 <Image
                     style={styles.avatar}
-                    source={isUser ? require('/Users/yibingzhang/Documents/GitHub/To-do-app/EaseTask/src/Assets/Avatars-2.png') : require('/Users/yibingzhang/Documents/GitHub/To-do-app/EaseTask/src/Assets/Avatars.png')}
+                    source={isUser ? require('../Assets/Avatars-2.png') : require('../Assets/Avatars.png')}
                 />
                 <View>
                     <Text style={styles.messageText}>{message.text}</Text>
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 20,
         paddingHorizontal: 15,
-        color: '#000r',
+        color: '#000',
     },
     userBubble: {
         backgroundColor: '#e0ffeb',
