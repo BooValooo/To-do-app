@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import Headbar from '../Components/Headbar';
 import SettingsToggle from '../Components/SettingsToggle';
+import SettingsShow from '../Components/SettingsShow';
+
 
 const Settings = () => {
     const headbarText = 'Settings';
@@ -21,6 +23,10 @@ const Settings = () => {
         { id: 2, description: "Push Notifications", value: false},
         { id: 3, description: "Dark Mode", value: false}
     ]
+    const arrow = [
+        { id: 1, description: "About us", value: true},
+        { id: 2, description: "Privacy Police", value: false},
+    ]
 
     return (
         <View style={styles.container}>
@@ -34,6 +40,15 @@ const Settings = () => {
             <ScrollView style={styles.settingsList}>
                 {settings.map((setting) => (
                     <SettingsToggle
+                    key={setting.id}
+                    id={setting.id}
+                    description={setting.description}
+                    value={setting.value}
+                    onCheckPress={handleCheckPress(setting)}
+                    />
+                ))}
+                {arrow.map((setting) => (
+                    <SettingsShow                    
                     key={setting.id}
                     id={setting.id}
                     description={setting.description}

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import DV from './defaultValues';
 
-const SettingsToggle = ({ id, description, value, onCheckPress}) => {
+const SettingsShow = ({ id, description, value, onCheckPress}) => {
     
     const[isChecked, setIsChecked] = useState(false);
 
@@ -13,23 +13,20 @@ const SettingsToggle = ({ id, description, value, onCheckPress}) => {
     }
 
     return (// Changed the layout of the first View and the icon size in global Settings 
-        <View style={[DV.globalStyles.settingsEntry, styles.extra]}> 
-            <Text style={styles.description}>{description}</Text>
+        <View style={DV.globalStyles.settingsEntry}>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
-                <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={DV.normalIconSize} color={isChecked?"green":"black"} /> 
+                <Text style={styles.description}>{description}</Text>
+                <AntDesign name="right" size={DV.normalIconSize} color="black" />
             </TouchableOpacity>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    extra:{
-        flexDirection: 'row',
-        alignItems: 'center'
-    },
     checkbox:{
         alignItems: 'flex-end',
-        marginLeft: 10,
+        justifyContent: 'space-between',
+        flexDirection: 'row',
     },
     description:{
         fontSize: 20,
@@ -38,4 +35,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default SettingsToggle;
+export default SettingsShow;
