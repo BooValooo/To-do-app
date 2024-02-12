@@ -106,15 +106,6 @@ const MainScreen = () => {
   }
 
   /**
-   * Handler for sending a message.
-   * @param message - The message to send.
-   */
-  const handleSendMessage = (message) => {
-    console.log('Message to send:', message);
-    //API for backend, TODO
-  };
-
-  /**
    * Handler for option press.
    * @param option - The selected option.
    */
@@ -183,12 +174,11 @@ const MainScreen = () => {
         isVisible={modalVisible}
         onClose={handleCloseModal}
         onOptionPress={handleOptionPress}
-        onNewModalPress={handleNewModalOpen} // Pass the new handler
+        onNewModalPress={handleNewModalOpen}
       />
       <ChatModal
         isVisible={chatModalVisible}
         onClose={() => setChatModalVisible(false)}
-        onSendMessage={handleSendMessage}
       />
     </View>
   );
