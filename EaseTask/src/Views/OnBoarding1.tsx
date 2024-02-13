@@ -1,10 +1,11 @@
 import React from "react";
 import { StyleSheet , Text, View, TouchableOpacity, Image} from "react-native";
 import DV from "../Components/defaultValues";
-
+import { useNavigation } from '@react-navigation/native';
+import  OnBoarding2  from "./OnBoarding2";
 const OnBoarding1 = () => {
     const style = DV.globalStyles;
-
+    const navigation = useNavigation();
     const header = "Welcome";
     const caption = "Take notes\neverywhere";
     const text = "Note down everything you care about.\nCreate new tasks everyday."
@@ -12,6 +13,7 @@ const OnBoarding1 = () => {
 
     const handleButton = () => {
         console.log('Press!');
+        // navigation.navigate(OnBoarding2);
     }
 
 

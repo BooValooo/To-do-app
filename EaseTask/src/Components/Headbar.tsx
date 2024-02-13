@@ -18,9 +18,9 @@ const Headbar = ({ showIcons,headBarText,subHeadBarText,onSearchPress, onFilters
         <TouchableOpacity onPress={onFiltersPress}>
           <MaterialCommunityIcons name="filter" size={24} color="black" style={styles.icon} />
           </TouchableOpacity>
-        <TouchableOpacity onPress={onSettingsPress}>
+        {/* <TouchableOpacity onPress={onSettingsPress}>
           <FontAwesome name="gear" size={24} color="black" style={styles.icon} />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>) : null}
     </View>
   );
@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 15, 
     justifyContent: 'space-between',
     padding: 20,
   },

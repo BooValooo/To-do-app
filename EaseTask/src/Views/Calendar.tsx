@@ -3,16 +3,17 @@ import { ScrollView, View } from 'react-native';
 import Headbar from '../Components/Headbar';
 import CalendarMonth from '../Components/CalendarMonth';
 import TaskBox from '../Components/TaskBox';
-import Task from '../Utils/task';
+import TaskList from '../Components/TaskList';
 import DV from '../Components/defaultValues';
 import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [tasksForSelectedDay, setTasksForSelectedDay] = useState([]);
   const [isExtended, setIsExtended] = useState(false);
   const [update, setUpdate] = useState(1); //To force a re-render
-
+  const tabBarHeight = useBottomTabBarHeight();
   const handleToggleExtended = () => { //extended view of the calendar (swipe down)
     setIsExtended(!isExtended);
   };
@@ -84,21 +85,18 @@ const Calendar = () => {
 
 
   return (
-    <View style={DV.globalStyles.calendarContainer}>
+    <View style={[DV.globalStyles.calendarContainer,{paddingBottom: 50}]}>
         <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <ScrollView
         style={DV.globalStyles.calendarScrollView}
         contentContainerStyle={isExtended ? DV.globalStyles.calendarScrollViewContentExtended : DV.globalStyles.calendarScrollViewContent}
       >
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
-        {tasksForSelectedDay.map(task => (
-          <TaskBox
-            key={task.id}
-            task={task}
-            onCheckPress={() => handleCheckPress(task)}
-            onMenuPress={() => handleMenuPress(task.id)}
-          />
-        ))}
+        <TaskList 
+        tasks={tasksForSelectedDay}
+        onCheckPress={handleCheckPress}
+        onMenuPress={handleMenuPress}
+      />
         </ScrollView>
     </View>
   );
