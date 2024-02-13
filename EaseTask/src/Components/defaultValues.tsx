@@ -1,7 +1,5 @@
 import { StyleSheet } from "react-native";
-
 class DV{
-
     // All
     public static readonly backgroundColor: '#FFFFFF';
     public static fontColor: '#000000';
@@ -91,6 +89,32 @@ class DV{
             flex: 1,
             backgroundColor: '#fff',
           },
+          //AI Chat Bot
+        AIkeyboardAvoidingView: {
+            flex: 1,
+            justifyContent: 'flex-end',
+        },
+        AIcontainer: {
+            backgroundColor: '#FFF',
+            paddingTop: 20,
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            maxHeight: '50%',
+        },
+        AImessagesContainer: {
+            paddingHorizontal: 10,
+        },
+        AIinputContainer: {
+            borderTopWidth: 1,
+            borderColor: '#EEE',
+            padding: 10,
+        },
+        AIinput: {
+            height: 40,
+            borderWidth: 1,
+            borderRadius: 20,
+            paddingHorizontal: 15,
+        },
     });
 
 }

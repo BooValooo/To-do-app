@@ -1,36 +1,57 @@
 import React from 'react';
-import { createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import{createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MainScreen from './Views/main-screen';
-// import Test from './Views/test';
 import Calendar from './Views/Calendar';
-import OnBoarding1 from './Views/OnBoarding1';
-import OnBoarding2 from './Views/OnBoarding2';
 import Settings from './Views/Settings';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { BlurView } from 'expo-blur';
+import { StyleSheet } from 'react-native';
+const Tab = createBottomTabNavigator();
 
-const Tab = createMaterialTopTabNavigator();
-
-const App = () => {
+const Navigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Main"
-      screenOptions={{
-        tabBarStyle: { backgroundColor: 'white' },
-        tabBarLabelStyle: { fontSize: 16 },
-        tabBarActiveTintColor: 'blue',
-        tabBarInactiveTintColor: 'black',
-        tabBarIndicatorStyle: { backgroundColor: 'blue' },
-        swipeEnabled: true, // スワイプでの画面遷移を許可
-        tabBarShowLabel: false,
-      }}
+      
+
+      // ...
+
+            screenOptions={{
+              // tabBarStyle: { backgroundColor: 'white' },
+              tabBarLabelStyle: { fontSize: 16 },
+              tabBarActiveTintColor: 'green',
+              tabBarInactiveTintColor: 'black',
+              tabBarShowLabel: false,
+              headerShown: false,
+              tabBarStyle: { position: 'absolute' },
+              tabBarBackground: () => (
+                <BlurView tint="light" intensity={50} style={StyleSheet.absoluteFill} />
+              ),
+              // headerShown: false,
+              
+            }}
     >
-      <Tab.Screen name="Welcome" component={OnBoarding1}/>
-      <Tab.Screen name="Welcome2" component={OnBoarding2} />
-      <Tab.Screen name="Main" component={MainScreen} />
-      {/* <Tab.Screen name="Test" component={Test} /> */}
-      <Tab.Screen name="Calendar" component={Calendar} />
-      <Tab.Screen name="Settings" component={Settings} />
+      <Tab.Screen name="Main" component={MainScreen} 
+      options={{
+        tabBarLabel: 'Home',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="home-outline" color={color} size={size} />
+        ),
+      }} />
+      <Tab.Screen name="Calendar" component={Calendar} options={{
+        tabBarLabel: 'Calendar',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="calendar-month-outline" color={color} size={size} />
+        ),
+      }} />
+      <Tab.Screen name="Settings" component={Settings} options={{
+        tabBarLabel: 'Settings',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="account-settings-outline" color={color} size={size} />
+        ),
+      }} />
     </Tab.Navigator>
   );
 }
 
-export default App;
+export default Navigator;

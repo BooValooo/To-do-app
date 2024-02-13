@@ -1,16 +1,19 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Headbar from '../Components/Headbar';
 import CalendarMonth from '../Components/CalendarMonth';
 import TaskBox from '../Components/TaskBox';
-import Task from '../Utils/task';
+import TaskList from '../Components/TaskList';
 import DV from '../Components/defaultValues';
+import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [tasksForSelectedDay, setTasksForSelectedDay] = useState([]);
   const [isExtended, setIsExtended] = useState(false);
-
+  const [update, setUpdate] = useState(1); //To force a re-render
+  const tabBarHeight = useBottomTabBarHeight();
   const handleToggleExtended = () => { //extended view of the calendar (swipe down)
     setIsExtended(!isExtended);
   };
@@ -35,32 +38,22 @@ const Calendar = () => {
 
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
-    if (task.location !== undefined) {
-      setNote(prevTasks => {
-        const updatedTasks = prevTasks.map(prevTask => {
-          if (prevTask.id === task.id) {
-            return {
-              ...prevTask,
-              isChecked: !prevTask.isChecked
-            };
-          }
-          return prevTask;
-        });
-        return updatedTasks;
-      })
-    } else {
+    // Update local state of tasks
     setTasks(prevTasks => {
-      const updatedTasks = prevTasks.map(prevTask => {
+      return prevTasks.map(prevTask => {
         if (prevTask.id === task.id) {
           return {
             ...prevTask,
-            isChecked: !prevTask.isChecked
+            isChecked: !prevTask.isChecked // Toggle isChecked locally
           };
         }
         return prevTask;
       });
-      return updatedTasks;
-    });}
+    });
+    // Update database
+    toggleTaskChecked(task);
+    // Force a re-rendering
+    setUpdate(update+1);
   };
 
   const currentDate = new Date();
@@ -71,44 +64,10 @@ const Calendar = () => {
   const headbarText = "Calendar"
   const subHeadbarText = "Events and Tasks"
 
-  const task: Task = {
-    id: 1,
-    name: 'Example Task',
-    priority: "priority 3",
-    year: 2024,
-    month: 2,
-    day: 13,
-    time: "08:30 PM",
-    isChecked: false,
-  };
 
-  const task2: Task = {
-    id: 2,
-    name: 'Example Task',
-    priority: "priority 3",
-    year: 2024,
-    month: 2,
-    day: 15,
-    time: "08:30 PM",
-    isChecked: true,
-  };
 
-  const task3: Task = {
-    id: 3,
-    name: 'Example Task',
-    priority: "priority 3",
-    year: 2024,
-    month: 2,
-    day: 15,
-    time: "08:30 PM",
-    isChecked: false,
-  };
-
-  const [tasks, setTasks] = useState([task, task2, task3]);
-  const [Notes, setNote] = useState([
-    { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm' },
-  ]);
-
+  const [tasks, setTasks] = useState([]);
+  getAllTasks(setTasks);
 
   useEffect(() => {
     console.log('Selected day:', selectedDay);
@@ -120,27 +79,24 @@ const Calendar = () => {
     });
     console.log('Filtered tasks:', filteredTasks);
     setTasksForSelectedDay(filteredTasks);
-  }, [selectedDay, tasks]); // Only re-run the effect when selectedDay changes
+  }, [selectedDay,update]); // Only re-run the effect when selectedDay or update changes
   
 
 
 
   return (
-    <View style={DV.globalStyles.calendarContainer}>
+    <View style={[DV.globalStyles.calendarContainer,{paddingBottom: 50}]}>
         <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <ScrollView
         style={DV.globalStyles.calendarScrollView}
         contentContainerStyle={isExtended ? DV.globalStyles.calendarScrollViewContentExtended : DV.globalStyles.calendarScrollViewContent}
       >
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
-        {tasksForSelectedDay.map(task => (
-          <TaskBox
-            key={task.id}
-            task={task}
-            onCheckPress={() => handleCheckPress(task)}
-            onMenuPress={() => handleMenuPress(task.id)}
-          />
-        ))}
+        <TaskList 
+        tasks={tasksForSelectedDay}
+        onCheckPress={handleCheckPress}
+        onMenuPress={handleMenuPress}
+      />
         </ScrollView>
     </View>
   );
