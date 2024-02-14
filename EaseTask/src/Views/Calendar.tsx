@@ -40,17 +40,17 @@ const Calendar = () => {
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
     // Update local state of tasks
-    setTasks(prevTasks => {
-      return prevTasks.map(prevTask => {
-        if (prevTask.id === task.id) {
-          return {
-            ...prevTask,
-            isChecked: !prevTask.isChecked // Toggle isChecked locally
-          };
-        }
-        return prevTask;
-      });
-    });
+    // setTasks(prevTasks => {
+    //   return prevTasks.map(prevTask => {
+    //     if (prevTask.id === task.id) {
+    //       return {
+    //         ...prevTask,
+    //         isChecked: !prevTask.isChecked // Toggle isChecked locally
+    //       };
+    //     }
+    //     return prevTask;
+    //   });
+    // });
     // Update database
     toggleTaskChecked(task);
     // Force a re-rendering
@@ -115,7 +115,12 @@ const Calendar = () => {
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         </TouchableOpacity>
         <TaskList 
-        tasks={tasksForSelectedDay}
+        tasks={tasks.filter(task => {
+          return (
+            selectedDay &&
+            task.day === selectedDay
+          );
+        })}
         onCheckPress={handleCheckPress}
         onMenuPress={handleMenuPress}
       />
