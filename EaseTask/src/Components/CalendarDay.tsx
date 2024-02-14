@@ -2,7 +2,7 @@ import React from 'react';
 import {TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
-const CalendarDay = ({ day, selectedDay, onSelectDay, extended, tasks }) => {
+const CalendarDay = ({ day, selectedDay, onSelectDay, extended, year, month, tasks }) => {
   const styles = StyleSheet.create({
     container: {
       width: '12.7%',
@@ -34,7 +34,7 @@ const CalendarDay = ({ day, selectedDay, onSelectDay, extended, tasks }) => {
    },
 })
 
-  const tasksDueOnCurrentDay = tasks.filter(task => task.day === day); //Checks if a task of the given list is due on this day
+  const tasksDueOnCurrentDay = tasks.filter(task => task.day === day && task.month === month && task.year === year); //Checks if a task of the given list is due on this day
 
   return (
     <TouchableOpacity onPress={() => onSelectDay(day)} style={[styles.container, selectedDay ? styles.selectedDay : null]}>
