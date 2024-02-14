@@ -13,7 +13,7 @@ const SettingsShow = ({ id, description, value, onCheckPress}) => {
     }
 
     return (// Changed the layout of the first View and the icon size in global Settings 
-        <View style={DV.globalStyles.settingsEntry}>
+        <View style={DV.styles.settingsEntry}>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
                 <Text style={styles.description}>{description}</Text>
                 <AntDesign name="right" size={DV.normalIconSize} color="black" />

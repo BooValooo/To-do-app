@@ -14,7 +14,7 @@ const CalendarMonth = ({year, month, extended, tasks, handleSelectDay, selectedD
 
   
     return (
-      <View style={DV.globalStyles.monthContainer}>
+      <View style={DV.styles.monthContainer}>
         <MonthBar year={year} month={month}/>
         <WeekDaysBar/>
         <CalendarWeek start={1} end={8-FirstDayOfMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>

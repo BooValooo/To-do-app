@@ -55,14 +55,14 @@ const NewTaskModal = ({isVisible, onClose}) => {
         >
             <Headbar showIcons={false} headBarText={"New task"} subHeadBarText={"Create a new task"} onSearchPress={null} onFiltersPress={null} onSettingsPress={null} />
             <View style={styles.container}>
-                <Text style={DV.globalStyles.normalText}>Task Name</Text>
+                <Text style={DV.styles.normalText}>Task Name</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Task Name"
                     value={name}
                     onChangeText={setName}
                 />
-                <Text style={DV.globalStyles.normalText}>Tag</Text>
+                <Text style={DV.styles.normalText}>Tag</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Tag"
@@ -70,7 +70,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
                     onChangeText={setTag}
                 />
                 <View style={styles.dateTimeContainer}>
-                    <Text style={DV.globalStyles.normalText}>Date</Text>
+                    <Text style={DV.styles.normalText}>Date</Text>
                     <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>
                         <Text style={styles.buttonText}>{"PICK DATE"}</Text>
                     </TouchableOpacity>
@@ -82,7 +82,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
                             onChange={handleDateChange}
                         />
                     ) : null}
-                    <Text style={DV.globalStyles.normalText}>Time</Text>               
+                    <Text style={DV.styles.normalText}>Time</Text>               
                     <TouchableOpacity onPress={() => setShowTimePicker(true)} style={[styles.buttonTime]}>
                         <Text style={styles.buttonText}>{"PICK TIME"}</Text>
                     </TouchableOpacity>
