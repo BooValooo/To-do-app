@@ -23,7 +23,7 @@ const Navigator = () => {
               tabBarInactiveTintColor: 'black',
               tabBarShowLabel: false,
               headerShown: false,
-              tabBarStyle: { position: 'absolute' },
+              tabBarStyle: { position: 'absolute', backgroundColor: '#ababab' }, // Add backgroundColour only for Android
               tabBarBackground: () => (
                 <BlurView tint="light" intensity={50} style={StyleSheet.absoluteFill} />
               ),

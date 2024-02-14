@@ -9,6 +9,7 @@ import ModalOptions from '../Components/ModalOptions';
 import Task from '../Utils/task';
 import Note from '../Utils/note';
 import ChatModal from '../Components/ModalChat';
+import NewTaskModal from '../Components/NewTaskModal';
 
 /**
  * Main screen component.
@@ -106,6 +107,19 @@ const MainScreen = () => {
   }
 
   /**
+     * State for new task modal visibility.
+     */
+  const [newTaskVisible, setNewTaskVisible] = useState(false);
+
+  /**
+   * Handler for opening the new task modal.
+   */
+  const handleNewTaskOpen = () => {
+    setNewTaskVisible(true)
+    console.log("new task pressed")
+    setModalVisible(false)
+  }
+  /**
    * Handler for option press.
    * @param option - The selected option.
    */
@@ -175,10 +189,15 @@ const MainScreen = () => {
         onClose={handleCloseModal}
         onOptionPress={handleOptionPress}
         onNewModalPress={handleNewModalOpen}
+        onNewTaskPress={handleNewTaskOpen}
       />
       <ChatModal
         isVisible={chatModalVisible}
         onClose={() => setChatModalVisible(false)}
+      />
+      <NewTaskModal
+        isVisible={newTaskVisible}
+        onClose={() => setNewTaskVisible(false)}
       />
     </View>
   );

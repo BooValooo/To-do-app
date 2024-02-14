@@ -2,12 +2,12 @@ import React from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
-const ModalOptions = ({ isVisible, onClose, onOptionPress, onNewModalPress }) => {
+const ModalOptions = ({ isVisible, onClose, onOptionPress, onNewModalPress, onNewTaskPress }) => {
   return (
     <Modal transparent={true} visible={isVisible} animationType="slide">
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <TouchableOpacity style={styles.optionButton} onPress={() => onOptionPress('New Task')}>
+          <TouchableOpacity style={styles.optionButton} onPress={onNewTaskPress}>
             <Icon name="add-outline" size={20} color="#000" />
             <Text style={styles.optionText}>New Task</Text>
           </TouchableOpacity>
