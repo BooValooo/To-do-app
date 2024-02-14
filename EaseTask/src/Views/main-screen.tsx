@@ -1,5 +1,6 @@
 // main-screen.tsx
 import React, { useState, useEffect } from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View, ScrollView, StyleSheet, Modal, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import Headbar from '../Components/Headbar';
 import TaskBox from '../Components/TaskBox';
@@ -16,7 +17,7 @@ import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
  * Main screen component.
  */
 const MainScreen = () => {
-
+  // To force UI updates
   const [update, setUpdate] = useState(0);
 
   /**
@@ -43,7 +44,7 @@ const MainScreen = () => {
    */
   const headBarText = 'Focus';
 
-
+  // When a task is marked as (un)completed
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
     toggleTaskChecked(task);
@@ -119,10 +120,19 @@ const MainScreen = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   // getAllTasks(setTasks);
 
+  // Allows to update the UI when a task is ticked, edited or created
   useEffect(() => {
     getAllTasks(setTasks);
   }, [update]);
 
+  // Allows to update the UI when a task is edited or ticked from the calendar
+  useFocusEffect(
+    React.useCallback(() => {
+      getAllTasks(setTasks);
+    }, [])
+  );
+
+  // Called when a new task is created
   const onCloseNewTaskModal = () => {
     setNewTaskVisible(false);
     setUpdate(update+1);
