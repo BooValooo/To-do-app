@@ -118,7 +118,9 @@ const Calendar = () => {
         tasks={tasks.filter(task => {
           return (
             selectedDay &&
-            task.day === selectedDay
+            task.day === selectedDay &&
+            task.month === month &&
+            task.year === year
           );
         })}
         onCheckPress={handleCheckPress}
