@@ -68,7 +68,6 @@ const MainScreen = () => {
    */
   const handleCloseModal = () => {
     setModalVisible(false);
-    setUpdate(update+1);
   };
 
   /**
@@ -177,11 +176,11 @@ const MainScreen = () => {
       />
       <ChatModal
         isVisible={chatModalVisible}
-        onClose={onCloseNewTaskModal}
+        onClose={() => setChatModalVisible(false)}
       />
       <NewTaskModal
         isVisible={newTaskVisible}
-        onClose={() => setNewTaskVisible(false)}
+        onClose={onCloseNewTaskModal}
       />
     </View>
   );
