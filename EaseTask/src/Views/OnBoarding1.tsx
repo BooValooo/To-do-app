@@ -4,7 +4,7 @@ import DV from "../Components/defaultValues";
 import { useNavigation } from '@react-navigation/native';
 import  OnBoarding2  from "./OnBoarding2";
 const OnBoarding1 = () => {
-    const style = DV.globalStyles;
+    const style = DV.styles;
     const navigation = useNavigation();
     const header = "Welcome";
     const caption = "Take notes\neverywhere";

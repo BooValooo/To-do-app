@@ -52,10 +52,11 @@ function OnBoardingTabs() {
       if (value === null) {
         AsyncStorage.setItem('alreadyLaunched', 'true');
         setIsFirstLaunch(true);
+        initializeDatabase();
       } else {
         setIsFirstLaunch(false);
       }
-      initializeDatabase();
+      // initializeDatabase();
     });
   }, []);
 
