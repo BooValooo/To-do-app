@@ -5,7 +5,7 @@ import DV from "../Components/defaultValues";
 
 
 const OnBoarding2 = () => {
-    const style = DV.globalStyles;
+    const style = DV.styles;
 
     const header = "Welcome";
     const caption = "Your information\nis yours";
