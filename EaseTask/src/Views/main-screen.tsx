@@ -1,5 +1,5 @@
 // main-screen.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, ScrollView, StyleSheet, Modal, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import Headbar from '../Components/Headbar';
 import TaskBox from '../Components/TaskBox';
@@ -10,11 +10,15 @@ import Task from '../Utils/task';
 import Note from '../Utils/note';
 import ChatModal from '../Components/ModalChat';
 import NewTaskModal from '../Components/NewTaskModal';
+import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
 
 /**
  * Main screen component.
  */
 const MainScreen = () => {
+
+  const [update, setUpdate] = useState(0);
+
   /**
    * Handler for search icon press.
    */
@@ -39,40 +43,13 @@ const MainScreen = () => {
    */
   const headBarText = 'Focus';
 
-  /**
-   * Handler for checkbox press.
-   * @param task - The task object.
-   */
+
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
-    if (task.location !== undefined) {
-      setNote(prevTasks => {
-        const updatedTasks = prevTasks.map(prevTask => {
-          if (prevTask.id === task.id) {
-            return {
-              ...prevTask,
-              isChecked: !prevTask.isChecked
-            };
-          }
-          return prevTask;
-        });
-        return updatedTasks;
-      })
-    } else {
-      setTasks(prevTasks => {
-        const updatedTasks = prevTasks.map(prevTask => {
-          if (prevTask.id === task.id) {
-            return {
-              ...prevTask,
-              isChecked: !prevTask.isChecked
-            };
-          }
-          return prevTask;
-        });
-        return updatedTasks;
-      });
-    }
+    toggleTaskChecked(task);
+    setUpdate(update + 1);
   };
+
 
   /**
    * State for modal visibility.
@@ -139,11 +116,17 @@ const MainScreen = () => {
   /**
    * State for tasks.
    */
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, name: 'Task 1', priority: 'Priority 1', year: 2024, month: 2, day: 13, time: '08:30 PM', isChecked: true },
-    { id: 2, name: 'Task 2', priority: 'Priority 1', year: 2024, month: 2, day: 17, time: '08:30 PM', isChecked: false },
-    { id: 3, name: 'Task 3', priority: 'Priority 3', year: 2024, month: 2, day: 20, time: '06:30 AM', isChecked: false },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  // getAllTasks(setTasks);
+
+  useEffect(() => {
+    getAllTasks(setTasks);
+  }, [update]);
+
+  const onCloseNewTaskModal = () => {
+    setNewTaskVisible(false);
+    setUpdate(update+1);
+  }
 
   /**
    * State for notes.
@@ -197,7 +180,7 @@ const MainScreen = () => {
       />
       <NewTaskModal
         isVisible={newTaskVisible}
-        onClose={() => setNewTaskVisible(false)}
+        onClose={onCloseNewTaskModal}
       />
     </View>
   );

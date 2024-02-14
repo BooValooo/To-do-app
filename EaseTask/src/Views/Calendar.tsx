@@ -10,7 +10,6 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
-  const [tasksForSelectedDay, setTasksForSelectedDay] = useState([]);
   const [isExtended, setIsExtended] = useState(false);
   const [update, setUpdate] = useState(1); //To force a re-render
   const tabBarHeight = useBottomTabBarHeight();
@@ -38,18 +37,6 @@ const Calendar = () => {
 
   const handleCheckPress = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
-    // Update local state of tasks
-    setTasks(prevTasks => {
-      return prevTasks.map(prevTask => {
-        if (prevTask.id === task.id) {
-          return {
-            ...prevTask,
-            isChecked: !prevTask.isChecked // Toggle isChecked locally
-          };
-        }
-        return prevTask;
-      });
-    });
     // Update database
     toggleTaskChecked(task);
     // Force a re-rendering
@@ -69,21 +56,6 @@ const Calendar = () => {
   const [tasks, setTasks] = useState([]);
   getAllTasks(setTasks);
 
-  useEffect(() => {
-    console.log('Selected day:', selectedDay);
-    const filteredTasks = tasks.filter(task => {
-      return (
-        selectedDay &&
-        task.day === selectedDay
-      );
-    });
-    console.log('Filtered tasks:', filteredTasks);
-    setTasksForSelectedDay(filteredTasks);
-  }, [selectedDay,update]); // Only re-run the effect when selectedDay or update changes
-  
-
-
-
   return (
     <View style={[DV.globalStyles.calendarContainer,{paddingBottom: 50}]}>
         <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
@@ -93,7 +65,12 @@ const Calendar = () => {
       >
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         <TaskList 
-        tasks={tasksForSelectedDay}
+        tasks={tasks.filter(task => {
+          return (
+            selectedDay &&
+            task.day === selectedDay
+          );
+        })}
         onCheckPress={handleCheckPress}
         onMenuPress={handleMenuPress}
       />

@@ -14,7 +14,7 @@ export const databaseInit = () =>
         );
   });
 
-//
+// Deletes all the tasks
 export const deleteAllDataFromTable = (tablename) => {
   database.transaction(
     (tx) => {
