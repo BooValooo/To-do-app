@@ -7,8 +7,8 @@ const Headbar = ({ showIcons,headBarText,subHeadBarText,onSearchPress, onFilters
   return (
     <View style={styles.headerContainer}>
       <View>
-        <Text style={DV.globalStyles.headerCaptionText}>{headBarText}</Text>
-        <Text style={DV.globalStyles.headerSubcaptionText}>{subHeadBarText}</Text>
+        <Text style={DV.styles.headerCaptionText}>{headBarText}</Text>
+        <Text style={DV.styles.headerSubcaptionText}>{subHeadBarText}</Text>
       </View>
       {showIcons ? (
       <View style={styles.iconsContainer}>
@@ -23,6 +23,7 @@ const Headbar = ({ showIcons,headBarText,subHeadBarText,onSearchPress, onFilters
         </TouchableOpacity> */}
       </View>) : null}
     </View>
+    
   );
 };
 

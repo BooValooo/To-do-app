@@ -1,5 +1,7 @@
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
+
 class DV{
+
     // All
     public static readonly backgroundColor: '#FFFFFF';
     public static fontColor: '#000000';
@@ -8,8 +10,26 @@ class DV{
     public static readonly bigIconSize = 30;
     public static readonly normalIconSize = 24;
 
+    private static appleStyles = {
+        headerSubcaptionText:{
+            fontSize: 16,
+            color: '#00FF00',
+            opacity: 0.6,
+        },
+
+    }
+
+    private static androidStyles = {
+        headerSubcaptionText:{
+            fontSize: 16,
+            color: '#FF0000',
+            opacity: 0.6,
+        },
+
+    }
+
     //Styles
-    public static readonly globalStyles = StyleSheet.create({
+    private static globalStyles = StyleSheet.create({
         // All
         background:{
             backgroundColor: DV.backgroundColor,
@@ -30,11 +50,6 @@ class DV{
               fontSize: 32,
               fontWeight: 'bold',
               color: DV.fontColor,
-        },
-        headerSubcaptionText:{
-            fontSize: 16,
-            color: '#000000',
-            opacity: 0.6,
         },
 
         // Settings
@@ -63,33 +78,33 @@ class DV{
             paddingVertical: 20,
         },
 
-        // CalendarMonth
+            // CalendarMonth
         monthContainer: {
             flexDirection: 'column',
             justifyContent: 'space-between',
             marginBottom: 10,
             width: '100%',
-          },
+            },
         
         // Calendar
         calendarScrollView: {
             flex: 1,
             backgroundColor: '#fff',
-          },
+            },
         calendarScrollViewContent: {
             flexGrow: 1,
             alignItems: 'center',
-          },
+            },
         calendarScrollViewContentExtended: {
             flexGrow: 1,
             alignItems: 'center',
             paddingTop: 100, // Adjust as needed for your extended view
-          },
+            },
         calendarContainer: {
             flex: 1,
             backgroundColor: '#fff',
-          },
-          //AI Chat Bot
+            },
+            //AI Chat Bot
         AIkeyboardAvoidingView: {
             flex: 1,
             justifyContent: 'flex-end',
@@ -117,6 +132,12 @@ class DV{
         },
     });
 
+    //public static allStyles = Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles};
+
+    public static styles = StyleSheet.create(Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles});
+    
+
 }
+
 
 export default DV;

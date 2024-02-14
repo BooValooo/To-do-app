@@ -57,11 +57,11 @@ const Calendar = () => {
   getAllTasks(setTasks);
 
   return (
-    <View style={[DV.globalStyles.calendarContainer,{paddingBottom: 50}]}>
+    <View style={[DV.styles.calendarContainer,{paddingBottom: 50}]}>
         <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <ScrollView
-        style={DV.globalStyles.calendarScrollView}
-        contentContainerStyle={isExtended ? DV.globalStyles.calendarScrollViewContentExtended : DV.globalStyles.calendarScrollViewContent}
+        style={DV.styles.calendarScrollView}
+        contentContainerStyle={isExtended ? DV.styles.calendarScrollViewContentExtended : DV.styles.calendarScrollViewContent}
       >
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         <TaskList 
