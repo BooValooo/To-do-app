@@ -8,15 +8,15 @@ import Headbar from '../Components/Headbar';
 const Filter = ({ isVisible, onClose}) => {
     const [showTask, setShowTask] = useState(true);
     const [showNote, setShowNote] = useState(true);
-    const [date, setDate] = useState(new Date())
-
+    const [startDate, setStartDate] = useState(new Date())
+    const [endDate, setEndDate] = useState(new Date('December 31, 2030 23:59:59'))
 
 
     const [showDatePicker, setShowDatePicker] = useState(false);
     const handleDateChange = (event, selectedDate) => {
         setShowDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
         if (selectedDate) {
-            setDate(selectedDate);
+            setStartDate(selectedDate);
         }
     };
 
@@ -35,18 +35,34 @@ const Filter = ({ isVisible, onClose}) => {
                         </TouchableOpacity>
                     </View>
 
-                        <Text style={DV.styles.normalText}>Date</Text>
+                    <Text style={DV.styles.normalText}>Deadline</Text>
+                    <View style={styles.dates}>
                         <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>
-                            <Text style={styles.buttonText}>{"PICK DATE"}</Text>
+                            <Text style={styles.buttonText}>{"Begin"}</Text>
                         </TouchableOpacity>
                         {showDatePicker ? (
                             <DateTimePicker
-                                value={date}
+                                value={startDate}
                                 mode="date"
                                 display="default"
                                 onChange={handleDateChange}
                             />
                         ) : null}
+
+                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>
+                            <Text style={styles.buttonText}>{"End"}</Text>
+                        </TouchableOpacity>
+                        {showDatePicker ? (
+                            <DateTimePicker
+                                value={endDate}
+                                mode="date"
+                                display="default"
+                                onChange={handleDateChange}
+                            />
+                        ) : null}
+                    </View>
+
+                    
                     <TouchableOpacity onPress={onClose} style = {styles.close}>
                         <Text style={DV.styles.normalText}> Save </Text>
                     </TouchableOpacity>
@@ -104,6 +120,11 @@ const styles = StyleSheet.create({
         backgroundColor: '#10BF10',
         alignItems: 'center', 
         marginTop: 30
+    },
+    dates:{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     },
 
 
