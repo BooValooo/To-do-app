@@ -10,6 +10,7 @@ import Task from '../Utils/task';
 import Note from '../Utils/note';
 import ChatModal from '../Components/ModalChat';
 import NewTaskModal from '../Components/NewTaskModal';
+import Filter from './Filter';
 
 /**
  * Main screen component.
@@ -94,6 +95,16 @@ const MainScreen = () => {
   };
 
   /**
+   * State for filter visibility
+   */
+  const [filterVisible, setFilterVisible] = useState(false);
+
+  const handleFilter = () => {
+    setFilterVisible(true)
+  }
+
+
+  /**
    * State for chat modal visibility.
    */
   const [chatModalVisible, setChatModalVisible] = useState(false);
@@ -156,7 +167,7 @@ const MainScreen = () => {
     <View style={styles.container}>
       <Headbar
         showIcons={true}
-        onFiltersPress={handleIcon1Press}
+        onFiltersPress={handleFilter}
         onSearchPress={handleIcon2Press}
         onSettingsPress={handleIcon2Press}
         headBarText={headBarText}
@@ -198,6 +209,10 @@ const MainScreen = () => {
       <NewTaskModal
         isVisible={newTaskVisible}
         onClose={() => setNewTaskVisible(false)}
+      />
+      <Filter
+        isVisible={filterVisible}
+        onClose={() => setFilterVisible(false)}
       />
     </View>
   );
