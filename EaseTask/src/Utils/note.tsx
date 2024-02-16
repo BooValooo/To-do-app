@@ -9,6 +9,7 @@ interface Note {
     time: string;
     location: string;
     isChecked: boolean;
+    text: string;
   }
   
   export default Note;
