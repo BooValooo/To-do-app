@@ -11,7 +11,7 @@ import Task from '../Utils/task';
 import Note from '../Utils/note';
 import ChatModal from '../Components/ModalChat';
 import NewTaskModal from '../Components/NewTaskModal';
-import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
+import { getAllTasks, toggleTaskChecked, toggleNoteChecked, getAllNotes } from '../Utils/database_utils';
 
 /**
  * Main screen component.
@@ -43,14 +43,6 @@ const MainScreen = () => {
    * Text for the header bar.
    */
   const headBarText = 'Focus';
-
-  // When a task is marked as (un)completed
-  const handleCheckPress = (task) => {
-    console.log(`Task ${task.id} checkbox pressed`);
-    toggleTaskChecked(task);
-    setUpdate(update + 1);
-  };
-
 
   /**
    * State for modal visibility.
@@ -118,17 +110,37 @@ const MainScreen = () => {
    * State for tasks.
    */
   const [tasks, setTasks] = useState<Task[]>([]);
-  // getAllTasks(setTasks);
 
-  // Allows to update the UI when a task is ticked, edited or created
+    /**
+   * State for notes.
+   */
+  const [Notes, setNotes] = useState<Note[]>([]);
+
+  // When a task is marked as (un)completed
+  const handleCheckPressTask = (task) => {
+    console.log(`Task ${task.id} checkbox pressed`);
+    toggleTaskChecked(task);
+    setUpdate(update + 1);
+  };
+
+  // When a note is marked as (un)completed
+  const handleCheckPressNote = (note) => {
+    console.log(`Note ${note.id} checkbox pressed`);
+    toggleNoteChecked(note);
+    setUpdate(update + 1);
+  };
+
+  // Allows to update the UI when a task or note is ticked, edited or created
   useEffect(() => {
     getAllTasks(setTasks);
+    getAllNotes(setNotes)
   }, [update]);
 
-  // Allows to update the UI when a task is edited or ticked from the calendar
+  // Allows to update the UI when a task or note is edited or ticked from the calendar
   useFocusEffect(
     React.useCallback(() => {
       getAllTasks(setTasks);
+      getAllNotes(setNotes);
     }, [])
   );
 
@@ -138,12 +150,7 @@ const MainScreen = () => {
     setUpdate(update+1);
   }
 
-  /**
-   * State for notes.
-   */
-  const [Notes, setNote] = useState<Note[]>([
-    { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm', year: 2024, month: 2, day: 13 },
-  ]);
+
 
   return (
     <View style={styles.container}>
@@ -160,7 +167,7 @@ const MainScreen = () => {
           <TaskBox
             key={task.id}
             task={task}
-            onCheckPress={() => handleCheckPress(task)}
+            onCheckPress={() => handleCheckPressTask(task)}
             onMenuPress={() => handleMenuPress(task.id)}
           />
         ))}
@@ -170,7 +177,7 @@ const MainScreen = () => {
             taskName={Note.name}
             time={Note.time}
             isChecked={Note.isChecked}
-            onCheckPress={() => handleCheckPress(Note)}
+            onCheckPress={() => handleCheckPressNote(Note)}
             onMenuPress={() => handleMenuPress(Note.id)}
             location={Note.location}
           />
