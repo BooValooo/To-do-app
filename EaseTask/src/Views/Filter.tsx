@@ -6,25 +6,51 @@ import { AntDesign } from '@expo/vector-icons';
 import Headbar from '../Components/Headbar';
 
 const Filter = ({ isVisible, onClose}) => {
+    const infiniteDate = new Date('9999-12-31T23:59:59')
+
     const [showTask, setShowTask] = useState(true);
     const [showNote, setShowNote] = useState(true);
-    const [startDate, setStartDate] = useState(new Date())
-    const [endDate, setEndDate] = useState(new Date('December 31, 2030 23:59:59'))
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(infiniteDate);
+    const [startDateText, setStartDateText] = useState("today");
+    const [endDateText, setEndDateText] = useState("")
 
-
-    const [showDatePicker, setShowDatePicker] = useState(false);
-    const handleDateChange = (event, selectedDate) => {
-        setShowDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
+    const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+    const handleStartDateChange = (event, selectedDate) => {
+        setShowStartDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
         if (selectedDate) {
             setStartDate(selectedDate);
         }
+        setStartDateText("selected");                       // Needs to be fixed. Shows funtion... in App instead of text
     };
+
+    const [showEndDatePicker, setShowEndDatePicker] = useState(false);
+    const handleEndDateChange = (event, selectedDate) => {
+        setShowEndDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
+        if (selectedDate) {
+            setEndDate(selectedDate);
+        }
+        setEndDateSelected(true);
+        setEndDateText("selected");                         // Same here
+    };
+
+    const handleClose = (close) => {
+        console.log("Task: " + showTask);
+        console.log("Note: " + showNote);
+        console.log("Date between " + startDate + " and " + endDate);
+        close();
+    }
+
+    const [endDateSelected, setEndDateSelected] = useState(false);
 
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
             <View style={StyleSheet.compose(DV.styles.background, styles.moveHeadbarUp)}>
+                {/** Headbar */}
                 <Headbar showIcons={false} headBarText={"Filter"} subHeadBarText={"Filter your Task"} onSearchPress={null} onFiltersPress={null} onSettingsPress={null} />
+
                 <View style={styles.container}>
+                    {/** TaskNote */}
                     <View style={styles.taskNoteContainer}>
                         <TouchableOpacity onPress={() => setShowTask(!showTask)} style={showTask?styles.buttonLayoutPressed:styles.buttonLayout}>
                             <Text style={DV.styles.normalText}>Task</Text>
@@ -35,35 +61,41 @@ const Filter = ({ isVisible, onClose}) => {
                         </TouchableOpacity>
                     </View>
 
-                    <Text style={DV.styles.normalText}>Deadline</Text>
+
+                    {/** Deadline */}
+
                     <View style={styles.dates}>
-                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>
-                            <Text style={styles.buttonText}>{"Begin"}</Text>
+                        <AntDesign name="clockcircleo" size={24} color="#24A19C" style={styles.spaceRight}/>
+                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={[styles.buttonTime]}>
+                            <Text style={styles.buttonText}>{startDateText}</Text>
                         </TouchableOpacity>
-                        {showDatePicker ? (
+                        {showStartDatePicker ? (
                             <DateTimePicker
                                 value={startDate}
                                 mode="date"
                                 display="default"
-                                onChange={handleDateChange}
+                                onChange={handleStartDateChange}
                             />
                         ) : null}
+                        <Text style={DV.styles.normalText}>:</Text>
 
-                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>
-                            <Text style={styles.buttonText}>{"End"}</Text>
+                        <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={[styles.buttonTime]}>
+                            <Text style={styles.buttonText}>{endDateText}</Text>
                         </TouchableOpacity>
-                        {showDatePicker ? (
+                        {showEndDatePicker ? (
                             <DateTimePicker
-                                value={endDate}
+                                value={endDateSelected ? endDate : new Date()}
                                 mode="date"
                                 display="default"
-                                onChange={handleDateChange}
+                                onChange={handleEndDateChange}
                             />
                         ) : null}
                     </View>
 
+
                     
-                    <TouchableOpacity onPress={onClose} style = {styles.close}>
+                    {/** Save  */}
+                    <TouchableOpacity onPress={() => handleClose(onClose)} style = {styles.close}>
                         <Text style={DV.styles.normalText}> Save </Text>
                     </TouchableOpacity>
                 </View>
@@ -75,6 +107,9 @@ const Filter = ({ isVisible, onClose}) => {
 const styles = StyleSheet.create({
     moveHeadbarUp: {
         marginTop: -26,
+    },
+    spaceRight:{
+        paddingRight: 5,
     },
     container: {
         flexDirection: 'column',
@@ -123,8 +158,9 @@ const styles = StyleSheet.create({
     },
     dates:{
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 10,
     },
 
 
@@ -134,15 +170,13 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     buttonTime: {
-        width: 100,
+        width: 160,
         height: 30,
-        marginBottom: 30,
-        marginTop: 10,
         borderRadius: 10,
-        borderWidth: 1,
-        borderColor: 'black',
-        backgroundColor: '#bcbcbc',
-        justifyContent: 'center'
+        backgroundColor: '#eeeeee',
+        justifyContent: 'center',
+        alignItems: 'baseline',
+        paddingStart: 10
     },
     buttonText:{
         fontSize: 15,
