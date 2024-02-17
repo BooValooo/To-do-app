@@ -1,5 +1,6 @@
 // main-screen.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useFocusEffect} from '@react-navigation/native';
 import { View, ScrollView, StyleSheet, Modal, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import Headbar from '../Components/Headbar';
 import TaskBox from '../Components/TaskBox';
@@ -11,11 +12,15 @@ import Note from '../Utils/note';
 import ChatModal from '../Components/ModalChat';
 import NewTaskModal from '../Components/NewTaskModal';
 import Filter from './Filter';
+import { getAllTasks, toggleTaskChecked, toggleNoteChecked, getAllNotes } from '../Utils/database_utils';
 
 /**
  * Main screen component.
  */
 const MainScreen = () => {
+  // To force UI updates
+  const [update, setUpdate] = useState(0);
+
   /**
    * Handler for search icon press.
    */
@@ -39,41 +44,6 @@ const MainScreen = () => {
    * Text for the header bar.
    */
   const headBarText = 'Focus';
-
-  /**
-   * Handler for checkbox press.
-   * @param task - The task object.
-   */
-  const handleCheckPress = (task) => {
-    console.log(`Task ${task.id} checkbox pressed`);
-    if (task.location !== undefined) {
-      setNote(prevTasks => {
-        const updatedTasks = prevTasks.map(prevTask => {
-          if (prevTask.id === task.id) {
-            return {
-              ...prevTask,
-              isChecked: !prevTask.isChecked
-            };
-          }
-          return prevTask;
-        });
-        return updatedTasks;
-      })
-    } else {
-      setTasks(prevTasks => {
-        const updatedTasks = prevTasks.map(prevTask => {
-          if (prevTask.id === task.id) {
-            return {
-              ...prevTask,
-              isChecked: !prevTask.isChecked
-            };
-          }
-          return prevTask;
-        });
-        return updatedTasks;
-      });
-    }
-  };
 
   /**
    * State for modal visibility.
@@ -150,18 +120,48 @@ const MainScreen = () => {
   /**
    * State for tasks.
    */
-  const [tasks, setTasks] = useState<Task[]>([
-    { id: 1, name: 'Task 1', priority: 'Priority 1', year: 2024, month: 2, day: 13, time: '08:30 PM', isChecked: true },
-    { id: 2, name: 'Task 2', priority: 'Priority 1', year: 2024, month: 2, day: 17, time: '08:30 PM', isChecked: false },
-    { id: 3, name: 'Task 3', priority: 'Priority 3', year: 2024, month: 2, day: 20, time: '06:30 AM', isChecked: false },
-  ]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  /**
+    /**
    * State for notes.
    */
-  const [Notes, setNote] = useState<Note[]>([
-    { id: 1, name: 'Note 1', priority: ' 3', time: '08:30 PM', isChecked: false, location: 'Stockholm', year: 2024, month: 2, day: 13 },
-  ]);
+  const [Notes, setNotes] = useState<Note[]>([]);
+
+  // When a task is marked as (un)completed
+  const handleCheckPressTask = (task) => {
+    console.log(`Task ${task.id} checkbox pressed`);
+    toggleTaskChecked(task);
+    setUpdate(update + 1);
+  };
+
+  // When a note is marked as (un)completed
+  const handleCheckPressNote = (note) => {
+    console.log(`Note ${note.id} checkbox pressed`);
+    toggleNoteChecked(note);
+    setUpdate(update + 1);
+  };
+
+  // Allows to update the UI when a task or note is ticked, edited or created
+  useEffect(() => {
+    getAllTasks(setTasks);
+    getAllNotes(setNotes)
+  }, [update]);
+
+  // Allows to update the UI when a task or note is edited or ticked from the calendar
+  useFocusEffect(
+    React.useCallback(() => {
+      getAllTasks(setTasks);
+      getAllNotes(setNotes);
+    }, [])
+  );
+
+  // Called when a new task is created
+  const onCloseNewTaskModal = () => {
+    setNewTaskVisible(false);
+    setUpdate(update+1);
+  }
+
+
 
   return (
     <View style={styles.container}>
@@ -178,7 +178,7 @@ const MainScreen = () => {
           <TaskBox
             key={task.id}
             task={task}
-            onCheckPress={() => handleCheckPress(task)}
+            onCheckPress={() => handleCheckPressTask(task)}
             onMenuPress={() => handleMenuPress(task.id)}
           />
         ))}
@@ -188,7 +188,7 @@ const MainScreen = () => {
             taskName={Note.name}
             time={Note.time}
             isChecked={Note.isChecked}
-            onCheckPress={() => handleCheckPress(Note)}
+            onCheckPress={() => handleCheckPressNote(Note)}
             onMenuPress={() => handleMenuPress(Note.id)}
             location={Note.location}
           />
@@ -208,7 +208,7 @@ const MainScreen = () => {
       />
       <NewTaskModal
         isVisible={newTaskVisible}
-        onClose={() => setNewTaskVisible(false)}
+        onClose={onCloseNewTaskModal}
       />
       <Filter
         isVisible={filterVisible}

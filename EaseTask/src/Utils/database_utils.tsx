@@ -5,16 +5,21 @@ import * as SQLite from 'expo-sqlite';
 // Opens or creates the database
 export const database = SQLite.openDatabase('EaseTask.db');
 
-// Creates the table for tasks (if needed)
+// Creates the table for tasks and notes (if needed)
 // We still have to decide on how to represent the data...
 export const databaseInit = () =>
   database.transaction(tx => {
+    tx.executeSql("DROP TABLE tasks;");
+    tx.executeSql("DROP TABLE notes;");
     tx.executeSql(
-      "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER);"
+      "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, text TEXT);"
         );
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, location TEXT, text TEXT);"
+    );
   });
 
-//
+// Deletes all the tasks/notes
 export const deleteAllDataFromTable = (tablename) => {
   database.transaction(
     (tx) => {
@@ -27,13 +32,17 @@ export const deleteAllDataFromTable = (tablename) => {
     }
   );
 };
-    
+
+
+/* Tasks */
+
+
 // Insert a new task into the table
-export const createTask = (name, priority, year, month, day, time) => {
+export const createTask = (name, priority, year, month, day, time, text) => {
   database.transaction((tx) => {
     tx.executeSql(
-      'INSERT INTO tasks (name, priority, year, month, day, time, isChecked) VALUES (?,?,?,?,?,?,0);',
-      [name, priority, year, month, day, time],
+      'INSERT INTO tasks (name, priority, year, month, day, time, isChecked, text) VALUES (?,?,?,?,?,?,?,0);',
+      [name, priority, year, month, day, time, text],
       (_, result) => {
         console.log('Task created successfully');
       },
@@ -74,6 +83,7 @@ export const getAllTasks = (callback) => {
           day: row.day,
           time: row.time,
           isChecked: row.isChecked === 1, // Convert SQLite INTEGER to boolean
+          text: row.text,
         }));
         callback(tasks);
       }
@@ -102,14 +112,79 @@ export const toggleTaskChecked = (task) => {
 
 
 
+/* Notes */
 
-    // // Query data from the table
-    // database.transaction(tx => {
-    //   tx.executeSql(
-    //     'SELECT * FROM items;',
-    //     [],
-    //     (_, { rows }) => {
-    //       console.log(rows._array);
-    //     }
-    //   );
-    // });
+
+// Insert a new note into the table
+export const createNote = (name, priority, year, month, day, time, location, text) => {
+  database.transaction((tx) => {
+    tx.executeSql(
+      'INSERT INTO notes (name, priority, year, month, day, time, location, text, isChecked) VALUES (?,?,?,?,?,?,?,?,0);',
+      [name, priority, year, month, day, time, location, text],
+      (_, result) => {
+        console.log('Note created successfully');
+      },
+      (_, error) => {
+        console.error('Error creating note:', error);
+        return true; // line to satisfy the required signature
+      }
+    );
+  });
+};
+
+// Print all notes in the console
+export const printAllNotes = () => {
+  database.transaction(tx => {
+    tx.executeSql(
+      'SELECT * FROM notes;',
+      [],
+      (_, { rows }) => {
+        console.log(rows._array);
+      }
+    );
+  });
+}
+
+// Get all notes (with a callback function)
+export const getAllNotes = (callback) => {
+  database.transaction(tx => {
+    tx.executeSql(
+      'SELECT * FROM notes;',
+      [],
+      (_, { rows }) => {
+        const notes = rows._array.map(row => ({
+          id: row.id,
+          name: row.name,
+          priority: row.priority,
+          year: row.year,
+          month: row.month,
+          day: row.day,
+          time: row.time,
+          text: row.text,
+          location: row.location,
+          isChecked: row.isChecked === 1, // Convert SQLite INTEGER to boolean
+        }));
+        callback(notes);
+      }
+    );
+  });
+}
+
+// Switches a note to completed or uncompleted
+export const toggleNoteChecked = (note) => {
+  const newCheckedValue = note.isChecked ? 0 : 1; // Toggle isChecked value
+
+  database.transaction(tx => {
+    tx.executeSql(
+      'UPDATE notes SET isChecked = ? WHERE id = ?;',
+      [newCheckedValue, note.id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          console.log(`Note ${note.id} isChecked updated to ${newCheckedValue}`);
+        } else {
+          console.log(`No note found with ID ${note.id}`);
+        }
+      }
+    );
+  });
+}

@@ -17,11 +17,11 @@ const CalendarMonth = ({year, month, extended, tasks, handleSelectDay, selectedD
       <View style={DV.styles.monthContainer}>
         <MonthBar year={year} month={month}/>
         <WeekDaysBar/>
-        <CalendarWeek start={1} end={8-FirstDayOfMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
-        <CalendarWeek start={8-FirstDayOfMonth+1} end={8-FirstDayOfMonth+7} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
-        <CalendarWeek start={8-FirstDayOfMonth+8} end={8-FirstDayOfMonth+14} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
-        <CalendarWeek start={8-FirstDayOfMonth+15} end={8-FirstDayOfMonth+21} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks} />
-        <CalendarWeek start={8-FirstDayOfMonth+22} end={DaysInMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} tasks={tasks}/>
+        <CalendarWeek start={1} end={8-FirstDayOfMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} year={year} month={month} tasks={tasks}/>
+        <CalendarWeek start={8-FirstDayOfMonth+1} end={8-FirstDayOfMonth+7} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} year={year} month={month} tasks={tasks}/>
+        <CalendarWeek start={8-FirstDayOfMonth+8} end={8-FirstDayOfMonth+14} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} year={year} month={month} tasks={tasks}/>
+        <CalendarWeek start={8-FirstDayOfMonth+15} end={8-FirstDayOfMonth+21} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} year={year} month={month} tasks={tasks} />
+        <CalendarWeek start={8-FirstDayOfMonth+22} end={DaysInMonth} selectedDay={selectedDay} onSelectDay={handleSelectDay} extended={extended} year={year} month={month} tasks={tasks}/>
       </View>
     );
   };

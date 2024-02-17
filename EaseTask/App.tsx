@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContainer from './src/Components/app-container';
 import Navigator from './src';
-import { deleteAllDataFromTable, databaseInit, createTask, printAllTasks } from './src/Utils/database_utils';
+import { deleteAllDataFromTable, databaseInit, createTask, printAllTasks, createNote, printAllNotes } from './src/Utils/database_utils';
 import OnBoarding1 from './src/Views/OnBoarding1';
 import { ActivityIndicator, View } from 'react-native';
 import OnBoarding2 from './src/Views/OnBoarding2';
@@ -39,10 +39,14 @@ function OnBoardingTabs() {
       try {
         await databaseInit();
         await deleteAllDataFromTable("tasks");
-        await createTask("Test 1","priority 1",2024,2,12,"8:30 PM");
-        await createTask("Test 2","priority 3",2024,2,15,"5:30 AM");
-        await createTask("Test 3","priority 2",2024,2,15,"6:15 PM");
+        await deleteAllDataFromTable("notes");
+        await createTask("Test 1","priority 1",2024,2,12,"8:30 PM","This is a task");
+        await createTask("Test 2","priority 3",2024,2,15,"5:30 AM","This is a task");
+        await createTask("Test 3","priority 2",2024,2,15,"6:15 PM","This is a task");
+        await createNote("Note 1","priority 1",2024,2,16,"10:30 AM","Stockholm","This is a new note");
+        await createNote("Note 2","priority 2",2024,2,20,"11:45 PM","Upsalla","This is a new note")
         await printAllTasks();
+        await printAllNotes();
       } catch (error) {
         console.error("Database initialization failed:", error);
       }
@@ -52,10 +56,11 @@ function OnBoardingTabs() {
       if (value === null) {
         AsyncStorage.setItem('alreadyLaunched', 'true');
         setIsFirstLaunch(true);
+        initializeDatabase();
       } else {
         setIsFirstLaunch(false);
       }
-      initializeDatabase();
+      // initializeDatabase();
     });
   }, []);
 

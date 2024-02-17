@@ -8,6 +8,7 @@ import DV from './defaultValues';
 const NewTaskModal = ({isVisible, onClose}) => {
     const [name, setName] = useState('');
     const [tag, setTag] = useState('');
+    const [text, setText] = useState('');
     const [date, setDate] = useState(new Date())
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [time, setTime] = useState(new Date())
@@ -33,16 +34,17 @@ const NewTaskModal = ({isVisible, onClose}) => {
         const month = date.getMonth() + 1; // Months are zero-based, so we add 1
         const day = date.getDate();
         const timeTask = time.toLocaleTimeString(); // Extract time as a string
-        console.log('Task created:', { name, tag, date, time });
+        console.log('Task created:', { name, tag, date, time, text });
 
         // Call the createTask function to insert the task into the database
-        createTask(name, tag, year, month, day, timeTask);
+        createTask(name, tag, year, month, day, timeTask, text);
 
         // Reset input fields and close modal
         setName('');
         setTag('');
         setDate(new Date());
-        setTime(new Date())
+        setTime(new Date());
+        setText('');
         onClose();
     };
 
@@ -95,6 +97,13 @@ const NewTaskModal = ({isVisible, onClose}) => {
                         />
                     ) : null}
                 </View>
+                <Text style={DV.styles.normalText}>Description</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Task Description"
+                    value={text}
+                    onChangeText={setText}
+                />
                 <TouchableOpacity onPress={handleCreateTask} style={[styles.buttonAction]}>
                         <Text style={styles.buttonText}>{"CREATE TASK"}</Text>
                 </TouchableOpacity>
@@ -109,7 +118,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: 30,
+        marginTop: 0,
         alignItems: 'center',
         paddingHorizontal: 30,
     },
@@ -118,21 +127,21 @@ const styles = StyleSheet.create({
         width: '100%',
         borderColor: 'gray',
         borderWidth: 1,
-        marginBottom: 25,
-        marginTop: 10,
+        marginBottom: 20,
+        marginTop: 5,
         paddingHorizontal: 10,
         borderRadius: 10,
     },
     dateTimeContainer: {
         flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     buttonTime: {
         width: 100,
         height: 30,
-        marginBottom: 30,
-        marginTop: 10,
+        marginBottom: 20,
+        marginTop: 5,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: 'black',
@@ -142,8 +151,8 @@ const styles = StyleSheet.create({
     buttonAction: {
         width: 200,
         height: 50,
-        marginBottom: 30,
-        marginTop: 10,
+        marginTop: 20,
+        marginBottom: 5,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: 'black',

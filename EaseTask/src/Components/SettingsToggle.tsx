@@ -13,7 +13,7 @@ const SettingsToggle = ({ id, description, value, onCheckPress}) => {
     }
 
     return (// Changed the layout of the first View and the icon size in global Settings 
-        <View style={[DV.globalStyles.settingsEntry, styles.extra]}> 
+        <View style={[DV.styles.settingsEntry, styles.extra]}> 
             <Text style={styles.description}>{description}</Text>
             <TouchableOpacity onPress={changeVal} style={styles.checkbox}>
                 <FontAwesome name={isChecked?"toggle-on":"toggle-off"} size={DV.normalIconSize} color={isChecked?"green":"black"} /> 
