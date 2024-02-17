@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Platform, TextInput } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DV from "../Components/defaultValues";
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
 import Headbar from '../Components/Headbar';
 
 const Filter = ({ isVisible, onClose}) => {
@@ -21,7 +21,7 @@ const Filter = ({ isVisible, onClose}) => {
         if (selectedDate) {
             setStartDate(selectedDate);
         }
-        setStartDateText("selected");                       // Needs to be fixed. Shows funtion... in App instead of text
+        setStartDateText(startDate.getDay + "." + startDate.getMonth + "." + startDate.getFullYear);                       // Needs to be fixed. Shows funtion... in App instead of text
     };
 
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
@@ -67,7 +67,7 @@ const Filter = ({ isVisible, onClose}) => {
                     <View style={styles.dates}>
                         <AntDesign name="clockcircleo" size={24} color="#24A19C" style={styles.spaceRight}/>
                         <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={[styles.buttonTime]}>
-                            <Text style={styles.buttonText}>{startDateText}</Text>
+                            <Text style={DV.styles.normalText}>{startDateText}</Text>
                         </TouchableOpacity>
                         {showStartDatePicker ? (
                             <DateTimePicker
@@ -80,7 +80,7 @@ const Filter = ({ isVisible, onClose}) => {
                         <Text style={DV.styles.normalText}>:</Text>
 
                         <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={[styles.buttonTime]}>
-                            <Text style={styles.buttonText}>{endDateText}</Text>
+                            <Text style={DV.styles.normalText}>{endDateText}</Text>
                         </TouchableOpacity>
                         {showEndDatePicker ? (
                             <DateTimePicker
@@ -91,6 +91,19 @@ const Filter = ({ isVisible, onClose}) => {
                             />
                         ) : null}
                     </View>
+                    <View style={styles.dates}>
+                        <Fontisto name="propeller-4" size={24} color="#24A19C" style={styles.spaceRight} />
+                        <View style={styles.tag}>
+                            <Text style={DV.styles.normalText}>"Tags"</Text>
+                        </View>
+                    </View>
+                    <View style={styles.dates}>
+                        <AntDesign name="search1" size={24} color="#24A19C" style={styles.spaceRight} />
+                        <View style={styles.tag}>
+                            <Text style={DV.styles.normalText}>"search for"</Text>
+                        </View>
+                    </View>
+
 
 
                     
@@ -105,10 +118,17 @@ const Filter = ({ isVisible, onClose}) => {
 };
 
 const styles = StyleSheet.create({
+    tag: {
+        backgroundColor: '#EEEEEE',
+        width: 330,
+        height: 40,
+        borderRadius: 10,
+        paddingStart: 10
+    }, 
     moveHeadbarUp: {
         marginTop: -26,
     },
-    spaceRight:{
+    spaceRight: {
         paddingRight: 5,
     },
     container: {
@@ -161,6 +181,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 10,
+        textAlignVertical: 'center',
+        verticalAlign: 'middle',
     },
 
 
@@ -171,7 +193,7 @@ const styles = StyleSheet.create({
     },
     buttonTime: {
         width: 160,
-        height: 30,
+        height: 40,
         borderRadius: 10,
         backgroundColor: '#eeeeee',
         justifyContent: 'center',
