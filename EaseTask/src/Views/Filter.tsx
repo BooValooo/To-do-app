@@ -21,7 +21,10 @@ const Filter = ({ isVisible, onClose}) => {
         if (selectedDate) {
             setStartDate(selectedDate);
         }
-        setStartDateText("selected");                       // Needs to be fixed. Shows funtion... in App instead of text
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth() + 1; // Months are zero-based, so we add 1
+        const day = selectedDate.getDate();
+        setStartDateText("" + day + "/" + month + "/" + year);
     };
 
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
@@ -31,7 +34,10 @@ const Filter = ({ isVisible, onClose}) => {
             setEndDate(selectedDate);
         }
         setEndDateSelected(true);
-        setEndDateText("selected");                         // Same here
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth() + 1; // Months are zero-based, so we add 1
+        const day = selectedDate.getDate();
+        setEndDateText("" + day + "/" + month + "/" + year);
     };
 
     const handleClose = (close) => {
@@ -137,7 +143,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: '#000000',
         alignItems: 'center',
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#aaaaaa',
+        justifyContent:'center'
     },
     buttonLayoutPressed: {
         width: 150, 
@@ -146,7 +153,8 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         borderColor: '#000000',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF'        
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center'        
     },
     close: {
         height: 50,
@@ -154,7 +162,8 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: '#10BF10',
         alignItems: 'center', 
-        marginTop: 30
+        marginTop: 30,
+        justifyContent: "center"
     },
     dates:{
         flexDirection: 'row',
@@ -176,13 +185,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#eeeeee',
         justifyContent: 'center',
         alignItems: 'baseline',
-        paddingStart: 10
+        paddingStart: 10,
+        alignContent: "center",
     },
     buttonText:{
         fontSize: 15,
         fontWeight: 'bold',
         color: '#000000',
-        textAlign: 'center',
+        textAlign: "center",
     },
 })
 
