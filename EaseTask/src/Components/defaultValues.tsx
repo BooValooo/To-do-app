@@ -82,7 +82,7 @@ class DV{
         monthContainer: {
             flexDirection: 'column',
             justifyContent: 'space-between',
-            marginBottom: 10,
+            marginBottom: 20,
             width: '100%',
             },
         
@@ -90,15 +90,18 @@ class DV{
         calendarScrollView: {
             flex: 1,
             backgroundColor: '#fff',
+            // paddingBottom: 100,
             },
         calendarScrollViewContent: {
             flexGrow: 1,
             alignItems: 'center',
+            paddingBottom: 100,
             },
         calendarScrollViewContentExtended: {
             flexGrow: 1,
             alignItems: 'center',
             paddingTop: 100, // Adjust as needed for your extended view
+            paddingBottom: 100,
             },
         calendarContainer: {
             flex: 1,
@@ -130,6 +133,69 @@ class DV{
             borderRadius: 20,
             paddingHorizontal: 15,
         },
+        //taskbox
+        deleteButton: {
+            backgroundColor: 'red',
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            flex: 1,
+            paddingRight: 20,
+          },
+          deleteButtonText: {
+            color: 'white',
+            fontWeight: '600',
+            padding: 20,
+          },
+          taskContainer: {
+            flexDirection: 'row',
+            // flex: 1,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingVertical: 20,
+            paddingHorizontal: 16,
+            marginHorizontal: 16,
+            marginVertical: 8,
+            borderWidth: 1,
+            borderColor: '#e0e0e0',
+            borderRadius: 8,
+            backgroundColor: '#fff',
+            elevation: 2, 
+            shadowColor: '#000', 
+            shadowOffset: { width: 0, height: 1 }, 
+            shadowOpacity: 0.22, 
+            shadowRadius: 2.22, 
+          },
+          checkbox: {
+            // style for the checkbox container, TODO: add styles if needed
+          },
+          taskDetails: {
+            flex: 1,
+            marginLeft: 12,
+            justifyContent: 'center',
+          },
+          taskName: {
+            fontSize: 18,
+            fontWeight: 'bold',
+            color: '#333',
+            marginBottom: 4,
+          },
+          taskMeta: {
+            flexDirection: 'row',
+            alignItems: 'center',
+          },
+          priority: {
+            fontSize: 14,
+            fontWeight: '600',
+            color: '#ff5252',
+            marginRight: 8,
+          },
+          time: {
+            fontSize: 14,
+            color: '#666',
+          },
+          menuButton: {
+            // Style if needed
+          },
     });
 
     //public static allStyles = Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles};

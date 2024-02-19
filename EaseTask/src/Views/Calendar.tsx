@@ -32,7 +32,10 @@ const Calendar = () => {
     // Handle the press event for the second icon
     console.log('Icon 2 pressed');
   };
-
+  const handleDeleteTask = (taskId) => {
+    console.log(`Delete task with id: ${taskId}`);
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+  };
   const handleMenuPress = (taskId) => {
     console.log(`Task ${taskId} menu pressed`);
   };
@@ -61,6 +64,7 @@ const Calendar = () => {
   const togglePicker = () => {
     setPickerVisible(!isPickerVisible);
   };
+  
 
   const handleConfirm = () => {
     togglePicker();
@@ -105,16 +109,23 @@ const Calendar = () => {
   };
 
   return (
-    <View style={[DV.styles.calendarContainer,{paddingBottom: 50}]}>
+    <View style={[DV.styles.calendarContainer]}>
         <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
         <ScrollView
-        style={DV.styles.calendarScrollView}
+        style={[DV.styles.calendarScrollView, {marginBottom: tabBarHeight}]}
+        
         contentContainerStyle={isExtended ? DV.styles.calendarScrollViewContentExtended : DV.styles.calendarScrollViewContent}
       >
         <TouchableOpacity onPress={togglePicker} >
         <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         </TouchableOpacity>
-        <TaskList 
+        {/* <ScrollView > */}
+          <View style={{width: 320,
+          height: 100,}}>
+        <TaskList tasks={tasksForSelectedDay} onCheckPress={handleCheckPress} onMenuPress={handleMenuPress} onDelete={handleDeleteTask} />
+        </View>
+        {/* </ScrollView> */}
+        {/* <TaskList 
         tasks={tasks.filter(task => {
           return (
             selectedDay &&
@@ -125,7 +136,9 @@ const Calendar = () => {
         })}
         onCheckPress={handleCheckPress}
         onMenuPress={handleMenuPress}
-      />
+        onDelete={handleDeleteTask}
+      
+      /> */}
         </ScrollView>
         <Modal
         visible={isPickerVisible}
