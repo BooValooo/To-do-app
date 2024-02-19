@@ -5,13 +5,15 @@ import CalendarMonth from '../Components/CalendarMonth';
 import TaskBox from '../Components/TaskBox';
 import TaskList from '../Components/TaskList';
 import DV from '../Components/defaultValues';
-import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
+import { getAllNotes, getAllTasks, toggleTaskChecked, toggleNoteChecked } from '../Utils/database_utils';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import MonthYearPicker from '../Components/MonthYearPicker';
 import { BlurView } from 'expo-blur';
+import NoteList from '../Components/NoteList';
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [tasksForSelectedDay, setTasksForSelectedDay] = useState([]);
+  const [notesForDelectedDay, setNotesForSelectedDay] = useState([]);
   const [isExtended, setIsExtended] = useState(false);
   const [update, setUpdate] = useState(1); //To force a re-render
   const tabBarHeight = useBottomTabBarHeight();
@@ -32,15 +34,22 @@ const Calendar = () => {
     // Handle the press event for the second icon
     console.log('Icon 2 pressed');
   };
+
   const handleDeleteTask = (taskId) => {
     console.log(`Delete task with id: ${taskId}`);
     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
   };
+
+  const handleDeleteNote = (noteId) => {
+    console.log(`Delete task with id: ${noteId}`);
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+  };
+
   const handleMenuPress = (taskId) => {
     console.log(`Task ${taskId} menu pressed`);
   };
 
-  const handleCheckPress = (task) => {
+  const handleCheckPressTask = (task) => {
     console.log(`Task ${task.id} checkbox pressed`);
     // Update local state of tasks
     // setTasks(prevTasks => {
@@ -59,6 +68,13 @@ const Calendar = () => {
     // Force a re-rendering
     setUpdate(update +1);
   };
+
+  const handleCheckPressNote = (note) => {
+    console.log('Note ${note.id} checkbox pressed');
+    toggleNoteChecked(note)
+    setUpdate(update+1);
+  }
+
   const [isPickerVisible, setPickerVisible] = useState(false); 
 
   const togglePicker = () => {
@@ -81,6 +97,8 @@ const Calendar = () => {
 
   const [tasks, setTasks] = useState([]);
   getAllTasks(setTasks);
+  const [notes, setNotes] = useState([]);
+  getAllNotes(setNotes);
 
   useEffect(() => {
     console.log('Selected day:', selectedDay, 'Month:', month, 'Year:', year);
@@ -95,8 +113,22 @@ const Calendar = () => {
       );
     });
 
+    const filteredNotes = notes.filter(note => {
+      
+      console.log('Note:', note);
+      return ( 
+        (note.year == year) &&
+        (note.month == month) &&
+        (note.day == selectedDay)&&selectedDay
+
+      );
+    });
+
     console.log('Filtered tasks:', filteredTasks);
     setTasksForSelectedDay(filteredTasks);
+
+    console.log('Filtered notes:', filteredNotes);
+    setNotesForSelectedDay(filteredNotes);   
   }, [selectedDay, year, month, update]);// Only re-run the effect when selectedDay or update changes
   
 
@@ -117,12 +149,13 @@ const Calendar = () => {
         contentContainerStyle={isExtended ? DV.styles.calendarScrollViewContentExtended : DV.styles.calendarScrollViewContent}
       >
         <TouchableOpacity onPress={togglePicker} >
-        <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
+        <CalendarMonth year={year} month={month} extended={isExtended} tasks={tasks} notes={notes} selectedDay={selectedDay} handleSelectDay={handleSelectDay}/>
         </TouchableOpacity>
         {/* <ScrollView > */}
           <View style={{width: 320,
           height: 100,}}>
-        <TaskList tasks={tasksForSelectedDay} onCheckPress={handleCheckPress} onMenuPress={handleMenuPress} onDelete={handleDeleteTask} />
+        <TaskList tasks={tasksForSelectedDay} onCheckPress={handleCheckPressTask} onMenuPress={handleMenuPress} onDelete={handleDeleteTask} />
+        <NoteList notes={notesForDelectedDay} onCheckPress={handleCheckPressNote} onMenuPress={handleMenuPress} onDelete={handleDeleteNote} />
         </View>
         {/* </ScrollView> */}
         {/* <TaskList 

@@ -90,6 +90,10 @@ const MainScreen = () => {
     console.log(`Delete task with id: ${taskId}`);
     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
   };
+  const handleDeleteNote = (noteId) => {
+    console.log(`Delete task with id: ${noteId}`);
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+  };
   /**
      * State for new task modal visibility.
      */
@@ -189,12 +193,10 @@ const MainScreen = () => {
         {Notes.map((Note) => (
           <NoteBox
             key={Note.id}
-            taskName={Note.name}
-            time={Note.time}
-            isChecked={Note.isChecked}
+            note={Note}
             onCheckPress={() => handleCheckPressNote(Note)}
             onMenuPress={() => handleMenuPress(Note.id)}
-            location={Note.location}
+            onDelete={() => handleDeleteNote(Note.id)}
           />
         ))}
       </ScrollView>

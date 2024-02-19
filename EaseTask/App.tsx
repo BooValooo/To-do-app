@@ -38,8 +38,8 @@ function OnBoardingTabs() {
     async function initializeDatabase() {
       try {
         databaseInit();
-        // deleteAllDataFromTable("tasks");
-        // deleteAllDataFromTable("notes");
+        deleteAllDataFromTable("tasks");
+        deleteAllDataFromTable("notes");
         createTask("Test 1", "priority 1", 2024, 2, 12, "8:30 PM", "This is a task");
         createTask("Test 2", "priority 3", 2024, 2, 15, "5:30 AM", "This is a task");
         createTask("Test 3", "priority 2", 2024, 2, 15, "6:15 PM", "This is a task");
