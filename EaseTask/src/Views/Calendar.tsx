@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import { ScrollView, View, Modal,Button, TouchableOpacity,Text,StyleSheet } from 'react-native';
 import Headbar from '../Components/Headbar';
 import CalendarMonth from '../Components/CalendarMonth';
-import TaskBox from '../Components/TaskBox';
 import TaskList from '../Components/TaskList';
 import DV from '../Components/defaultValues';
 import { getAllNotes, getAllTasks, toggleTaskChecked, toggleNoteChecked } from '../Utils/database_utils';
@@ -154,8 +153,22 @@ const Calendar = () => {
         {/* <ScrollView > */}
           <View style={{width: 320,
           height: 100,}}>
-        <TaskList tasks={tasksForSelectedDay} onCheckPress={handleCheckPressTask} onMenuPress={handleMenuPress} onDelete={handleDeleteTask} />
-        <NoteList notes={notesForDelectedDay} onCheckPress={handleCheckPressNote} onMenuPress={handleMenuPress} onDelete={handleDeleteNote} />
+        <TaskList tasks={tasks.filter(task => {
+          return (
+            selectedDay &&
+            task.day === selectedDay &&
+            task.month === month &&
+            task.year === year
+          );
+        })} onCheckPress={handleCheckPressTask} onMenuPress={handleMenuPress} onDelete={handleDeleteTask} />
+        <NoteList notes={notes.filter(note => {
+          return (
+            selectedDay &&
+            note.day === selectedDay &&
+            note.month === month &&
+            note.year === year
+          );
+        })} onCheckPress={handleCheckPressNote} onMenuPress={handleMenuPress} onDelete={handleDeleteNote} />
         </View>
         {/* </ScrollView> */}
         {/* <TaskList 
