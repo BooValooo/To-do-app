@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import CalendarDay from './CalendarDay';
 
-const CalendarWeek = ({ start, end, selectedDay, onSelectDay, extended, year, month, tasks }) => {
+const CalendarWeek = ({ start, end, selectedDay, onSelectDay, extended, year, month, tasks, notes }) => {
   var weekDays = [];
   for (var i = start; i <= end; i++) {
     weekDays.push(i);
@@ -19,7 +19,7 @@ const CalendarWeek = ({ start, end, selectedDay, onSelectDay, extended, year, mo
   return (
     <View style={styles.weekContainer}>
       {weekDays.map((day, index) => (
-        <CalendarDay key={index} day={day} selectedDay={selectedDay === day} onSelectDay={onSelectDay} extended={extended} year={year} month={month} tasks={tasks}/>
+        <CalendarDay key={index} day={day} selectedDay={selectedDay === day} onSelectDay={onSelectDay} extended={extended} year={year} month={month} tasks={tasks} notes={notes}/>
       ))}
     </View>
   );

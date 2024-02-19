@@ -11,6 +11,7 @@ import Task from '../Utils/task';
 import Note from '../Utils/note';
 import ChatModal from '../Components/ModalChat';
 import NewTaskModal from '../Components/NewTaskModal';
+import Filter from './Filter';
 import { getAllTasks, toggleTaskChecked, toggleNoteChecked, getAllNotes } from '../Utils/database_utils';
 
 /**
@@ -64,6 +65,16 @@ const MainScreen = () => {
   };
 
   /**
+   * State for filter visibility
+   */
+  const [filterVisible, setFilterVisible] = useState(false);
+
+  const handleFilter = () => {
+    setFilterVisible(true)
+  }
+
+
+  /**
    * State for chat modal visibility.
    */
   const [chatModalVisible, setChatModalVisible] = useState(false);
@@ -78,6 +89,10 @@ const MainScreen = () => {
   const handleDeleteTask = (taskId) => {
     console.log(`Delete task with id: ${taskId}`);
     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+  };
+  const handleDeleteNote = (noteId) => {
+    console.log(`Delete task with id: ${noteId}`);
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
   };
   /**
      * State for new task modal visibility.
@@ -159,7 +174,7 @@ const MainScreen = () => {
     <View style={styles.container}>
       <Headbar
         showIcons={true}
-        onFiltersPress={handleIcon1Press}
+        onFiltersPress={handleFilter}
         onSearchPress={handleIcon2Press}
         onSettingsPress={handleIcon2Press}
         headBarText={headBarText}
@@ -178,12 +193,10 @@ const MainScreen = () => {
         {Notes.map((Note) => (
           <NoteBox
             key={Note.id}
-            taskName={Note.name}
-            time={Note.time}
-            isChecked={Note.isChecked}
+            note={Note}
             onCheckPress={() => handleCheckPressNote(Note)}
             onMenuPress={() => handleMenuPress(Note.id)}
-            location={Note.location}
+            onDelete={() => handleDeleteNote(Note.id)}
           />
         ))}
       </ScrollView>
@@ -202,6 +215,10 @@ const MainScreen = () => {
       <NewTaskModal
         isVisible={newTaskVisible}
         onClose={onCloseNewTaskModal}
+      />
+      <Filter
+        isVisible={filterVisible}
+        onClose={() => setFilterVisible(false)}
       />
     </View>
   );

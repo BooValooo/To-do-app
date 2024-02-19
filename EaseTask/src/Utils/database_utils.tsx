@@ -110,7 +110,23 @@ export const toggleTaskChecked = (task) => {
   });
 }
 
-
+// Delete a specific task from the table
+export const deleteTask = (task) => {
+  database.transaction(
+    (tx) => {
+      tx.executeSql(
+        'DELETE FROM tasks WHERE id = ?',
+        [task.id],
+        (_, result) => {
+          console.log('Task deleted successfully');
+        }
+      );
+    },
+    (error) => {
+      console.error('Error deleting task:', error);
+    }
+  );
+};
 
 /* Notes */
 
@@ -188,3 +204,21 @@ export const toggleNoteChecked = (note) => {
     );
   });
 }
+
+// Delete a specific note from the table
+export const deleteNote = (note) => {
+  database.transaction(
+    (tx) => {
+      tx.executeSql(
+        'DELETE FROM notes WHERE id = ?',
+        [note.id],
+        (_, result) => {
+          console.log('Note deleted successfully');
+        }
+      );
+    },
+    (error) => {
+      console.error('Error deleting note:', error);
+    }
+  );
+};
