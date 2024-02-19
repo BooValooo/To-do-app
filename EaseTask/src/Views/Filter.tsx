@@ -8,30 +8,46 @@ import Headbar from '../Components/Headbar';
 const Filter = ({ isVisible, onClose}) => {
     const infiniteDate = new Date('9999-12-31T23:59:59')
 
+    const [name, setName] = useState('');
     const [showTask, setShowTask] = useState(true);
     const [showNote, setShowNote] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(infiniteDate);
     const [startDateText, setStartDateText] = useState("today");
-    const [endDateText, setEndDateText] = useState("")
+    const [endDateText, setEndDateText] = useState("");
+    const [showFinishedTasks, setShowFinishedTasks] = useState(false);
 
     const [showStartDatePicker, setShowStartDatePicker] = useState(false);
     const handleStartDateChange = (event, selectedDate) => {
         setShowStartDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
-        if (selectedDate) {
-            setStartDate(selectedDate);
+        if (selectedDate > endDate){
+            console.log("illegal input");
+        } else {
+            if (selectedDate) {
+                setStartDate(selectedDate);
+            }
+            const year = selectedDate.getFullYear();
+            const month = selectedDate.getMonth() + 1; // Months are zero-based, so we add 1
+            const day = selectedDate.getDate();
+            setStartDateText("" + day + "/" + month + "/" + year);
         }
-        setStartDateText(startDate.getDay + "." + startDate.getMonth + "." + startDate.getFullYear);                       // Needs to be fixed. Shows funtion... in App instead of text
     };
 
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
     const handleEndDateChange = (event, selectedDate) => {
         setShowEndDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
-        if (selectedDate) {
-            setEndDate(selectedDate);
+        if (startDate > selectedDate){
+            console.log("illegal input");            // TODO warn user because end date before start date
+        } else {
+            if (selectedDate) {
+                setEndDate(selectedDate);
+            }
+            setEndDateSelected(true);
+            const year = selectedDate.getFullYear();
+            const month = selectedDate.getMonth() + 1; // Months are zero-based, so we add 1
+            const day = selectedDate.getDate();
+            setEndDateText("" + day + "/" + month + "/" + year);
         }
-        setEndDateSelected(true);
-        setEndDateText("selected");                         // Same here
     };
 
     const handleClose = (close) => {
@@ -39,6 +55,10 @@ const Filter = ({ isVisible, onClose}) => {
         console.log("Note: " + showNote);
         console.log("Date between " + startDate + " and " + endDate);
         close();
+    }
+
+    const handleShowFinishedTasks = () => {
+        setShowFinishedTasks(!showFinishedTasks);
     }
 
     const [endDateSelected, setEndDateSelected] = useState(false);
@@ -60,7 +80,6 @@ const Filter = ({ isVisible, onClose}) => {
                             <Text style={DV.styles.normalText}>Note</Text>
                         </TouchableOpacity>
                     </View>
-
 
                     {/** Deadline */}
 
@@ -97,19 +116,28 @@ const Filter = ({ isVisible, onClose}) => {
                             <Text style={DV.styles.normalText}>"Tags"</Text>
                         </View>
                     </View>
-                    <View style={styles.dates}>
-                        <AntDesign name="search1" size={24} color="#24A19C" style={styles.spaceRight} />
-                        <View style={styles.tag}>
-                            <Text style={DV.styles.normalText}>"search for"</Text>
-                        </View>
+                    <View style={styles.dates}>    
+                        <AntDesign name="search1" size={24} color="#24A19C" style={styles.spaceRight} />                
+                        <TextInput
+                            style={StyleSheet.compose(styles.tag, DV.styles.normalText)}
+                            placeholder=""
+                            value={name}
+                            onChangeText={setName}
+                        />
                     </View>
-
-
-
+                        <TouchableOpacity onPress={() => handleShowFinishedTasks()} style={styles.dates}>
+                            {/* Display a checked or unchecked icon based on the isChecked prop */}
+                            {showFinishedTasks ? (
+                            <AntDesign name="checkcircle" size={DV.normalIconSize} color="green" style={styles.spaceRight}/>
+                            ) : (
+                            <AntDesign name="checkcircleo" size={DV.normalIconSize} color="grey" style={styles.spaceRight}/>
+                            )}
+                            <Text style={DV.styles.normalText}>{"Display finished tasks"}</Text>
+                        </TouchableOpacity>
                     
                     {/** Save  */}
                     <TouchableOpacity onPress={() => handleClose(onClose)} style = {styles.close}>
-                        <Text style={DV.styles.normalText}> Save </Text>
+                        <Text style={DV.styles.normalText}> Close </Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -118,6 +146,10 @@ const Filter = ({ isVisible, onClose}) => {
 };
 
 const styles = StyleSheet.create({
+    central: {
+        alignItems: 'center',
+        alignSelf: 'center',
+    },
     tag: {
         backgroundColor: '#EEEEEE',
         width: 330,
@@ -125,6 +157,16 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingStart: 10
     }, 
+    input: {
+        height: 40,
+        width: '100%',
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 20,
+        marginTop: 5,
+        paddingHorizontal: 10,
+        borderRadius: 10,
+    },
     moveHeadbarUp: {
         marginTop: -26,
     },
@@ -133,10 +175,10 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'column',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         borderRadius: 1,
         borderColor: '#000000',
-        
+        marginStart: 12,
     }, 
     taskNoteContainer: {
         width: 310,
@@ -148,25 +190,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-evenly',
         flexDirection: 'row',
-        backgroundColor: '#aaaaaa'
-    }, 
+        backgroundColor: '#aaaaaa',
+        marginBottom: 10,
+    },
     buttonLayout: {
         width: 150, 
         height: 40,
-        borderWidth: 1,
         borderRadius: 20,
-        borderColor: '#000000',
         alignItems: 'center',
-        backgroundColor: '#aaaaaa'
+        backgroundColor: '#aaaaaa',
+        justifyContent:'center'
     },
     buttonLayoutPressed: {
         width: 150, 
         height: 40,
-        borderWidth: 1,
         borderRadius: 20,
-        borderColor: '#000000',
         alignItems: 'center',
-        backgroundColor: '#FFFFFF'        
+        backgroundColor: '#FFFFFF',
+        justifyContent: 'center'        
     },
     close: {
         height: 50,
@@ -174,7 +215,9 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: '#10BF10',
         alignItems: 'center', 
-        marginTop: 30
+        marginTop: 30,
+        justifyContent: "center",
+        alignSelf: 'center',
     },
     dates:{
         flexDirection: 'row',
@@ -184,8 +227,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         verticalAlign: 'middle',
     },
-
-
     dateTimeContainer: {
         flexDirection: 'column',
         alignItems: 'center',
@@ -198,13 +239,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#eeeeee',
         justifyContent: 'center',
         alignItems: 'baseline',
-        paddingStart: 10
+        alignContent: "center",
+        paddingStart: 10,
     },
     buttonText:{
         fontSize: 15,
         fontWeight: 'bold',
         color: '#000000',
-        textAlign: 'center',
+        textAlign: "center",
     },
 })
 
