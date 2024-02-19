@@ -1,7 +1,7 @@
 import React from 'react';
 import TaskBox from './TaskBox'; 
 
-const TaskList = ({ tasks, onCheckPress, onMenuPress }) => {
+const TaskList = ({ tasks, onCheckPress, onMenuPress,onDelete }) => {
   return (
     <>
       {tasks.map(task => (
@@ -10,6 +10,7 @@ const TaskList = ({ tasks, onCheckPress, onMenuPress }) => {
           task={task}
           onCheckPress={() => onCheckPress(task)}
           onMenuPress={() => onMenuPress(task.id)}
+          onDelete={() => console.log('Delete task')} 
         />
       ))}
     </>
