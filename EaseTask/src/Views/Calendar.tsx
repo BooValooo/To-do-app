@@ -9,6 +9,7 @@ import { getAllTasks, toggleTaskChecked } from '../Utils/database_utils';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import MonthYearPicker from '../Components/MonthYearPicker';
 import { BlurView } from 'expo-blur';
+import Filter from './Filter';
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
   const [tasksForSelectedDay, setTasksForSelectedDay] = useState([]);
@@ -32,6 +33,12 @@ const Calendar = () => {
     // Handle the press event for the second icon
     console.log('Icon 2 pressed');
   };
+
+    const [filterVisible, setFilterVisible] = useState(false);
+
+    const handleFilter = () => {
+      setFilterVisible(true)
+    }
 
   const handleMenuPress = (taskId) => {
     console.log(`Task ${taskId} menu pressed`);
@@ -106,7 +113,7 @@ const Calendar = () => {
 
   return (
     <View style={[DV.styles.calendarContainer,{paddingBottom: 50}]}>
-        <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
+        <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleFilter} onSettingsPress={handleIcon1Press} />
         <ScrollView
         style={DV.styles.calendarScrollView}
         contentContainerStyle={isExtended ? DV.styles.calendarScrollViewContentExtended : DV.styles.calendarScrollViewContent}
@@ -144,6 +151,10 @@ const Calendar = () => {
           </View>
         </View>
       </Modal>
+      <Filter
+        isVisible={filterVisible}
+        onClose={() => setFilterVisible(false)}
+      />
     </View>
   );
 };

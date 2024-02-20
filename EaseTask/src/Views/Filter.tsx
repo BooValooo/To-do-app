@@ -161,17 +161,6 @@ const styles = StyleSheet.create({
         borderColor: '#000000',
         marginStart: 12,
     },
-    dateTimeContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
-    buttonText:{
-        fontSize: 15,
-        fontWeight: 'bold',
-        color: '#000000',
-        textAlign: "center",
-    },
 })
 
 export default Filter;
