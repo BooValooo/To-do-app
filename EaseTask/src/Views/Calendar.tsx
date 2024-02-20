@@ -8,6 +8,7 @@ import { getAllNotes, getAllTasks, toggleTaskChecked, toggleNoteChecked } from '
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import MonthYearPicker from '../Components/MonthYearPicker';
 import { BlurView } from 'expo-blur';
+import Filter from './Filter';
 import NoteList from '../Components/NoteList';
 const Calendar = () => {
   const [selectedDay, setSelectedDay] = useState(null);
@@ -34,6 +35,11 @@ const Calendar = () => {
     console.log('Icon 2 pressed');
   };
 
+    const [filterVisible, setFilterVisible] = useState(false);
+
+    const handleFilter = () => {
+      setFilterVisible(true)
+    }
   const handleDeleteTask = (taskId) => {
     console.log(`Delete task with id: ${taskId}`);
     setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
@@ -141,7 +147,7 @@ const Calendar = () => {
 
   return (
     <View style={[DV.styles.calendarContainer]}>
-        <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleIcon2Press} onSettingsPress={handleIcon1Press} />
+        <Headbar showIcons ={true} headBarText={headbarText} subHeadBarText={subHeadbarText}onSearchPress={handleIcon1Press} onFiltersPress={handleFilter} onSettingsPress={handleIcon1Press} />
         <ScrollView
         style={[DV.styles.calendarScrollView, {marginBottom: tabBarHeight}]}
         
@@ -203,6 +209,10 @@ const Calendar = () => {
           </View>
         </View>
       </Modal>
+      <Filter
+        isVisible={filterVisible}
+        onClose={() => setFilterVisible(false)}
+      />
     </View>
   );
 };

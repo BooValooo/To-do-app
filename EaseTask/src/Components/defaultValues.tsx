@@ -5,8 +5,6 @@ class DV{
     // All
     public static readonly backgroundColor: '#FFFFFF';
     public static fontColor: '#000000';
-
-    // Settings
     public static readonly bigIconSize = 30;
     public static readonly normalIconSize = 24;
 
@@ -196,9 +194,57 @@ class DV{
           menuButton: {
             // Style if needed
           },
-    });
 
-    //public static allStyles = Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles};
+        // Filter
+        taskNoteContainer: {
+            width: 310,
+            height: 50,
+            borderRadius: 25,
+            flexDirection: 'row',
+            backgroundColor: 'lightgray',
+            marginVertical: 10,
+            alignSelf: 'center',
+            alignItems: 'center',
+            justifyContent: 'space-evenly'
+        },
+        taskNoteUnpressed:{
+            backgroundColor: 'lightgray',
+            marginVertical: 0,
+        },
+        taskNotePressed: {
+            backgroundColor: 'white',
+            marginVertical: 0,
+        },
+        entry: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginVertical: 10
+        },
+        entryField: {
+            backgroundColor: 'lightgray',
+            width: 330,
+            height: 40,
+            borderRadius: 10,
+            paddingLeft: 10,
+            marginLeft: 5,
+            textAlignVertical: 'center',
+        },
+        dateField: {
+            width: 156,
+            marginHorizontal: 5,
+        },
+        closeButton: {
+            height: 40,
+            width: 150,
+            borderRadius: 20,
+            backgroundColor: 'gray',
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginVertical: 20,
+        },
+
+    });
 
     public static styles = StyleSheet.create(Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles});
     

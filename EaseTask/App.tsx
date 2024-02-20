@@ -60,7 +60,7 @@ function OnBoardingTabs() {
       } else {
         setIsFirstLaunch(false);
       }
-      initializeDatabase();
+      // initializeDatabase();
     });
   }, []);
 
