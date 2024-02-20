@@ -212,6 +212,8 @@ const Calendar = () => {
       <Filter
         isVisible={filterVisible}
         onClose={() => setFilterVisible(false)}
+        setNotesMain={setNotes}
+        setTasksMain={setTasks}
       />
     </View>
   );
