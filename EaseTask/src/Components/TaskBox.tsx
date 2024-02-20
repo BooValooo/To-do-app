@@ -1,13 +1,55 @@
 // TaskBox.tsx is a component that displays a task with its details and a checkbox to mark it as completed.
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 import { AntDesign, Entypo,FontAwesome } from '@expo/vector-icons';
+import TaskDetailsModal from './TaskDetailsModal';
+import { useState } from 'react';
+import { Swipeable } from 'react-native-gesture-handler';
 
-const TaskBox = ({ task, onCheckPress, onMenuPress }) => {
+const TaskBox = ({ task, onCheckPress,onMenuPress,onDelete }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [swipeableRow, setSwipeableRow] = useState(null);
+
+  const renderRightActions = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [-100, 0],
+      outputRange: [1, 0],
+      extrapolate: 'clamp',
+    });
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          swipeableRow.close(); // Close the swipeable component
+          onDelete(task.id); // Call the onDelete function passed from the parent
+        }}
+        style={styles.deleteButton}>
+        <Animated.Text style={[styles.deleteButtonText, { transform: [{ scale }] }]}>
+          Delete
+        </Animated.Text>
+      </TouchableOpacity>
+    );
+  };
+
+
+  const handleMenuPressInternal = () => {
+    setModalVisible(true);
+    if(onMenuPress) onMenuPress();
+  }
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  }
+
   return (
+    <Swipeable
+      ref={(ref) => setSwipeableRow(ref)}
+      renderRightActions={renderRightActions}
+      rightThreshold={40}
+    >
     <View style={styles.taskContainer}>
       <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
-         {task.isChecked ? (
+        {task.isChecked ? (
           <AntDesign name="checkcircle" size={24} color="green" />
         ) : (
           <AntDesign name="checkcircleo" size={24} color="grey" />
@@ -20,16 +62,31 @@ const TaskBox = ({ task, onCheckPress, onMenuPress }) => {
           <Text style={styles.time}>{task.day+'/'+task.month+'  '+task.time}</Text>
         </View>
       </View>
-      <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
+      <TouchableOpacity onPress={handleMenuPressInternal} style={styles.menuButton}>
         <FontAwesome name="bars" size={24} color="black" />
       </TouchableOpacity>
+      <TaskDetailsModal task={task} isVisible={modalVisible} onClose={handleCloseModal} />
     </View>
+    </Swipeable>
   );
 };
 
 const styles = StyleSheet.create({
+  deleteButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'flex-end',
+    flex: 1,
+    paddingRight: 20,
+  },
+  deleteButtonText: {
+    color: 'white',
+    fontWeight: '600',
+    padding: 20,
+  },
   taskContainer: {
     flexDirection: 'row',
+    // flex: 1,
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 20,
@@ -78,5 +135,6 @@ const styles = StyleSheet.create({
     // Style if needed
   },
 });
+// styles TaskBox;
 
 export default TaskBox;

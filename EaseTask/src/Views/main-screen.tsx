@@ -86,7 +86,14 @@ const MainScreen = () => {
     setChatModalVisible(true)
     setModalVisible(false)
   }
-
+  const handleDeleteTask = (taskId) => {
+    console.log(`Delete task with id: ${taskId}`);
+    setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+  };
+  const handleDeleteNote = (noteId) => {
+    console.log(`Delete task with id: ${noteId}`);
+    setNotes(prevNotes => prevNotes.filter(note => note.id !== noteId));
+  };
   /**
      * State for new task modal visibility.
      */
@@ -180,17 +187,16 @@ const MainScreen = () => {
             task={task}
             onCheckPress={() => handleCheckPressTask(task)}
             onMenuPress={() => handleMenuPress(task.id)}
+            onDelete={() => handleDeleteTask(task.id)}
           />
         ))}
         {Notes.map((Note) => (
           <NoteBox
             key={Note.id}
-            taskName={Note.name}
-            time={Note.time}
-            isChecked={Note.isChecked}
+            note={Note}
             onCheckPress={() => handleCheckPressNote(Note)}
             onMenuPress={() => handleMenuPress(Note.id)}
-            location={Note.location}
+            onDelete={() => handleDeleteNote(Note.id)}
           />
         ))}
       </ScrollView>
@@ -222,10 +228,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingBottom: 100,
+    // paddingTop:0,
   },
   taskList: {
     flex: 1,
-    marginTop: 20, // reserve space for the tasklist 
   },
 
 });
