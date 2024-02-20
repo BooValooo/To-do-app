@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; 
 
-const ModalOptions = ({ isVisible, onClose, onOptionPress, onNewModalPress, onNewTaskPress }) => {
+const ModalOptions = ({ isVisible, onClose, onOptionPress, onNewModalPress, onNewTaskPress,onTagPress }) => {
   return (
     <Modal transparent={true} visible={isVisible} animationType="slide">
       <View style={styles.modalContainer}>
@@ -15,10 +15,14 @@ const ModalOptions = ({ isVisible, onClose, onOptionPress, onNewModalPress, onNe
             <Icon name="chatbubble-outline" size={20} color="#000" />
             <Text style={styles.optionText}>New Chat</Text>
           </TouchableOpacity>
-           <TouchableOpacity style={styles.optionButton} onPress={onClose}>
+           <TouchableOpacity style={styles.optionButton} onPress={onTagPress}>
+          <Icon name="pricetags-outline" size={20} color="#000" />
+            <Text style={styles.optionText}>Tag Management</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={onClose}>
           <Icon name="close-outline" size={20} color="#000" />
             <Text style={styles.optionText}>Close</Text>
-          </TouchableOpacity>
+            </TouchableOpacity>
         </View>
       </View>
     </Modal>
