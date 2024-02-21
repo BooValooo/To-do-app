@@ -7,61 +7,82 @@ import Tag from '../Utils/tag';
 
 const TagManager = ({isVisible, onClose}) => {
     let nextId = 0;
-    
-    const handleClose = (close) => {
-        close();
-    }
 
-    const handleImportant = (id) => {
-        const thisTag = tags.find(tag => tag.id == id);
-        if (thisTag.id != 1) {
-            const nextTag = tags.find(tag => tag.priority == thisTag.priority - 1);
-            if (nextTag == undefined){
-                console.warn("No tag with priority " + (thisTag.priority - 1));
-            } else {
-                thisTag.priority--;
-                nextTag.priority++;
-            }
+    const handleImportant = (id: Number) => {
+        const unsortedTags: Tag[] = tags;
+        
+        const thisTag = unsortedTags.filter(tag => tag.id == id)[0];
+        const otherTag = unsortedTags.filter(tag => tag.priority == (thisTag.priority - 1))[0];
+
+        if (otherTag != undefined){
+            thisTag.priority--;
+            otherTag.priority++;
         }
-    }
-
-    const handleUnimportant = (id) => {
-        const thisTag = tags.find(tag => tag.id == id);
-        if (thisTag.id != tags.length) {
-            const nextTag = tags.find(tag => tag.priority == thisTag.priority + 1);
-            if (nextTag == undefined){
-                console.warn("No tag with priority " + (thisTag.priority + 1));
-            } else {
-                thisTag.priority++;
-                nextTag.priority--;
-            }
-        }
-    }
-
-    const deleteTag = (id) => {
-        console.log("delete tag with id: " + id);
-        // TODO 
-    }
-
-    const [tags, setTags] = useState<Tag[]>([]);
-
-    const createTag = (color, name) => {
-        const id = nextId;
-        const priority = tags.length;
-        console.log("New Tag")
-        console.log('Tag created: ', {id, name, color, priority});
-        // TODO
-        //createTag(id, name, color, priority); has to be created in the database
-        nextId++;
-    }
-
-    const testTag1: Tag = {
-        id: 1,
-        name: "first Tag",
-        priority: 1,
-        color: 'green'
+        orderTags(unsortedTags);
     };
 
+    const handleUnimportant = (idabcd: Number) => {
+        const unsortedTags: Tag[] = tags;
+
+        const thisTag = unsortedTags.filter(tag => tag.id == idabcd)[0];
+        const otherTag = tags.filter(tag => tag.priority == (thisTag.priority + 1))[0];
+
+        if (otherTag != undefined){
+            thisTag.priority++;
+            otherTag.priority--;
+        }
+        orderTags(unsortedTags);
+    };
+
+    const orderTags = (unsortedTags: Tag[]): void => {
+        unsortedTags.sort((a, b) => a.priority - b.priority);
+        setTags(prevTags => {
+            return unsortedTags;
+        });
+        printTags(unsortedTags);
+    };
+
+    const printTags = (printedTags) => {        // Only for debugging
+        console.log(printedTags.length + " tags existing");
+        printedTags.forEach(tag => console.debug(tag.id + ": " + tag.name + " " + tag.color + " Prio: " + tag.priority));
+    };
+
+    const deleteTag = (idToDelete: number): void => {
+        setTags(prevTags => {
+            const tagPriority = tags.filter(tag => tag.id == idToDelete)[0].priority;
+            const updatedTags = prevTags.filter(tag => tag.id !== idToDelete);
+
+            updatedTags.forEach(tag => {
+                if (tag.priority > tagPriority) {
+                    tag.priority -= 1;
+                }
+            });
+
+            return updatedTags;
+        });
+    };
+
+
+    const createTag = (color: string, name: string) => {
+        const id = nextId;
+        const priority = tags.length;
+        console.log("New Tag");
+        console.log('Tag created: ', {id, name, color, priority});
+        let newTag: Tag = {
+            id: id,
+            name: name,
+            priority: priority,
+            color: color
+        };
+        setTags(prevTags => {
+            prevTags.push(newTag);
+            return prevTags;
+        })
+        nextId++;
+        console.debug("create: " + tags.length);
+    };
+
+    const [tags, setTags] = useState<Tag[]>([]);
 
     return(
         <Modal
@@ -73,13 +94,13 @@ const TagManager = ({isVisible, onClose}) => {
             <View style={styles.container}>
                 {tags.map((tag) => (
                     <TagEntry
-                        key={tag.id} name={tag.name} color={tag.color} moveDown={handleUnimportant(tag.id)} moveUp={handleImportant(tag.id)} newTag={null} deleteTag={deleteTag(tag.id)}/>
+                        key={tag.id} tag={tag} moveDown={handleUnimportant} moveUp={handleImportant} newTag={null} deleteTag={deleteTag}/>
                 ))}
                 <Text style={DV.styles.normalText}>{"new Tag:"}</Text>
-                <TagEntry name={""} color={"green"} moveDown={null} moveUp={null} newTag={createTag} deleteTag={null}/>
+                <TagEntry tag={null} moveDown={null} moveUp={null} newTag={createTag} deleteTag={null}/>
             </View>
 
-            <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.styles.closeButton}>
+            <TouchableOpacity onPress={onClose} style = {DV.styles.closeButton}>
                 <Text style={DV.styles.normalText}> Close </Text>
             </TouchableOpacity>
         </Modal>
