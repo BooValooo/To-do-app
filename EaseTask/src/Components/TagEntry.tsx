@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Platform, TextInput } from "react-native";
 import DV from "../Components/defaultValues";
 import ColorSelection from './ColorSelection';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
-const TagEntry = ({name, color, moveDown, moveUp}) => {
+const TagEntry = ({name, color, moveDown, moveUp, newTag, deleteTag}) => {
 
     const[tagColor, setTagColor] = useState(color);
     const[colorSelectorVisible, setColorSelectorVisible] = useState(false); 
@@ -28,12 +28,21 @@ const TagEntry = ({name, color, moveDown, moveUp}) => {
                 value={tagName}
                 onChangeText={setTagName}
             />
-            <TouchableOpacity onPress={moveDown} style={styles.moveButtons}>
-                <AntDesign name="downcircleo" size={24} color="black" />
+            {(newTag == null)?<>
+                <TouchableOpacity onPress={moveDown} style={styles.moveButtons}>
+                    <AntDesign name="downcircleo" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={moveUp} style={styles.moveButtons}>
+                    <AntDesign name="upcircleo" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={deleteTag} style={styles.moveButtons}>
+                    <FontAwesome5 name="trash-alt" size={24} color="black" />
+                </TouchableOpacity>
+            </>:
+            <TouchableOpacity onPress={newTag} style={styles.moveButtons}>
+                <FontAwesome5 name="check" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity onPress={moveUp} style={styles.moveButtons}>
-                <AntDesign name="upcircleo" size={24} color="black" />
-            </TouchableOpacity>
+            }
             <ColorSelection isVisible={colorSelectorVisible} handleColorChange={handleColorChange}></ColorSelection>
 
 
@@ -60,7 +69,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     textField:{
-        width: 269,
+        width: 240,
         height: 30,
         borderRadius: 10,
         paddingLeft: 10,
