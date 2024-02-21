@@ -5,6 +5,18 @@ import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 
 const TagManager = ({isVisible, onClose}) => {
+    const handleClose = (close) => {
+        close();
+    }
+
+    const handleMoveDown = () => {
+
+    }
+
+    const handleMoveUp = () => {
+
+    }
+
     return(
         <Modal
         animationType="slide"
@@ -13,8 +25,12 @@ const TagManager = ({isVisible, onClose}) => {
         onRequestClose={onClose}>
             <Headbar headBarText={"Tag manager"} subHeadBarText={"create, delete and prioritize tags"} showIcons={false} onFiltersPress={null} onSearchPress={null} onSettingsPress={null}/>
             <View style={styles.container}>
-                <TagEntry name={"first tag"} color={"green"} prioriy={1}></TagEntry>
+                <TagEntry name={"first tag"} color={"green"} moveDown={handleMoveDown} moveUp={handleMoveUp}></TagEntry>
             </View>
+
+            <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.styles.closeButton}>
+                <Text style={DV.styles.normalText}> Close </Text>
+            </TouchableOpacity>
         </Modal>
     );
 };

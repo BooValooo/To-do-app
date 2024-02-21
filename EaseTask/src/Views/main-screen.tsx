@@ -83,7 +83,6 @@ const MainScreen = () => {
     setTagVisible(true)
   }
 
-
   /**
    * State for chat modal visibility.
    */
@@ -233,7 +232,9 @@ const MainScreen = () => {
       />
       <TagManager
         isVisible={tagVisible}
-        onClose={() => setTagVisible(false)}
+        onClose={() => {
+          setTagVisible(false)
+          setModalVisible(false)}}
       />
     </View>
   );
