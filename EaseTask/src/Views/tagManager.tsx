@@ -5,8 +5,13 @@ import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 import Tag from '../Utils/tag';
 
+// TODO nextId resets every time it opens again
+// TODO doesn't rerender when new tags or change priority
+// TODO can't rename tags
+// TODO can't open on IOS
+
 const TagManager = ({isVisible, onClose}) => {
-    let nextId = 0;
+    const [nextId, setNextId] = useState(1)
 
     const handleImportant = (id: Number) => {
         const unsortedTags: Tag[] = tags;
@@ -78,7 +83,7 @@ const TagManager = ({isVisible, onClose}) => {
             prevTags.push(newTag);
             return prevTags;
         })
-        nextId++;
+        setNextId(nextId + 1);
         console.debug("create: " + tags.length);
     };
 
