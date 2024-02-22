@@ -82,6 +82,11 @@ const MainScreen = () => {
   const handleTagPress = () => {
     setTagVisible(true)
   }
+  
+  const onCloseFilter = () => {
+    setFilterVisible(false);
+  }
+
 
   /**
    * State for chat modal visibility.
@@ -116,6 +121,14 @@ const MainScreen = () => {
     console.log("new task pressed")
     setModalVisible(false)
   }
+
+  /**
+   * Handler for opening the tag manager.
+   */
+  const handleTagPress = () => {
+    console.log("Tag Management pressed")
+  }
+
   /**
    * Handler for option press.
    * @param option - The selected option.
@@ -228,7 +241,9 @@ const MainScreen = () => {
       />
       <Filter
         isVisible={filterVisible}
-        onClose={() => setFilterVisible(false)}
+        onClose={onCloseFilter}
+        setNotesMain={setNotes}
+        setTasksMain={setTasks}
       />
       <TagManager
         isVisible={tagVisible}

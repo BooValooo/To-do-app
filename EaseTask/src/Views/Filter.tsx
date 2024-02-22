@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { startTransition, useEffect, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Platform, TextInput } from "react-native";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import DV from "../Components/defaultValues";
 import { AntDesign, Fontisto } from '@expo/vector-icons';
 import Headbar from '../Components/Headbar';
+import Note from '../Utils/note';
+import Task from '../Utils/task';
+import { getAllNotes, getAllTasks } from '../Utils/database_utils';
 
-const Filter = ({ isVisible, onClose}) => {
+const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
+
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const [notes, setNotes] = useState<Note[]>([]);
+    // const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
+    // const [filteredNotes, setFilteredNotes] = useState<Note[]>([]);
+
     const [showTask, setShowTask] = useState(true);
     const [showNote, setShowNote] = useState(true);
 
@@ -19,7 +28,8 @@ const Filter = ({ isVisible, onClose}) => {
             console.log("illegal input");
         } else {
             if (selectedDate) {
-                setStartDate(selectedDate);
+                const selectedDateFormated = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
+                setStartDate(selectedDateFormated);
             }
             const year = selectedDate.getFullYear();
             const month = selectedDate.getMonth() + 1; // Months are zero-based, so we add 1
@@ -40,7 +50,8 @@ const Filter = ({ isVisible, onClose}) => {
             console.log("illegal input");            // TODO warn user because end date before start date
         } else {
             if (selectedDate) {
-                setEndDate(selectedDate);
+                const selectedDateFormated = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate())
+                setEndDate(selectedDateFormated);
             }
             setEndDateSelected(true);
             const year = selectedDate.getFullYear();
@@ -59,11 +70,44 @@ const Filter = ({ isVisible, onClose}) => {
         setShowFinishedTasks(!showFinishedTasks);
     }
 
+    // Fetches the tasks and notes in the DB (only once)
+    useEffect(() => {
+        getAllNotes(setNotes);
+        getAllTasks(setTasks);
+    }, []);
+
+    const filterTask = () => {
+        const filtering = tasks.filter((task) => {
+            const date = new Date(task.year,task.month - 1,task.day);
+            return (showTask &&
+                date >= startDate &&
+                date <= endDate &&
+                (showFinishedTasks || (!showFinishedTasks && !task.isChecked))
+                // Complete with conditions for "tags" and "search"
+            )
+        })
+        setTasksMain(filtering);
+    }
+
+    const filterNote = () => {
+        const filtering = notes.filter((note) => {
+            const date = new Date(note.year,note.month - 1,note.day);
+            return (showNote &&
+                date >= startDate &&
+                date <= endDate &&
+                (showFinishedTasks || (!showFinishedTasks && !note.isChecked))
+                // Complete with conditions for "tags" and "search"
+            )
+        })
+        setNotesMain(filtering);
+    }
 
     const handleClose = (close) => {
         console.log("Task: " + showTask);
         console.log("Note: " + showNote);
         console.log("Date between " + startDate + " and " + endDate);
+        filterNote();
+        filterTask();
         close();
     }
 
