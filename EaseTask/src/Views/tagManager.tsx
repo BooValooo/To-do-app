@@ -5,9 +5,7 @@ import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 import Tag from '../Utils/tag';
 
-// TODO nextId resets every time it opens again
-// TODO doesn't rerender when new tags or change priority
-// TODO can't rename tags
+// TODO doesn't rerender when tags change priority
 // TODO can't open on IOS
 
 const TagManager = ({isVisible, onClose}) => {

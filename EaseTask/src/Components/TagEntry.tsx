@@ -13,10 +13,12 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
     const changeColor = () => {
         setColorSelectorVisible(true); 
     };
-
     const handleColorChange = (selectedColor) => {
         setTagColor(selectedColor); 
         setColorSelectorVisible(false); 
+        if (newTag == null){
+            tag.color = selectedColor;
+        }
     };
     const handleButtonDown = () => {
         moveDown(tag.id);
@@ -32,6 +34,12 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
         setTagColor('green');
         setTagName('');
     };
+    const handleRenameTag = (name) => {
+        setTagName(name);
+        if (newTag == null){
+            tag.name = name;
+        }
+    }
 
     return (
         <View style={styles.tagEntry}>
@@ -40,7 +48,7 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
                 style={StyleSheet.compose(styles.textField, DV.styles.normalText)}
                 placeholder=""
                 value={tagName}
-                onChangeText={setTagName}
+                onChangeText={handleRenameTag}
             />
             {(newTag == null)?<>
                 <TouchableOpacity onPress={handleButtonDown} style={styles.moveButtons}>
