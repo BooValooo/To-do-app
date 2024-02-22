@@ -13,7 +13,6 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
     const changeColor = () => {
         setColorSelectorVisible(true); 
     };
-
     const handleColorChange = (selectedColor) => {
         setTagColor(selectedColor); 
         setColorSelectorVisible(false); 
@@ -34,7 +33,9 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
     };
     const handleRenameTag = (name) => {
         setTagName(name);
-        tag.name = name;
+        if (newTag == null){
+            tag.name = name;
+        }
     }
 
     return (
