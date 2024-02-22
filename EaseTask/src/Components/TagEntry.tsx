@@ -16,6 +16,9 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
     const handleColorChange = (selectedColor) => {
         setTagColor(selectedColor); 
         setColorSelectorVisible(false); 
+        if (newTag == null){
+            tag.color = selectedColor;
+        }
     };
     const handleButtonDown = () => {
         moveDown(tag.id);
