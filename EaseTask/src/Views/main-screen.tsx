@@ -123,13 +123,6 @@ const MainScreen = () => {
   }
 
   /**
-   * Handler for opening the tag manager.
-   */
-  const handleTagPress = () => {
-    console.log("Tag Management pressed")
-  }
-
-  /**
    * Handler for option press.
    * @param option - The selected option.
    */
