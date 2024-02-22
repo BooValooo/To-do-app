@@ -5,11 +5,11 @@ import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 import Tag from '../Utils/tag';
 
-// TODO doesn't rerender when tags change priority
 // TODO can't open on IOS
 
 const TagManager = ({isVisible, onClose}) => {
-    const [nextId, setNextId] = useState(1)
+    const [nextId, setNextId] = useState(1);
+    const [update, setUpdate] = useState(false);
 
     const handleImportant = (id: Number) => {
         const unsortedTags: Tag[] = tags;
@@ -24,10 +24,10 @@ const TagManager = ({isVisible, onClose}) => {
         orderTags(unsortedTags);
     };
 
-    const handleUnimportant = (idabcd: Number) => {
+    const handleUnimportant = (id: Number) => {
         const unsortedTags: Tag[] = tags;
 
-        const thisTag = unsortedTags.filter(tag => tag.id == idabcd)[0];
+        const thisTag = unsortedTags.filter(tag => tag.id == id)[0];
         const otherTag = tags.filter(tag => tag.priority == (thisTag.priority + 1))[0];
 
         if (otherTag != undefined){
@@ -43,6 +43,7 @@ const TagManager = ({isVisible, onClose}) => {
             return unsortedTags;
         });
         printTags(unsortedTags);
+        setUpdate(!update);
     };
 
     const printTags = (printedTags) => {        // Only for debugging
