@@ -201,8 +201,6 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'column',
         alignItems: 'flex-start',
-        borderRadius: 1,
-        borderColor: '#000000',
         marginStart: 12,
     },
 })

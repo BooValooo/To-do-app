@@ -13,6 +13,7 @@ import ChatModal from '../Components/ModalChat';
 import NewTaskModal from '../Components/NewTaskModal';
 import Filter from './Filter';
 import { getAllTasks, toggleTaskChecked, toggleNoteChecked, getAllNotes } from '../Utils/database_utils';
+import TagManager from './tagManager';
 
 /**
  * Main screen component.
@@ -73,6 +74,15 @@ const MainScreen = () => {
     setFilterVisible(true)
   }
 
+  /**
+   * State for tag management visibility
+   */
+  const [tagVisible, setTagVisible] = useState(false);
+
+  const handleTagPress = () => {
+    setTagVisible(true)
+  }
+  
   const onCloseFilter = () => {
     setFilterVisible(false);
   }
@@ -234,6 +244,12 @@ const MainScreen = () => {
         onClose={onCloseFilter}
         setNotesMain={setNotes}
         setTasksMain={setTasks}
+      />
+      <TagManager
+        isVisible={tagVisible}
+        onClose={() => {
+          setTagVisible(false)
+          setModalVisible(false)}}
       />
     </View>
   );
