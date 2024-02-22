@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, Platform, TextInput } from "react-native";
+import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput } from "react-native";
 import DV from "../Components/defaultValues";
 import ColorSelection from './ColorSelection';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
