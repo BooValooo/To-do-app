@@ -32,6 +32,10 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
         setTagColor('green');
         setTagName('');
     };
+    const handleRenameTag = (name) => {
+        setTagName(name);
+        tag.name = name;
+    }
 
     return (
         <View style={styles.tagEntry}>
@@ -40,7 +44,7 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
                 style={StyleSheet.compose(styles.textField, DV.styles.normalText)}
                 placeholder=""
                 value={tagName}
-                onChangeText={setTagName}
+                onChangeText={handleRenameTag}
             />
             {(newTag == null)?<>
                 <TouchableOpacity onPress={handleButtonDown} style={styles.moveButtons}>
