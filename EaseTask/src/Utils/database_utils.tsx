@@ -41,7 +41,7 @@ export const deleteAllDataFromTable = (tablename) => {
 export const createTask = (name, priority, year, month, day, time, text) => {
   database.transaction((tx) => {
     tx.executeSql(
-      'INSERT INTO tasks (name, priority, year, month, day, time, isChecked, text) VALUES (?,?,?,?,?,?,?,0);',
+      'INSERT INTO tasks (name, priority, year, month, day, time, text, isChecked) VALUES (?,?,?,?,?,?,?,0);',
       [name, priority, year, month, day, time, text],
       (_, result) => {
         console.log('Task created successfully');
