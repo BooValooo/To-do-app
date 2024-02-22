@@ -113,11 +113,11 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
-            <View style={StyleSheet.compose(DV.styles.background, styles.moveHeadbarUp)}>
+            <View style={DV.styles.background}>
                 {/** Headbar */}
                 <Headbar showIcons={false} headBarText={"Filter"} subHeadBarText={"Filter your Task"} onSearchPress={null} onFiltersPress={null} onSettingsPress={null} />
 
-                <View style={styles.container}>
+                <View style={DV.styles.entryContainer}>
                     {/** TaskNote */}
                     <View style={DV.styles.taskNoteContainer}>
                         <TouchableOpacity onPress={() => setShowTask(!showTask)} style={StyleSheet.compose(DV.styles.closeButton, (showTask?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
@@ -192,16 +192,8 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 };
 
 const styles = StyleSheet.create({
-    moveHeadbarUp: {
-        marginTop: -26,
-    },
     marginToIcon: {
         marginLeft: 15
-    },
-    container: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginStart: 12,
     },
 })
 

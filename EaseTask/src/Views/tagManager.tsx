@@ -95,7 +95,7 @@ const TagManager = ({isVisible, onClose}) => {
         visible={isVisible}
         onRequestClose={onClose}>
             <Headbar headBarText={"Tag manager"} subHeadBarText={"create, delete and prioritize tags"} showIcons={false} onFiltersPress={null} onSearchPress={null} onSettingsPress={null}/>
-            <View style={styles.container}>
+            <View style={DV.styles.entryContainer}>
                 {tags.map((tag) => (
                     <TagEntry
                         key={tag.id} tag={tag} moveDown={handleUnimportant} moveUp={handleImportant} newTag={null} deleteTag={deleteTag}/>
@@ -110,13 +110,5 @@ const TagManager = ({isVisible, onClose}) => {
         </Modal>
     );
 };
-
-const styles = StyleSheet.create({
-    container: {    // same like filter
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginStart: 12,
-    },
-});
 
 export default TagManager;

@@ -196,6 +196,11 @@ class DV{
           },
 
         // Filter
+        entryContainer:{
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            marginStart: 12,
+        },
         taskNoteContainer: {
             width: 310,
             height: 50,
@@ -247,7 +252,15 @@ class DV{
     });
 
     public static styles = StyleSheet.create(Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles});
-    
+    public static tagColorStyles = (color) => StyleSheet.create({
+        circle: {
+            height: DV.normalIconSize,
+            width: DV.normalIconSize,
+            borderRadius: DV.normalIconSize,
+            backgroundColor: color,
+            alignSelf: 'center'
+        }
+    });
 
 }
 
