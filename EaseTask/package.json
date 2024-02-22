@@ -26,7 +26,6 @@
     "native-base": "^3.4.28",
     "react": "18.2.0",
     "react-native": "0.73.2",
-    "react-native-color-wheel": "^0.1.7",
     "react-native-date-picker": "^4.3.6",
     "react-native-gesture-handler": "~2.14.0",
     "react-native-safe-area-context": "^4.8.2",
