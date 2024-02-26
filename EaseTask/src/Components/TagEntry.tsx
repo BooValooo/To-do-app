@@ -3,7 +3,7 @@ import { View, Modal, Text, TouchableOpacity, StyleSheet, TextInput } from "reac
 import DV from "../Components/defaultValues";
 import ColorSelection from './ColorSelection';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
-import { changeColorTag } from '../Utils/database_utils';
+import { changeColorTag, changeNameTag } from '../Utils/database_utils';
 
 const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
 
@@ -38,6 +38,7 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
     };
     const handleRenameTag = (name) => {
         setTagName(name);
+        (tag != null) ? changeNameTag(tag, name) : null ;
         if (newTag == null){
             tag.name = name;
         }

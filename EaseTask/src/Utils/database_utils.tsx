@@ -302,6 +302,40 @@ export async function changeColorTag (tag, newColor) {
   });
 }
 
+// Allows the user to change the name of a tag
+export async function changeNameTag (tag, newName) {
+  database.transaction(tx => {
+    tx.executeSql(
+      'UPDATE tags SET name = ? WHERE id = ?;',
+      [newName, tag.id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          console.log(`Tag ${tag.id} name updated to ${newName}`);
+        } else {
+          console.log(`No tag found with ID ${tag.id}`);
+        }
+      }
+    );
+  });
+}
+
+// Allows the user to change the name of a tag
+export async function changePriorityTag (tag, newPrio) {
+  database.transaction(tx => {
+    tx.executeSql(
+      'UPDATE tags SET priority = ? WHERE id = ?;',
+      [newPrio, tag.id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          console.log(`Tag ${tag.id} priority updated to ${newPrio}`);
+        } else {
+          console.log(`No tag found with ID ${tag.id}`);
+        }
+      }
+    );
+  });
+}
+
 // Delete a specific tag from the table
 export const deleteTagDB = (tagId) => {
   database.transaction(

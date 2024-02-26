@@ -4,7 +4,7 @@ import DV from "../Components/defaultValues";
 import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 import Tag from '../Utils/tag';
-import { createTagDB, deleteTagDB, getAllTags } from '../Utils/database_utils';
+import { changePriorityTag, createTagDB, deleteTagDB, getAllTags } from '../Utils/database_utils';
 
 // TODO can't open on IOS
 
@@ -20,7 +20,9 @@ const TagManager = ({isVisible, onClose}) => {
 
         if (otherTag != undefined){
             thisTag.priority--;
+            changePriorityTag(thisTag,(thisTag.priority));
             otherTag.priority++;
+            changePriorityTag(otherTag,(otherTag.priority));
         }
         orderTags(unsortedTags);
     };
@@ -33,7 +35,9 @@ const TagManager = ({isVisible, onClose}) => {
 
         if (otherTag != undefined){
             thisTag.priority++;
+            changePriorityTag(thisTag,(thisTag.priority));
             otherTag.priority--;
+            changePriorityTag(otherTag,(otherTag.priority));
         }
         orderTags(unsortedTags);
     };
@@ -60,6 +64,7 @@ const TagManager = ({isVisible, onClose}) => {
             updatedTags.forEach(tag => {
                 if (tag.priority > tagPriority) {
                     tag.priority -= 1;
+                    changePriorityTag(tag,(tag.priority));
                 }
             });
 
@@ -92,11 +97,14 @@ const TagManager = ({isVisible, onClose}) => {
     const [tags, setTags] = useState<Tag[]>([]);
 
     useEffect(() => {
-        getAllTags(setTags);
-        const maxId = tags.reduce((max, tag) => {
-            return tag.id > max ? tag.id : max;
-        }, 0);
-        setNextId(maxId + 1);
+        getAllTags((newTags) => {
+            setTags(newTags);
+            const maxId = newTags.reduce((max, tag) => {
+                return tag.id > max ? tag.id : max;
+            }, 0);
+            setNextId(maxId + 1);
+            orderTags(newTags);
+        });
       }, []);
 
     return(
