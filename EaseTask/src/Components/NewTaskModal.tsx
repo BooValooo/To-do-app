@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, View, TextInput, Button, StyleSheet, Platform, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { createTask } from '../Utils/database_utils';
+import { createTask, getAllTags } from '../Utils/database_utils';
 import Headbar from './Headbar';
 import DV from './defaultValues';
+import RNPickerSelect from 'react-native-picker-select';
 
 const NewTaskModal = ({isVisible, onClose}) => {
     const [name, setName] = useState('');
     const [tag, setTag] = useState('');
     const [text, setText] = useState('');
     const [date, setDate] = useState(new Date())
+    const [tags, setTags] = useState([]);
+    const [selectedTags, setSelectedTags] = useState([]);
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [time, setTime] = useState(new Date())
     const [showTimePicker, setShowTimePicker] = useState(false);
@@ -48,6 +51,10 @@ const NewTaskModal = ({isVisible, onClose}) => {
         onClose();
     };
 
+    useEffect(() => {
+        getAllTags(setTags);
+      }, []);
+
     return (
         <Modal
             animationType="slide"
@@ -71,6 +78,19 @@ const NewTaskModal = ({isVisible, onClose}) => {
                     value={tag}
                     onChangeText={setTag}
                 />
+                {/* <RNPickerSelect
+                    onValueChange={(value) => setTag(value)}
+                    items={[
+                        { label: 'Tag 1', value: 'tag1' },
+                        { label: 'Tag 2', value: 'tag2' },
+                        { label: 'Tag 3', value: 'tag3' },
+                    ]}
+                    value={tag}
+                    placeholder={{
+                        label: 'Select a tag...',
+                        value: null,
+                    }}
+                /> */}
                 <View style={styles.dateTimeContainer}>
                     <Text style={DV.styles.normalText}>Date</Text>
                     <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>

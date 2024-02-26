@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Platform, TextInput } from "react-native";
 import DV from "../Components/defaultValues";
 import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 import Tag from '../Utils/tag';
+import { createTagDB, deleteTagDB, getAllTags } from '../Utils/database_utils';
 
 // TODO can't open on IOS
 
@@ -64,6 +65,7 @@ const TagManager = ({isVisible, onClose}) => {
 
             return updatedTags;
         });
+        deleteTagDB(idToDelete);
     };
 
 
@@ -78,6 +80,7 @@ const TagManager = ({isVisible, onClose}) => {
             priority: priority,
             color: color
         };
+        createTagDB(id, name, priority, color)
         setTags(prevTags => {
             prevTags.push(newTag);
             return prevTags;
@@ -87,6 +90,14 @@ const TagManager = ({isVisible, onClose}) => {
     };
 
     const [tags, setTags] = useState<Tag[]>([]);
+
+    useEffect(() => {
+        getAllTags(setTags);
+        const maxId = tags.reduce((max, tag) => {
+            return tag.id > max ? tag.id : max;
+        }, 0);
+        setNextId(maxId + 1);
+      }, []);
 
     return(
         <Modal
