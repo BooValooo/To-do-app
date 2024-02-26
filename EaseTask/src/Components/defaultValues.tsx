@@ -210,7 +210,8 @@ class DV{
             marginVertical: 10,
             alignSelf: 'center',
             alignItems: 'center',
-            justifyContent: 'space-evenly'
+            justifyContent: 'space-evenly',
+            marginLeft: 14
         },
         taskNoteUnpressed:{
             backgroundColor: 'lightgray',
@@ -266,3 +267,4 @@ class DV{
 
 
 export default DV;
+
