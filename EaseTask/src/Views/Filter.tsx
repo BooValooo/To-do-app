@@ -42,7 +42,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
     const infiniteDate = new Date('9999-12-31T23:59:59')
     const [endDate, setEndDate] = useState(infiniteDate);
     const [showEndDatePicker, setShowEndDatePicker] = useState(false);
-    const [endDateText, setEndDateText] = useState("");
+    const [endDateText, setEndDateText] = useState("until");
     const [endDateSelected, setEndDateSelected] = useState(false);
     const handleEndDateChange = (event, selectedDate) => {
         setShowEndDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
@@ -113,11 +113,11 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
-            <View style={StyleSheet.compose(DV.styles.background, styles.moveHeadbarUp)}>
+            <View style={DV.styles.background}>
                 {/** Headbar */}
                 <Headbar showIcons={false} headBarText={"Filter"} subHeadBarText={"Filter your Task"} onSearchPress={null} onFiltersPress={null} onSettingsPress={null} />
 
-                <View style={styles.container}>
+                <View style={DV.styles.entryContainer}>
                     {/** TaskNote */}
                     <View style={DV.styles.taskNoteContainer}>
                         <TouchableOpacity onPress={() => setShowTask(!showTask)} style={StyleSheet.compose(DV.styles.closeButton, (showTask?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
@@ -134,7 +134,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                     <View style={DV.styles.entry}>
                         <AntDesign name="clockcircleo" size={DV.normalIconSize} color="#24A19C" />
                         <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
-                            <Text style={DV.styles.normalText}>{startDateText}</Text>
+                            <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{startDateText}</Text>
                         </TouchableOpacity>
                         {showStartDatePicker ? (
                             <DateTimePicker
@@ -147,7 +147,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                         <Text style={DV.styles.normalText}>:</Text>
 
                         <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
-                            <Text style={DV.styles.normalText}>{endDateText}</Text>
+                            <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{endDateText}</Text>
                         </TouchableOpacity>
                         {showEndDatePicker ? (
                             <DateTimePicker
@@ -192,17 +192,12 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 };
 
 const styles = StyleSheet.create({
-    moveHeadbarUp: {
-        marginTop: -26,
-    },
     marginToIcon: {
         marginLeft: 15
     },
-    container: {
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        marginStart: 12,
-    },
+    centeredText: {
+        marginTop: 5
+    }
 })
 
 export default Filter;

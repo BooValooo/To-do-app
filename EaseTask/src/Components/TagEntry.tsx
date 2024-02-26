@@ -43,7 +43,7 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
 
     return (
         <View style={styles.tagEntry}>
-            <TouchableOpacity onPress={changeColor} style={colorStyle(tagColor).circle}></TouchableOpacity>
+            <TouchableOpacity onPress={changeColor} style={DV.tagColorStyles(tagColor).circle}></TouchableOpacity>
             <TextInput
                 style={StyleSheet.compose(styles.textField, DV.styles.normalText)}
                 placeholder=""
@@ -70,17 +70,6 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
     );
 
 }
-
-const colorStyle = (color) => StyleSheet.create({
-    circle:{
-        height: DV.normalIconSize,
-        width: DV.normalIconSize,
-        borderRadius: DV.normalIconSize,
-        backgroundColor: color,
-        borderWidth: 1,
-        alignSelf: 'center'
-    },
-});
 
 const styles = StyleSheet.create({
     tagEntry: {

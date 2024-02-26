@@ -1,0 +1,9 @@
+scroll in new task
+maybe label instead of tag
+close keyboard if you click somewhere else
+top undone below done
+unclear where to sort or filter
+reset all filters on one button
+year month scrollable in calendar
+
+
