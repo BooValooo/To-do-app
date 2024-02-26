@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Platform, TextInput } from "react-native";
 import DV from "../Components/defaultValues";
 import Headbar from '../Components/Headbar';
 import TagEntry from "../Components/TagEntry";
 import Tag from '../Utils/tag';
+import { changePriorityTag, createTagDB, deleteTagDB, getAllTags } from '../Utils/database_utils';
 
 // TODO can't open on IOS
 
@@ -19,7 +20,9 @@ const TagManager = ({isVisible, onClose}) => {
 
         if (otherTag != undefined){
             thisTag.priority--;
+            changePriorityTag(thisTag,(thisTag.priority));
             otherTag.priority++;
+            changePriorityTag(otherTag,(otherTag.priority));
         }
         orderTags(unsortedTags);
     };
@@ -32,7 +35,9 @@ const TagManager = ({isVisible, onClose}) => {
 
         if (otherTag != undefined){
             thisTag.priority++;
+            changePriorityTag(thisTag,(thisTag.priority));
             otherTag.priority--;
+            changePriorityTag(otherTag,(otherTag.priority));
         }
         orderTags(unsortedTags);
     };
@@ -59,11 +64,13 @@ const TagManager = ({isVisible, onClose}) => {
             updatedTags.forEach(tag => {
                 if (tag.priority > tagPriority) {
                     tag.priority -= 1;
+                    changePriorityTag(tag,(tag.priority));
                 }
             });
 
             return updatedTags;
         });
+        deleteTagDB(idToDelete);
     };
 
 
@@ -78,6 +85,7 @@ const TagManager = ({isVisible, onClose}) => {
             priority: priority,
             color: color
         };
+        createTagDB(id, name, priority, color)
         setTags(prevTags => {
             prevTags.push(newTag);
             return prevTags;
@@ -87,6 +95,17 @@ const TagManager = ({isVisible, onClose}) => {
     };
 
     const [tags, setTags] = useState<Tag[]>([]);
+
+    useEffect(() => {
+        getAllTags((newTags) => {
+            setTags(newTags);
+            const maxId = newTags.reduce((max, tag) => {
+                return tag.id > max ? tag.id : max;
+            }, 0);
+            setNextId(maxId + 1);
+            orderTags(newTags);
+        });
+      }, []);
 
     return(
         <Modal

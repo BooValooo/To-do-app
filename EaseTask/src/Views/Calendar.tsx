@@ -176,21 +176,6 @@ const Calendar = () => {
           );
         })} onCheckPress={handleCheckPressNote} onMenuPress={handleMenuPress} onDelete={handleDeleteNote} />
         </View>
-        {/* </ScrollView> */}
-        {/* <TaskList 
-        tasks={tasks.filter(task => {
-          return (
-            selectedDay &&
-            task.day === selectedDay &&
-            task.month === month &&
-            task.year === year
-          );
-        })}
-        onCheckPress={handleCheckPress}
-        onMenuPress={handleMenuPress}
-        onDelete={handleDeleteTask}
-      
-      /> */}
         </ScrollView>
         <Modal
         visible={isPickerVisible}
