@@ -7,6 +7,8 @@ import Headbar from '../Components/Headbar';
 import Note from '../Utils/note';
 import Task from '../Utils/task';
 import { getAllNotes, getAllTasks } from '../Utils/database_utils';
+import SelectTag from '../Components/SelectTag';
+import Tag from '../Utils/tag';
 
 const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
@@ -111,6 +113,44 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         close();
     }
 
+  /**
+   * State for tag selection visibility
+   */
+  const [tagVisible, setTagVisible] = useState(false);
+
+  const handleTag = () => {
+    console.log(buttonPosition.x)
+    setTagVisible(true)
+  }
+  const onCloseTag = () => {
+    setTagVisible(false);
+  }
+
+  const [selectedTag, setSelectedTag] = useState("");
+  const [tags, setTags] = useState<Tag[]>([]);
+
+  const addTag = (tag: Tag) => {
+    const addTag = (tag: Tag) => {
+    let insertIndex = 0;
+    while (insertIndex < tags.length && tags[insertIndex].priority < tag.priority) {
+        insertIndex++;
+    }
+
+    const updatedTags = [...tags.slice(0, insertIndex), tag, ...tags.slice(insertIndex)];
+
+    setTags(updatedTags);
+    }
+  }
+
+  /* Safes the caller position from the tag modal */
+  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+
+  const handleLayout = (event) => {
+    const { x, y } = event.nativeEvent.layout;
+    setButtonPosition({ x, y });
+    console.log("Position: " + x + ", " + y)
+  };
+
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
             <View style={DV.styles.background}>
@@ -145,7 +185,6 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                         <Text style={DV.styles.normalText}>:</Text>
-
                         <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
                             <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{endDateText}</Text>
                         </TouchableOpacity>
@@ -158,9 +197,15 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                     </View>
-                    <View style={DV.styles.entry}>
-                        <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
-                        <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>"Tags"</Text>
+                    <View>
+                        <View style={DV.styles.entry}>
+                            <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
+                            <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>"Tags"</Text>
+                            <TouchableOpacity onPress={handleTag} onLayout={handleLayout}>
+                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
+                            </TouchableOpacity>
+                        </View>
+                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={setSelectedTag} topPosition={buttonPosition.x + 20}/>
                     </View>
                     <View style={DV.styles.entry}>    
                         <AntDesign name="search1" size={DV.normalIconSize} color={"green"/* Color was #24A19C */}/>
@@ -197,7 +242,27 @@ const styles = StyleSheet.create({
     },
     centeredText: {
         marginTop: 5
-    }
+    },
+    negateMarginToIcon: {
+        marginLeft: -15 - DV.normalIconSize
+    },
+    modalStyle: {
+        verticalAlign: 'bottom'
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      modalContainer: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        padding: 20,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+      },
+    
 })
 
 export default Filter;
