@@ -11,6 +11,18 @@ import SelectTag from '../Components/SelectTag';
 import Tag from '../Utils/tag';
 
 const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
+    const testTags: Tag[] = [
+        { id: 1, name: 'Tag 1', priority: 1, color: 'red' },
+        { id: 2, name: 'Tag 2', priority: 2, color: 'blue' },
+        { id: 3, name: 'Tag 3', priority: 3, color: 'green' },
+        { id: 4, name: 'Tag 4', priority: 4, color: 'yellow' },
+        { id: 5, name: 'Tag 5', priority: 5, color: 'orange' },
+        { id: 6, name: 'Tag 6', priority: 6, color: 'purple' },
+        { id: 7, name: 'Tag 7', priority: 7, color: 'cyan' },
+        { id: 8, name: 'Tag 8', priority: 8, color: 'magenta' },
+        { id: 9, name: 'Tag 9', priority: 9, color: 'pink' },
+        { id: 10, name: 'Tag 10', priority: 10, color: 'black' }
+    ];
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [notes, setNotes] = useState<Note[]>([]);
@@ -126,20 +138,17 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
     setTagVisible(false);
   }
 
-  const [selectedTag, setSelectedTag] = useState("");
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [selectedTagName, setSelectedTagName] = useState("Tags:");
+  const [tags, setTags] = useState<Tag[]>(testTags);                    /* should be updated with all tags when tagManager changes them */
+  const [selectedTags, setSelectedTags] = useState<Tag[]>(testTags);    /* should remove tag when tagManager deletes one */
 
-  const addTag = (tag: Tag) => {
-    const addTag = (tag: Tag) => {
-    let insertIndex = 0;
-    while (insertIndex < tags.length && tags[insertIndex].priority < tag.priority) {
-        insertIndex++;
-    }
-
-    const updatedTags = [...tags.slice(0, insertIndex), tag, ...tags.slice(insertIndex)];
-
-    setTags(updatedTags);
-    }
+  const handleTags = (newTags) => {
+    setSelectedTags(newTags)
+    let list = ""
+    tags.forEach(tag => {
+        list += tag.name + ", "
+    })
+    setSelectedTagName(list)
   }
 
   /* Safes the caller position from the tag modal */
@@ -200,12 +209,12 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                     <View>
                         <View style={DV.styles.entry}>
                             <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
-                            <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>"Tags"</Text>
+                            <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
                             <TouchableOpacity onPress={handleTag} onLayout={handleLayout}>
                                 <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
                             </TouchableOpacity>
                         </View>
-                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={setSelectedTag} topPosition={buttonPosition.x + 20}/>
+                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
                     </View>
                     <View style={DV.styles.entry}>    
                         <AntDesign name="search1" size={DV.normalIconSize} color={"green"/* Color was #24A19C */}/>
