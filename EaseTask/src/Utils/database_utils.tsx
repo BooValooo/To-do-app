@@ -15,10 +15,10 @@ export const databaseInit = () =>
     tx.executeSql("DROP TABLE IF EXISTS taskTags;");
     tx.executeSql("DROP TABLE IF EXISTS noteTags;");
     tx.executeSql(
-      "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, text TEXT);"
+      "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, text TEXT);"
     );
     tx.executeSql(
-      "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, location TEXT, text TEXT);"
+      "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, location TEXT, text TEXT);"
     );
     tx.executeSql(
       "CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority INTEGER, color TEXT);"
@@ -50,11 +50,11 @@ export const deleteAllDataFromTable = (tablename) => {
 
 
 // Insert a new task into the table
-export async function createTask (name, priority, year, month, day, time, text) {
+export async function createTask (name, year, month, day, time, text) {
   database.transaction((tx) => {
     tx.executeSql(
-      'INSERT INTO tasks (name, priority, year, month, day, time, text, isChecked) VALUES (?,?,?,?,?,?,?,0);',
-      [name, priority, year, month, day, time, text],
+      'INSERT INTO tasks (name, year, month, day, time, text, isChecked) VALUES (?,?,?,?,?,?,0);',
+      [name, year, month, day, time, text],
       (_, result) => {
         console.log('Task created successfully');
       },
@@ -66,7 +66,7 @@ export async function createTask (name, priority, year, month, day, time, text) 
   });
 };
 
-// Print all tasks in the console
+// Print all tasks in the console (for debugging)
 export const printAllTasks = () => {
   database.transaction(tx => {
     tx.executeSql(
@@ -79,25 +79,39 @@ export const printAllTasks = () => {
   });
 }
 
-// Get all tasks (with a callback function)
+// Get all tasks with their associated tags
 export async function getAllTasks(callback) {
   database.transaction(tx => {
     tx.executeSql(
-      'SELECT * FROM tasks;',
+      'SELECT t.id AS taskId, t.name AS taskName, t.year AS taskYear, t.month AS taskMonth, t.day AS taskDay, t.time AS taskTime, t.isChecked AS taskIsChecked, t.text AS taskText, ta.id AS tagId, ta.name AS tagName, ta.priority AS tagPriority, ta.color AS tagColor FROM tasks AS t LEFT JOIN taskTags ON taskTags.idTask = t.id LEFT JOIN tags AS ta ON taskTags.idTag = ta.id;',
       [],
       (_, { rows }) => {
-        const tasks = rows._array.map(row => ({
-          id: row.id,
-          name: row.name,
-          priority: row.priority,
-          year: row.year,
-          month: row.month,
-          day: row.day,
-          time: row.time,
-          isChecked: row.isChecked === 1, // Convert SQLite INTEGER to boolean
-          text: row.text,
-        }));
-        callback(tasks);
+        const tasks = {};
+        rows._array.forEach(row => {
+          const taskId = row.taskId;
+          if (!tasks[taskId]) {
+            tasks[taskId] = {
+              id: taskId,
+              name: row.taskName,
+              year: row.taskYear,
+              month: row.taskMonth,
+              day: row.taskDay,
+              time: row.taskTime,
+              isChecked: row.taskIsChecked === 1, // Convert SQLite INTEGER to boolean
+              text: row.taskText,
+              tags: []
+            };
+          }
+          if (row.tagId != null) {
+            tasks[taskId].tags.push({
+              id: row.tagId,
+              name: row.tagName,
+              priority: row.tagPriority,
+              color: row.tagColor
+            });
+          }
+        });
+        callback(Object.values(tasks)); // Convert object to array before passing to the callback
       }
     );
   });
@@ -150,11 +164,11 @@ export const deleteTask = (task) => {
 
 
 // Insert a new note into the table
-export async function createNote(name, priority, year, month, day, time, location, text) {
+export async function createNote(name, year, month, day, time, location, text) {
   database.transaction((tx) => {
     tx.executeSql(
-      'INSERT INTO notes (name, priority, year, month, day, time, location, text, isChecked) VALUES (?,?,?,?,?,?,?,?,0);',
-      [name, priority, year, month, day, time, location, text],
+      'INSERT INTO notes (name, year, month, day, time, location, text, isChecked) VALUES (?,?,?,?,?,?,?,0);',
+      [name, year, month, day, time, location, text],
       (_, result) => {
         console.log('Note created successfully');
       },
@@ -179,30 +193,45 @@ export const printAllNotes = () => {
   });
 }
 
-// Get all notes (with a callback function)
+// Get all notes with their associated tags
 export async function getAllNotes(callback) {
   database.transaction(tx => {
     tx.executeSql(
-      'SELECT * FROM notes;',
+      'SELECT n.id AS noteId, n.name AS noteName, n.year AS noteYear, n.month AS noteMonth, n.day AS noteDay, n.time AS noteTime, n.isChecked AS noteIsChecked, n.text AS noteText, n.location AS noteLocation, ta.id AS tagId, ta.name AS tagName, ta.priority AS tagPriority, ta.color AS tagColor FROM notes AS n LEFT JOIN noteTags ON noteTags.idNote = n.id LEFT JOIN tags AS ta ON noteTags.idTag = ta.id;',
       [],
       (_, { rows }) => {
-        const notes = rows._array.map(row => ({
-          id: row.id,
-          name: row.name,
-          priority: row.priority,
-          year: row.year,
-          month: row.month,
-          day: row.day,
-          time: row.time,
-          text: row.text,
-          location: row.location,
-          isChecked: row.isChecked === 1, // Convert SQLite INTEGER to boolean
-        }));
-        callback(notes);
+        const notes = {};
+        rows._array.forEach(row => {
+          const noteId = row.noteId;
+          if (!notes[noteId]) {
+            notes[noteId] = {
+              id: noteId,
+              name: row.noteName,
+              year: row.noteYear,
+              month: row.noteMonth,
+              day: row.noteDay,
+              time: row.noteTime,
+              location: row.noteLocation,
+              isChecked: row.noteIsChecked === 1, // Convert SQLite INTEGER to boolean
+              text: row.noteText,
+              tags: []
+            };
+          }
+          if (row.tagId != null) {
+            notes[noteId].tags.push({
+              id: row.tagId,
+              name: row.tagName,
+              priority: row.tagPriority,
+              color: row.tagColor
+            });
+          }
+        });
+        callback(Object.values(notes)); // Convert object to array before passing to the callback
       }
     );
   });
 }
+
 
 // Switches a note to completed or uncompleted
 export async function toggleNoteChecked (note) {
@@ -367,11 +396,11 @@ export const deleteTagDB = (tagId) => {
 };
 
 // Add a tag to a task
-export async function addTagTask (task, tag) {
+export async function addTagTask (taskId, tagId) {
   database.transaction((tx) => {
     tx.executeSql(
       'INSERT INTO taskTags (idTask, idTag) VALUES (?,?);',
-      [task.id, tag.id],
+      [taskId, tagId],
       (_, result) => {
         console.log('Link created successfully');
       },
@@ -384,11 +413,11 @@ export async function addTagTask (task, tag) {
 };
 
 // Add a tag to a note
-export async function addTagNote (note, tag) {
+export async function addTagNote (noteId, tagId) {
   database.transaction((tx) => {
     tx.executeSql(
       'INSERT INTO noteTags (idNote, idTag) VALUES (?,?);',
-      [note.id, tag.id],
+      [noteId, tagId],
       (_, result) => {
         console.log('Link created successfully');
       },

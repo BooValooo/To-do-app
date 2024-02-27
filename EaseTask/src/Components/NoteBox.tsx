@@ -10,6 +10,11 @@ const NoteBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [swipeableRow, setSwipeableRow] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const numTags = task.tags.length;
+  const minHeight = 85 + Math.max((numTags-1) * 20, 0); // Adjust the height based on the number of tags
+  const rowHeight = 10 + Math.max((numTags-1) * 10, 0);
+
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -50,8 +55,8 @@ const NoteBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
       renderRightActions={renderRightActions}
       rightThreshold={40}
     >
-      <View style={styles.taskContainer}>
-        <View style={styles.row}>
+      <View style={[styles.taskContainer, { minHeight: minHeight }]}>        
+        <View style={[styles.row, {top: rowHeight}]}>
           <TouchableOpacity onPress={onCheckPress} >
             {task.isChecked ? (
               <AntDesign name="checkcircle" size={24} color="green" />
@@ -68,10 +73,11 @@ const NoteBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
           </TouchableOpacity>
           </View>
           <View style={styles.taskMeta}>
-                <View style={styles.priorityContainer}>
-                  <Icon name="flag" size={15} color="orange" />
-                  <Text style={styles.priorityText}>{task.priority}</Text>
-                </View>
+            {task.tags.map((tag, index) => (
+              <View key={index} style={styles.priorityContainer}>
+              <Text style={[styles.priorityText, {color: tag.color}]}>{tag.name}</Text>
+              </View>
+            ))}
                 <View style={styles.timeContainer}>
                   <Icon name="access-time" size={15} color="red" />
                   <Text style={styles.timeText}>{task.time}</Text>
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    top: 10,
+    // top: 10,
   },
   expandedDetails: {
     flexDirection: 'column',
@@ -152,7 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     right: 35,
   
-    alignItems: 'flex-start',
+    alignItems: 'flex-end',
 
   },
   // taskMetaExpanded: {
@@ -190,7 +196,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 4,
     elevation: 3,
-    minHeight: 85,
+    // minHeight: 85,
     // maxWidth: 150
   },
 

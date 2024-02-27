@@ -1,8 +1,10 @@
+import Tag from "./tag";
+
 // Task.tsx
 interface Task {
     id: number;
     name: string;
-    priority: string;
+    tags: Tag[];
     year: number;
     month: number;
     day: number;
