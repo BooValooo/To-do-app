@@ -41,7 +41,7 @@ function OnBoardingTabs() {
         createTask("Test 1", "priority 1", 2024, 2, 12, "8:30 PM", "This is a task");
         createTask("Test 2", "priority 3", 2024, 2, 15, "5:30 AM", "This is a task");
         createTask("Test 3", "priority 2", 2024, 2, 15, "6:15 PM", "This is a task");
-        createNote("Note 1", "priority 1", 2024, 2, 16, "10:30 AM", "Stockholm", "This is a new note");
+        createNote("Note 1", "priority 1", 2024, 2, 16, "10:30 AM", "Paris", "This is a new note");
         createNote("Note 2", "priority 2", 2024, 2, 20, "11:45 PM", "Upsalla", "This is a new note")
         printAllTasks();
         printAllNotes();
@@ -58,7 +58,7 @@ function OnBoardingTabs() {
       } else {
         setIsFirstLaunch(false);
       }
-      // initializeDatabase();
+      initializeDatabase();
     });
   }, []);
 

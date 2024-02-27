@@ -208,7 +208,7 @@ const MainScreen = () => {
         {Notes.map((Note) => (
           <NoteBox
             key={Note.id}
-            note={Note}
+            task={Note}
             onCheckPress={() => handleCheckPressNote(Note)}
             onMenuPress={() => handleMenuPress(Note.id)}
             onDelete={() => handleDeleteNote(Note.id)}
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    paddingBottom: 100,
+    paddingBottom: 50,
     // paddingTop:0,
   },
   taskList: {

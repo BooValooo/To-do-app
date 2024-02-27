@@ -7,7 +7,7 @@ import DV from '../Components/defaultValues';
 import { getAllNotes, getAllTasks, toggleTaskChecked, toggleNoteChecked } from '../Utils/database_utils';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import MonthYearPicker from '../Components/MonthYearPicker';
-import { BlurView } from 'expo-blur';
+// import { BlurView } from 'expo-blur';
 import Filter from './Filter';
 import NoteList from '../Components/NoteList';
 const Calendar = () => {
@@ -182,10 +182,7 @@ const Calendar = () => {
         animationType="slide"
         transparent={true}
       >
-        <BlurView
-        intensity={15}
-        style={StyleSheet.absoluteFillObject} 
-      ></BlurView>
+        
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <MonthYearPicker year={year} month={month} onYearChange={setYear} onMonthChange={setMonth} />

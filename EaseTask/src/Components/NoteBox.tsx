@@ -1,13 +1,18 @@
+// TaskBox.tsx is a component that displays a task with its details and a checkbox to mark it as completed.
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native';
-import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
+// import TaskDetailsModal from './TaskDetailsModal';
 import { useState } from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
-
-const NoteBox = ({ note, onCheckPress, onMenuPress,onDelete}) => {
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
+const NoteBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
+  const [modalVisible, setModalVisible] = useState(false);
   const [swipeableRow, setSwipeableRow] = useState(null);
-
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpand = () => {
+    setIsExpanded(!isExpanded);
+  };
   const renderRightActions = (progress, dragX) => {
     const scale = dragX.interpolate({
       inputRange: [-100, 0],
@@ -18,8 +23,8 @@ const NoteBox = ({ note, onCheckPress, onMenuPress,onDelete}) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          swipeableRow.close(); // Close the swipeable component
-          onDelete(note.id); // Call the onDelete function passed from the parent
+          swipeableRow.close(); 
+          onDelete(task.id); 
         }}
         style={styles.deleteButton}>
         <Animated.Text style={[styles.deleteButtonText, { transform: [{ scale }] }]}>
@@ -29,40 +34,134 @@ const NoteBox = ({ note, onCheckPress, onMenuPress,onDelete}) => {
     );
   };
 
+
+  const handleMenuPressInternal = () => {
+    setModalVisible(true);
+    if (onMenuPress) onMenuPress();
+  }
+
+  // const handleCloseModal = () => {
+  //   setModalVisible(false);
+  // }
+
   return (
     <Swipeable
       ref={(ref) => setSwipeableRow(ref)}
       renderRightActions={renderRightActions}
       rightThreshold={40}
     >
-    <View style={styles.noteContainer}>
-      {/* Title bar */}
-      <View style={styles.titleBar}>
-        <Text style={styles.noteTitle}>{note.name}</Text>
-      </View>
-
-      {/* Note content */}
-      <View style={styles.contentContainer}>
-        <TouchableOpacity onPress={onCheckPress} style={styles.checkbox}>
-          <AntDesign name={note.isChecked ? "checkcircle" : "checkcircleo"} size={24} color={note.isChecked ? "#00E676" : "#BDBDBD"} />
-        </TouchableOpacity>
-        <View style={styles.noteDetails}>
-          <View style={styles.noteMeta}>
-            <MaterialIcons name="location-on" size={16} color="#757575" />
-            <Text style={styles.location}>{note.location}</Text>
-            <Text style={styles.time}>{note.day+'/'+note.month+'  '+note.time}</Text>          
+      <View style={styles.taskContainer}>
+        <View style={styles.row}>
+          <TouchableOpacity onPress={onCheckPress} >
+            {task.isChecked ? (
+              <AntDesign name="checkcircle" size={24} color="green" />
+            ) : (
+              <AntDesign name="checkcircleo" size={24} color="grey" />
+            )}
+          </TouchableOpacity>
+          <Text style={styles.taskName}>
+            {task.name}
+          </Text>
+          <View style={styles.menuButton}>
+          <TouchableOpacity onPress={toggleExpand} style={styles.menuButton}>
+            <FontAwesome name="bars" size={24} color="black" />
+          </TouchableOpacity>
           </View>
+          <View style={styles.taskMeta}>
+                <View style={styles.priorityContainer}>
+                  <Icon name="flag" size={15} color="orange" />
+                  <Text style={styles.priorityText}>{task.priority}</Text>
+                </View>
+                <View style={styles.timeContainer}>
+                  <Icon name="access-time" size={15} color="red" />
+                  <Text style={styles.timeText}>{task.time}</Text>
+                </View>
+                <View style={styles.locationContainer}>
+                  <Icon name="location-on" size={15} color="blue" />
+                  <Text style={styles.locationText}>{task.location}</Text>
+                  </View>
+              </View>
         </View>
-        <TouchableOpacity onPress={onMenuPress} style={styles.menuButton}>
-          <FontAwesome name="bars" size={24} color="black" />
-        </TouchableOpacity>
+        <View style={styles.taskDetails}>
+
+          {isExpanded ? (
+            <View style={styles.expandedDetails}>
+
+              <Text style={styles.noteText}>{task.text}</Text>
+              <Text style={styles.modifiedDate}>Modified Sat, 27 Jan</Text>
+            </View>
+          ) : null}
+        </View>
+
       </View>
-    </View>
     </Swipeable>
   );
 };
 
 const styles = StyleSheet.create({
+  priorityContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginTop: 0,
+    
+  },
+  timeContainer: {
+    marginTop: 4,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  locationContainer: {
+    marginTop: 4,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  priorityText: {
+    marginLeft: 4,
+    color: 'orange',
+  },
+  locationText: {
+    marginLeft: 4,
+    color: 'blue',
+  },
+  timeText: {
+    marginLeft: 4,
+    color: 'red',
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    top: 10,
+  },
+  expandedDetails: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingVertical: 10,
+  },
+  noteText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 32,
+  },
+  modifiedDate: {
+    fontSize: 14,
+    color: '#666',
+  },
+  taskMeta: {
+    position: 'absolute',
+    flex: 1,
+    right: 35,
+  
+    alignItems: 'flex-start',
+
+  },
+  // taskMetaExpanded: {
+  //   position: 'absolute',
+  //   flex: 1,
+  //   right: 35,
+  //   bottom: 91,
+  //   alignItems: 'flex-start',
+  // },
   deleteButton: {
     backgroundColor: 'red',
     justifyContent: 'center',
@@ -75,58 +174,54 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     padding: 20,
   },
-  noteContainer: {
-    marginHorizontal: 16,
-    marginVertical: 8,
+  taskContainer: {
+    backgroundColor: '#e0e0e0',
+
     borderRadius: 8,
-    backgroundColor: '#FFFFFF',
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 1 },
+    // padding: 1,
+    marginHorizontal: 15,
+    marginVertical: 5,
+    borderWidth: 1,
+    borderColor: '#e0e0e0',
+    padding: 16,
+    // borderRadius: 8,
+    shadowColor: 'black',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 4,
+    shadowRadius: 4,
+    elevation: 3,
+    minHeight: 85,
+    // maxWidth: 150
   },
-  titleBar: {
-    backgroundColor: '#C7EE2B',
-    borderTopLeftRadius: 8,
-    borderTopRightRadius: 8,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+
+  taskDetails: {
+    flex: 1,
+    marginLeft: 12,
+    justifyContent: 'center',
   },
-  noteTitle: {
+  taskName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#1B5E20',
-  },
-  contentContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 16,
-  },
-  checkbox: {
-  },
-  noteDetails: {
-    flex: 1,
-    justifyContent: 'center',
+    color: '#333',
+    marginBottom: 1,
     marginLeft: 12,
+
   },
-  noteMeta: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  location: {
+  priority: {
     fontSize: 14,
-    color: '#757575',
+    fontWeight: '600',
+    color: '#ff5252',
     marginRight: 8,
   },
   time: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#D32F2F',
+    color: '#666',
   },
   menuButton: {
-  },
+    position: 'absolute',
+    right: 0,
+    top: 0,},
 });
+// styles TaskBox;
 
 export default NoteBox;
