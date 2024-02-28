@@ -20,7 +20,7 @@ import TagManager from './tagManager';
  */
 const MainScreen = () => {
   // To force UI updates
-  const [update, setUpdate] = useState(1);
+  const [update, setUpdate] = useState(0);
 
   /**
    * Handler for search icon press.
