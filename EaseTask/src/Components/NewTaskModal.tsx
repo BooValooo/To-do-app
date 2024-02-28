@@ -6,10 +6,35 @@ import Headbar from './Headbar';
 import DV from './defaultValues';
 import SelectTag from './SelectTag';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
+import Tag from '../Utils/tag';
 
 const NewTaskModal = ({isVisible, onClose}) => {
+
+    const testTags: Tag[] = [
+        { id: 1, name: 'Tag 1', priority: 1, color: 'red' },
+        { id: 2, name: 'Tag 2', priority: 2, color: 'blue' },
+        { id: 3, name: 'Tag 3', priority: 3, color: 'green' },
+        { id: 4, name: 'Tag 4', priority: 4, color: 'yellow' },
+        { id: 5, name: 'Tag 5', priority: 5, color: 'orange' },
+        { id: 6, name: 'Tag 6', priority: 6, color: 'purple' },
+        { id: 7, name: 'Tag 7', priority: 7, color: 'cyan' },
+        { id: 8, name: 'Tag 8', priority: 8, color: 'magenta' },
+        { id: 9, name: 'Tag 9', priority: 9, color: 'pink' },
+        { id: 10, name: 'Tag 10', priority: 10, color: 'black' },
+        { id: 11, name: 'Tag 1', priority: 1, color: 'red' },
+        { id: 12, name: 'Tag 2', priority: 2, color: 'blue' },
+        { id: 13, name: 'Tag 3', priority: 3, color: 'green' },
+        { id: 14, name: 'Tag 4', priority: 4, color: 'yellow' },
+        { id: 15, name: 'Tag 5', priority: 5, color: 'orange' },
+        { id: 16, name: 'Tag 6', priority: 6, color: 'purple' },
+        { id: 17, name: 'Tag 7', priority: 7, color: 'cyan' },
+        { id: 18, name: 'Tag 8', priority: 8, color: 'magenta' },
+        { id: 19, name: 'Tag 9', priority: 9, color: 'pink' },
+        { id: 20, name: 'Tag 10', priority: 10, color: 'black' }
+    ];
+
     const [name, setName] = useState('');
-    const [tag, setTag] = useState('');
+    const [tag, setTag] = useState(testTags);
     const [text, setText] = useState('');
     const [date, setDate] = useState(new Date())
     const [tags, setTags] = useState([]);       //all Tags
@@ -46,7 +71,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
 
         // Reset input fields and close modal
         setName('');
-        setTag('');
+        setTag([]);
         setDate(new Date());
         setTime(new Date());
         setText('');
@@ -99,12 +124,12 @@ const NewTaskModal = ({isVisible, onClose}) => {
                 <Text style={DV.styles.normalText}>Tag</Text>
 
                 <View style={StyleSheet.compose(DV.styles.entry, styles.noMarginVertical)}>
-                    <Text style={StyleSheet.compose(styles.input, DV.styles.normalText)}>{selectedTagName}</Text>
-                    <TouchableOpacity onPress={() => onOpenTag()} onLayout={handleLayout}>
+                    <TouchableOpacity onPress={() => onOpenTag()} onLayout={handleLayout} style={StyleSheet.compose(DV.styles.entry, DV.styles.resetVerticalMarginAndPadding)}>
+                        <Text style={StyleSheet.compose(styles.input, DV.styles.normalText)}>{selectedTagName}</Text>
                         <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
                     </TouchableOpacity>
                 </View>
-                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
+                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={340} tags={tags} selectedTags={selectedTags}/>
                 {/* <RNPickerSelect
                     onValueChange={(value) => setTag(value)}
                     items={[

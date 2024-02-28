@@ -249,6 +249,14 @@ class DV{
             justifyContent: 'center',
             marginVertical: 20,
         },
+        resetVerticalMarginAndPadding: {
+            marginVertical: 0,
+            marginBottom: 0,
+            marginTop: 0,
+            paddingVertical: 0,
+            paddingBottom: 0,
+            paddingTop: 0
+        }
 
     });
 

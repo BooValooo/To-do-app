@@ -21,7 +21,17 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         { id: 7, name: 'Tag 7', priority: 7, color: 'cyan' },
         { id: 8, name: 'Tag 8', priority: 8, color: 'magenta' },
         { id: 9, name: 'Tag 9', priority: 9, color: 'pink' },
-        { id: 10, name: 'Tag 10', priority: 10, color: 'black' }
+        { id: 10, name: 'Tag 10', priority: 10, color: 'black' },
+        { id: 11, name: 'Tag 1', priority: 1, color: 'red' },
+        { id: 12, name: 'Tag 2', priority: 2, color: 'blue' },
+        { id: 13, name: 'Tag 3', priority: 3, color: 'green' },
+        { id: 14, name: 'Tag 4', priority: 4, color: 'yellow' },
+        { id: 15, name: 'Tag 5', priority: 5, color: 'orange' },
+        { id: 16, name: 'Tag 6', priority: 6, color: 'purple' },
+        { id: 17, name: 'Tag 7', priority: 7, color: 'cyan' },
+        { id: 18, name: 'Tag 8', priority: 8, color: 'magenta' },
+        { id: 19, name: 'Tag 9', priority: 9, color: 'pink' },
+        { id: 20, name: 'Tag 10', priority: 10, color: 'black' }
     ];
 
     const [tasks, setTasks] = useState<Task[]>([]);
@@ -130,7 +140,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
      */
     const [tagVisible, setTagVisible] = useState(false);
 
-    const handleTag = () => {
+    const onOpenTag = () => {
         console.log(buttonPosition.x)
         setTagVisible(true)
     }
@@ -220,15 +230,15 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                     </View>
-                    <View>
+                    <View style={styles.tags}>
                         <View style={DV.styles.entry}>
                             <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
-                            <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
-                            <TouchableOpacity onPress={() => handleTag()} onLayout={handleLayout}>
-                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
+                            <TouchableOpacity onPress={() => onOpenTag()}  style={StyleSheet.compose(DV.styles.entry, DV.styles.resetVerticalMarginAndPadding)}>
+                                <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
+                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon} onLayout={handleLayout} />
                             </TouchableOpacity>
                         </View>
-                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
+                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={360} tags={tags} selectedTags={selectedTags}/>
                     </View>
                     <View style={DV.styles.entry}>    
                         <AntDesign name="search1" size={DV.normalIconSize} color={"green"/* Color was #24A19C */}/>
@@ -276,16 +286,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      modalContainer: {
+    },
+    modalContainer: {
         position: 'absolute',
         backgroundColor: 'white',
         padding: 20,
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 5,
-      },
-    
+    },
+    tags:{
+        flexDirection: 'column',
+    }
 })
 
 export default Filter;
