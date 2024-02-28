@@ -132,7 +132,6 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
     const [tagVisible, setTagVisible] = useState(false);
 
     const onOpenTag = () => {
-        console.log(buttonPosition.x)
         setTagVisible(true)
     }
     const onCloseTag = () => {
@@ -160,19 +159,6 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
             setSelectedTagName(list)
         }
     }
-
-    /* Safes the caller position from the tag modal */
-    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
-
-    /**
-     * Gets the position of the button that was pressed to display the tag Selection
-     * @param event 
-     */
-    const handleLayout = (event) => {
-        const { x, y } = event.nativeEvent.layout;
-        setButtonPosition({ x, y });
-        console.log("Position: " + x + ", " + y)
-    };
 
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
@@ -225,7 +211,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
                             <TouchableOpacity onPress={() => onOpenTag()}  style={StyleSheet.compose(DV.styles.entry, DV.styles.resetVerticalMarginAndPadding)}>
                                 <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
-                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon} onLayout={handleLayout} />
+                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon} />
                             </TouchableOpacity>
                         </View>
                         <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={360} tags={tags} selectedTags={selectedTags}/>
