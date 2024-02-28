@@ -125,40 +125,54 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         close();
     }
 
-  /**
-   * State for tag selection visibility
-   */
-  const [tagVisible, setTagVisible] = useState(false);
+    /**
+     * State for tag selection visibility
+     */
+    const [tagVisible, setTagVisible] = useState(false);
 
-  const handleTag = () => {
-    console.log(buttonPosition.x)
-    setTagVisible(true)
-  }
-  const onCloseTag = () => {
-    setTagVisible(false);
-  }
+    const handleTag = () => {
+        console.log(buttonPosition.x)
+        setTagVisible(true)
+    }
+    const onCloseTag = () => {
+        setTagVisible(false);
+    }
 
-  const [selectedTagName, setSelectedTagName] = useState("Tags:");
-  const [tags, setTags] = useState<Tag[]>(testTags);                    /* should be updated with all tags when tagManager changes them */
-  const [selectedTags, setSelectedTags] = useState<Tag[]>(testTags);    /* should remove tag when tagManager deletes one */
+    /*                                         tag selection                                                       */
+    const allTagsSelected = "all Tags"
+    const [tags, setTags] = useState<Tag[]>(testTags);                    /* should be updated with all tags when tagManager changes them */
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(testTags.filter(tag => tag.color.length < 5));    /* should remove tag when tagManager deletes one */
+    const [selectedTagName, setSelectedTagName] = useState(allTagsSelected);
 
-  const handleTags = (newTags) => {
-    setSelectedTags(newTags)
-    let list = ""
-    tags.forEach(tag => {
-        list += tag.name + ", "
-    })
-    setSelectedTagName(list)
-  }
+    /**
+     * Changes selectedTags to newTags. Creates a comma seperated list of the name of all selected Tags
+     * @param newTags 
+     */
+    const handleTags = (newTags) => {
+        setSelectedTags(newTags)
+        if (selectedTags.length == tags.length){
+            setSelectedTagName(allTagsSelected);
+        } else {
+            let list = ""
+            tags.forEach(tag => {
+                list += tag.name + ", "
+            })
+            setSelectedTagName(list)
+        }
+    }
 
-  /* Safes the caller position from the tag modal */
-  const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+    /* Safes the caller position from the tag modal */
+    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
 
-  const handleLayout = (event) => {
-    const { x, y } = event.nativeEvent.layout;
-    setButtonPosition({ x, y });
-    console.log("Position: " + x + ", " + y)
-  };
+    /**
+     * Gets the position of the button that was pressed to display the tag Selection
+     * @param event 
+     */
+    const handleLayout = (event) => {
+        const { x, y } = event.nativeEvent.layout;
+        setButtonPosition({ x, y });
+        console.log("Position: " + x + ", " + y)
+    };
 
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
@@ -210,7 +224,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                         <View style={DV.styles.entry}>
                             <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
                             <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
-                            <TouchableOpacity onPress={handleTag} onLayout={handleLayout}>
+                            <TouchableOpacity onPress={() => handleTag()} onLayout={handleLayout}>
                                 <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
                             </TouchableOpacity>
                         </View>
