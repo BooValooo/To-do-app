@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppContainer from './src/Components/app-container';
 import Navigator from './src';
-import { deleteAllDataFromTable, databaseInit, createTask, printAllTasks, createNote, printAllNotes } from './src/Utils/database_utils';
+import { deleteAllDataFromTable, databaseInit, createTask, printAllTasks, createNote, printAllNotes, createTagDB, addTagTask, addTagNote } from './src/Utils/database_utils';
 import OnBoarding1 from './src/Views/OnBoarding1';
 import { ActivityIndicator, View } from 'react-native';
 import OnBoarding2 from './src/Views/OnBoarding2';
@@ -38,11 +38,21 @@ function OnBoardingTabs() {
     async function initializeDatabase() {
       try {
         databaseInit();
-        createTask("Test 1", "priority 1", 2024, 2, 12, "8:30 PM", "This is a task");
-        createTask("Test 2", "priority 3", 2024, 2, 15, "5:30 AM", "This is a task");
-        createTask("Test 3", "priority 2", 2024, 2, 15, "6:15 PM", "This is a task");
-        createNote("Note 1", "priority 1", 2024, 2, 16, "10:30 AM", "Paris", "This is a new note");
-        createNote("Note 2", "priority 2", 2024, 2, 20, "11:45 PM", "Upsalla", "This is a new note")
+        createTask("Test 1", 2024, 2, 12, "8:30 PM", "This is a task");
+        createTask("Test 2", 2024, 2, 15, "5:30 AM", "This is a task");
+        createTask("Test 3", 2024, 2, 15, "6:15 PM", "This is a task");
+        createNote("Note 1", 2024, 2, 16, "10:30 AM", "Paris", "This is a new note. The text to describe this note is very long.");
+        createNote("Note 2", 2024, 2, 20, "11:45 PM", "Upsalla", "This is a new note");
+        createTagDB(1,"School",0,"darkcyan");
+        createTagDB(2,"Friends",1,"darkgray");
+        createTagDB(3,"Domestic chores",2,"darkgreen");
+        addTagTask(1,1);
+        addTagTask(1,2);
+        addTagTask(1,3);
+        addTagTask(2,3);
+        addTagNote(1,1);
+        addTagNote(1,2);
+        addTagNote(1,3);
         printAllTasks();
         printAllNotes();
       } catch (error) {

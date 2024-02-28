@@ -5,25 +5,25 @@ import { useState } from "react";
 
 const SelectTag = ({isVisible, onClose, setTags, topPosition, tags, selectedTags}) => {
     const addTag = (tag: Tag) => {
-        if (!selectedTags.includes(tag)){
+        if (!selectedTags.some(selectedTag => selectedTag.id === tag.id)){
             let insertIndex = 0;
             while (insertIndex < selectedTags.length && selectedTags[insertIndex].priority < tag.priority) {
                 insertIndex++;
             }
             const updatedTags = [...selectedTags.slice(0, insertIndex), tag, ...selectedTags.slice(insertIndex)];
             selectedTags = updatedTags;
-            setTags(updatedTags);
+            setTags(selectedTags);
         } else {
             console.warn(tag.id + " is already in selected Tags");
         }
     }
 
     const removeTag = (tag: Tag) => {
-        if(selectedTags.includes(tag)){
+        if(selectedTags.some(selectedTag => selectedTag.id === tag.id)){
             const removeIndex = selectedTags.findIndex(t => t.id === tag.id);
             const updatedTags = [...selectedTags.slice(0, removeIndex), ... selectedTags.slice(removeIndex + 1)];
             selectedTags = updatedTags;
-            setTags(updatedTags);
+            setTags(selectedTags);
         } else {
             console.warn(tag.id + " wasn't in selected Tags");
         }
@@ -52,7 +52,7 @@ const SelectTag = ({isVisible, onClose, setTags, topPosition, tags, selectedTags
         <Modal transparent={true} visible={isVisible} animationType="slide" onRequestClose={onClose} >
             <TouchableOpacity onPress={onClose} style={styles.modalOverlay} />
             <ScrollView style={StyleSheet.compose(position(topPosition).top, styles.box)}>
-                    {tags.map((tag) => <SelectTagEntry key={tag.id} isSelected={selectedTags.includes(tag)} tag={tag} onPress={handlePress}/>
+                    {tags.map((tag) => <SelectTagEntry key={tag.id} isSelected={selectedTags.some(selectedTag => selectedTag.id === tag.id)} tag={tag} onPress={handlePress}/>
                     )}
             </ScrollView>
         </Modal>
