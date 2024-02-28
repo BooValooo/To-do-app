@@ -7,8 +7,22 @@ import Headbar from '../Components/Headbar';
 import Note from '../Utils/note';
 import Task from '../Utils/task';
 import { getAllNotes, getAllTasks } from '../Utils/database_utils';
+import SelectTag from '../Components/SelectTag';
+import Tag from '../Utils/tag';
 
 const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
+    const testTags: Tag[] = [
+        { id: 1, name: 'Tag 1', priority: 1, color: 'red' },
+        { id: 2, name: 'Tag 2', priority: 2, color: 'blue' },
+        { id: 3, name: 'Tag 3', priority: 3, color: 'green' },
+        { id: 4, name: 'Tag 4', priority: 4, color: 'yellow' },
+        { id: 5, name: 'Tag 5', priority: 5, color: 'orange' },
+        { id: 6, name: 'Tag 6', priority: 6, color: 'purple' },
+        { id: 7, name: 'Tag 7', priority: 7, color: 'cyan' },
+        { id: 8, name: 'Tag 8', priority: 8, color: 'magenta' },
+        { id: 9, name: 'Tag 9', priority: 9, color: 'pink' },
+        { id: 10, name: 'Tag 10', priority: 10, color: 'black' }
+    ];
 
     const [tasks, setTasks] = useState<Task[]>([]);
     const [notes, setNotes] = useState<Note[]>([]);
@@ -111,6 +125,55 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         close();
     }
 
+    /**
+     * State for tag selection visibility
+     */
+    const [tagVisible, setTagVisible] = useState(false);
+
+    const handleTag = () => {
+        console.log(buttonPosition.x)
+        setTagVisible(true)
+    }
+    const onCloseTag = () => {
+        setTagVisible(false);
+    }
+
+    /*                                         tag selection                                                       */
+    const allTagsSelected = "all Tags"
+    const [tags, setTags] = useState<Tag[]>(testTags);                    /* should be updated with all tags when tagManager changes them */
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(testTags.filter(tag => tag.color.length < 5));    /* should remove tag when tagManager deletes one */
+    const [selectedTagName, setSelectedTagName] = useState(allTagsSelected);
+
+    /**
+     * Changes selectedTags to newTags. Creates a comma seperated list of the name of all selected Tags
+     * @param newTags 
+     */
+    const handleTags = (newTags) => {
+        setSelectedTags(newTags)
+        if (newTags.length == tags.length){
+            setSelectedTagName(allTagsSelected);
+        } else {
+            let list = ""
+            newTags.forEach(tag => {
+                list += tag.name + ", "
+            })
+            setSelectedTagName(list)
+        }
+    }
+
+    /* Safes the caller position from the tag modal */
+    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
+
+    /**
+     * Gets the position of the button that was pressed to display the tag Selection
+     * @param event 
+     */
+    const handleLayout = (event) => {
+        const { x, y } = event.nativeEvent.layout;
+        setButtonPosition({ x, y });
+        console.log("Position: " + x + ", " + y)
+    };
+
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
             <View style={DV.styles.background}>
@@ -145,7 +208,6 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                         <Text style={DV.styles.normalText}>:</Text>
-
                         <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
                             <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{endDateText}</Text>
                         </TouchableOpacity>
@@ -158,9 +220,15 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                     </View>
-                    <View style={DV.styles.entry}>
-                        <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
-                        <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>"Tags"</Text>
+                    <View>
+                        <View style={DV.styles.entry}>
+                            <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
+                            <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
+                            <TouchableOpacity onPress={() => handleTag()} onLayout={handleLayout}>
+                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
+                            </TouchableOpacity>
+                        </View>
+                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
                     </View>
                     <View style={DV.styles.entry}>    
                         <AntDesign name="search1" size={DV.normalIconSize} color={"green"/* Color was #24A19C */}/>
@@ -197,7 +265,27 @@ const styles = StyleSheet.create({
     },
     centeredText: {
         marginTop: 5
-    }
+    },
+    negateMarginToIcon: {
+        marginLeft: -15 - DV.normalIconSize
+    },
+    modalStyle: {
+        verticalAlign: 'bottom'
+    },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      modalContainer: {
+        position: 'absolute',
+        backgroundColor: 'white',
+        padding: 20,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+      },
+    
 })
 
 export default Filter;
