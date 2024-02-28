@@ -4,15 +4,17 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { createTask, getAllTags } from '../Utils/database_utils';
 import Headbar from './Headbar';
 import DV from './defaultValues';
-import RNPickerSelect from 'react-native-picker-select';
+import SelectTag from './SelectTag';
+import { AntDesign, Fontisto } from '@expo/vector-icons';
 
 const NewTaskModal = ({isVisible, onClose}) => {
     const [name, setName] = useState('');
     const [tag, setTag] = useState('');
     const [text, setText] = useState('');
     const [date, setDate] = useState(new Date())
-    const [tags, setTags] = useState([]);
-    const [selectedTags, setSelectedTags] = useState([]);
+    const [tags, setTags] = useState([]);       //all Tags
+    const [selectedTags, setSelectedTags] = useState([]);   // only selected once
+    const [selectedTagName, setSelectedTagName] = useState("");
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [time, setTime] = useState(new Date())
     const [showTimePicker, setShowTimePicker] = useState(false);
@@ -55,6 +57,29 @@ const NewTaskModal = ({isVisible, onClose}) => {
         getAllTags(setTags);
       }, []);
 
+    const handleTags = (newTags) => {
+        setSelectedTags(newTags)
+        let listOfNames = ""
+        newTags.forEach(tag => {
+            listOfNames += tag.name + ", "
+        });
+        setSelectedTagName(listOfNames);
+    }
+    const [tagVisible, setTagVisible] = useState(false);
+    const onCloseTag = () => {
+        setTagVisible(false);
+    }
+    const onOpenTag = () => {
+        setTagVisible(true);
+    }
+    const [buttonPosition, setButtonPosition] = useState({x: 0, y: 0});
+    const handleLayout = (event) => {
+        const { x, y } = event.nativeEvent.layout;
+        setButtonPosition({ x, y });
+        console.log("Position: " + x + ", " + y)
+    };
+
+
     return (
         <Modal
             animationType="slide"
@@ -72,6 +97,14 @@ const NewTaskModal = ({isVisible, onClose}) => {
                     onChangeText={setName}
                 />
                 <Text style={DV.styles.normalText}>Tag</Text>
+
+                <View style={DV.styles.entry}>
+                    <Text style={StyleSheet.compose(styles.input, DV.styles.normalText)}>{selectedTagName}</Text>
+                    <TouchableOpacity onPress={() => onOpenTag()} onLayout={handleLayout}>
+                        <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
+                    </TouchableOpacity>
+                </View>
+                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
                 <TextInput
                     style={styles.input}
                     placeholder="Tag"
@@ -184,6 +217,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000000',
         textAlign: 'center',
+    },
+    negateMarginToIcon: {
+        marginLeft: -15 - DV.normalIconSize,
+        marginTop: -15
     },
 });
 
