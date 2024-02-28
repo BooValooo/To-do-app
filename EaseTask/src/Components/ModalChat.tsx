@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TextInput, TouchableOpacity, Image, StyleSheet, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-
+import axios from 'axios';
 /**
  * Represents a chat modal component.
  * @param {boolean} isVisible - Indicates whether the modal is visible or not.
@@ -25,8 +25,26 @@ const ChatModal = ({ isVisible, onClose }) => {
         setMessages([initialMessage]);
     }, []);
     const sendToBackend = async (message) => {
-        const backendResponse = await mockBackendResponse(message);
-        setMessages(prevMessages => [...prevMessages, backendResponse]);
+        try {
+            const response = await axios.post(
+                'https://api.openai.com/v1/chat/completions',
+                {
+                    model: "gpt-3.5-turbo-0125", 
+                    messages: [{ role: "user", content: message }],
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer `,// Add token here
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+    
+            const backendResponse = response.data.choices[0].message.content;
+            setMessages(prevMessages => [...prevMessages, { text: backendResponse, sent: new Date(), from: 'AI' }]);
+        } catch (error) {
+            console.error('There was an error sending the message to OpenAI:', error);
+        }
     };
 
     const sendMessage = () => {
