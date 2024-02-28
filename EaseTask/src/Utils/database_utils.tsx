@@ -50,13 +50,16 @@ export const deleteAllDataFromTable = (tablename) => {
 
 
 // Insert a new task into the table
-export async function createTask (name, year, month, day, time, text) {
+export function createTask (name, year, month, day, time, text, tags=[]) {
   database.transaction((tx) => {
     tx.executeSql(
       'INSERT INTO tasks (name, year, month, day, time, text, isChecked) VALUES (?,?,?,?,?,?,0);',
       [name, year, month, day, time, text],
       (_, result) => {
-        console.log('Task created successfully');
+        const insertedId = result.insertId; // Get the id of the inserted task
+        console.log('Task created successfully with id:', insertedId);
+        const createLinks = (tag) => {addTagTask(insertedId,tag.id)};
+        tags.forEach(createLinks);
       },
       (_, error) => {
         console.error('Error creating task:', error);

@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
   },
   priorityText: {
     marginLeft: 4,
-    color: 'orange',
   },
   timeText: {
     marginLeft: 4,
@@ -196,7 +195,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 1,
     marginLeft: 12,
-
+    marginRight: 180,
   },
   priority: {
     fontSize: 14,

@@ -44,8 +44,8 @@ function OnBoardingTabs() {
         createNote("Note 1", 2024, 2, 16, "10:30 AM", "Paris", "This is a new note. The text to describe this note is very long.");
         createNote("Note 2", 2024, 2, 20, "11:45 PM", "Upsalla", "This is a new note");
         createTagDB(1,"School",0,"darkcyan");
-        createTagDB(2,"Friends",0,"darkgray");
-        createTagDB(3,"Domestic chores",0,"darkgreen");
+        createTagDB(2,"Friends",1,"darkgray");
+        createTagDB(3,"Domestic chores",2,"darkgreen");
         addTagTask(1,1);
         addTagTask(1,2);
         addTagTask(1,3);

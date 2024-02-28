@@ -73,21 +73,21 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         setShowFinishedTasks(!showFinishedTasks);
     }
 
-    // Fetches the tasks and notes in the DB (only once)
+    // Fetches the tasks and notes in the DB 
     useEffect(() => {
         getAllNotes(setNotes);
         getAllTasks(setTasks);
         getAllTags(setTags);
         getAllTags(setSelectedTags);
-    }, []);
+    }, [isVisible]);
 
     const filterTask = () => {
         const filtering = tasks.filter((task) => {
             const date = new Date(task.year,task.month - 1,task.day);
-            const taskHasSelectedTag = task.tags.some(taskTag => {
+            const taskHasSelectedTag = selectedTags.length != tags.length ? task.tags.some(taskTag => {
                 // Check if any of the task's tags exists in the selectedTags array
                 return selectedTags.some(selectedTag => selectedTag.id === taskTag.id);
-            });
+            }) : true;
             return (showTask &&
                 date >= startDate &&
                 date <= endDate &&
@@ -102,10 +102,10 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
     const filterNote = () => {
         const filtering = notes.filter((note) => {
             const date = new Date(note.year,note.month - 1,note.day);
-            const noteHasSelectedTag = note.tags.some(noteTag => {
+            const noteHasSelectedTag = selectedTags.length != tags.length ? note.tags.some(noteTag => {
                 // Check if any of the notes's tags exists in the selectedTags array
                 return selectedTags.some(selectedTag => selectedTag.id === noteTag.id);
-            });
+            }) : true;
             return (showNote &&
                 date >= startDate &&
                 date <= endDate &&
