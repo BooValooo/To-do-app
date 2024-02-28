@@ -1,13 +1,15 @@
 import { Platform, StyleSheet } from "react-native";
 
 class DV{
-
-    // All
+    // Light Mode
     public static readonly backgroundColor: '#FFFFFF';
     public static fontColor: '#000000';
+
+    //Icons
     public static readonly bigIconSize = 30;
     public static readonly normalIconSize = 24;
 
+    // OS Depending styles
     private static appleStyles = {
         headerSubcaptionText:{
             fontSize: 16,
@@ -26,12 +28,14 @@ class DV{
 
     }
 
-    //Styles
+    //all Styles
     private static globalStyles = StyleSheet.create({
-        // All
+        // background
         background:{
             backgroundColor: DV.backgroundColor,
         },
+
+        // text
         normalText:{
             fontSize: 18,
             fontWeight: 'bold',
@@ -43,15 +47,17 @@ class DV{
             color: DV.fontColor,
         },
 
+
+
         // Header
-        headerCaptionText:{
+        headerCaptionText:{                         // in Headbar and Onboarding
               fontSize: 32,
               fontWeight: 'bold',
               color: DV.fontColor,
         },
 
         // Settings
-        settingsEntry:{
+        settingsEntry:{                             // In SettingsShow and SettingsToggle
             marginHorizontal: 5,
             marginVertical: 4,
             padding: 5,
@@ -59,25 +65,20 @@ class DV{
         },
 
         // OnBoardingHeader
-        onBoardingHeader:{
+        onBoardingHeader:{                          // In OnBoarding 1 and 2
             padding: 40
         },
-        onBoardingBackGround:{
-            backgroundColor: '#FFFFFF',
-            alignItems: 'center',
-            textAlign: 'center',
-        },
-        onBoardingCaption:{
+        onBoardingCaption:{                         // In OnBoarding 1 and 2
             paddingTop: 40,
             textAlign: 'center',
         },
-        onBoardingText:{
+        onBoardingText:{                            // In OnBoarding 1 and 2
             textAlign: 'center',
             paddingVertical: 20,
         },
 
             // CalendarMonth
-        monthContainer: {
+        monthContainer: {                           // In CalenderMonth
             flexDirection: 'column',
             justifyContent: 'space-between',
             marginBottom: 20,
@@ -85,66 +86,66 @@ class DV{
             },
         
         // Calendar
-        calendarScrollView: {
+        calendarScrollView: {                       // In Calendar
             flex: 1,
             backgroundColor: '#fff',
             // paddingBottom: 100,
             },
-        calendarScrollViewContent: {
+        calendarScrollViewContent: {                // In Calendar
             flexGrow: 1,
             alignItems: 'center',
             paddingBottom: 100,
             },
-        calendarScrollViewContentExtended: {
+        calendarScrollViewContentExtended: {        // In Calendar
             flexGrow: 1,
             alignItems: 'center',
             paddingTop: 100, // Adjust as needed for your extended view
             paddingBottom: 100,
             },
-        calendarContainer: {
+        calendarContainer: {                        // In Calendar
             flex: 1,
             backgroundColor: '#fff',
             },
             //AI Chat Bot
-        AIkeyboardAvoidingView: {
+        AIkeyboardAvoidingView: {                   // Not used
             flex: 1,
             justifyContent: 'flex-end',
         },
-        AIcontainer: {
+        AIcontainer: {                              // Not used
             backgroundColor: '#FFF',
             paddingTop: 20,
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
             maxHeight: '50%',
         },
-        AImessagesContainer: {
+        AImessagesContainer: {                      // Not used
             paddingHorizontal: 10,
         },
-        AIinputContainer: {
+        AIinputContainer: {                         // Not used
             borderTopWidth: 1,
             borderColor: '#EEE',
             padding: 10,
         },
-        AIinput: {
+        AIinput: {                                  // Not used
             height: 40,
             borderWidth: 1,
             borderRadius: 20,
             paddingHorizontal: 15,
         },
         //taskbox
-        deleteButton: {
+        deleteButton: {                             // In NoteBox and TaskBox
             backgroundColor: 'red',
             justifyContent: 'center',
             alignItems: 'flex-end',
             flex: 1,
             paddingRight: 20,
           },
-          deleteButtonText: {
+          deleteButtonText: {                       // In NoteBox and TaskBox
             color: 'white',
             fontWeight: '600',
             padding: 20,
           },
-          taskContainer: {
+          taskContainer: {                          // In NoteBox and TaskBox
             flexDirection: 'row',
             // flex: 1,
             alignItems: 'center',
@@ -163,45 +164,45 @@ class DV{
             shadowOpacity: 0.22, 
             shadowRadius: 2.22, 
           },
-          checkbox: {
+          checkbox: {                               // empty but in Onboarding2, SettingsShow, SettingsToggle
             // style for the checkbox container, TODO: add styles if needed
           },
-          taskDetails: {
+          taskDetails: {                            // In NoteBox and TaskBox
             flex: 1,
             marginLeft: 12,
             justifyContent: 'center',
           },
-          taskName: {
+          taskName: {                               // In database_utils, NoteBox and TaskBox
             fontSize: 18,
             fontWeight: 'bold',
             color: '#333',
             marginBottom: 4,
           },
-          taskMeta: {
+          taskMeta: {                               // In NoteBox and TaskBox
             flexDirection: 'row',
             alignItems: 'center',
           },
-          priority: {
+          priority: {                               // In NoteBox and TaskBox   
             fontSize: 14,
             fontWeight: '600',
             color: '#ff5252',
             marginRight: 8,
           },
-          time: {
+          time: {                                   // In NoteBox and TaskBox
             fontSize: 14,
             color: '#666',
           },
-          menuButton: {
+          menuButton: {                             // empty but in NoteBox and TaskBox
             // Style if needed
           },
 
         // Filter
-        entryContainer:{
+        entryContainer:{                            // In tagManager, Filter
             flexDirection: 'column',
             alignItems: 'flex-start',
             marginStart: 12,
         },
-        taskNoteContainer: {
+        taskNoteContainer: {                        // In Filter
             width: 310,
             height: 50,
             borderRadius: 25,
@@ -213,20 +214,20 @@ class DV{
             justifyContent: 'space-evenly',
             marginLeft: 14
         },
-        taskNoteUnpressed:{
+        taskNoteUnpressed:{                         // in Filter (could be used in SelectTag/Entry)
             backgroundColor: 'lightgray',
             marginVertical: 0,
         },
-        taskNotePressed: {
+        taskNotePressed: {                          // in Filter (could be used in SelectTag/Entry)
             backgroundColor: 'white',
             marginVertical: 0,
         },
-        entry: {
+        entry: {                                    // in tagManager, Filter, NewTaskModal
             flexDirection: 'row',
             alignItems: 'center',
             marginVertical: 10
         },
-        entryField: {
+        entryField: {                               // in Filter
             backgroundColor: 'lightgray',
             width: 330,
             height: 40,
@@ -234,12 +235,12 @@ class DV{
             paddingLeft: 10,
             marginLeft: 5,
             textAlignVertical: 'center',
-        },
-        dateField: {
+        },                                          
+        dateField: {                                // in Filter
             width: 156,
             marginHorizontal: 5,
         },
-        closeButton: {
+        closeButton: {                              // in tagManager and Filter
             height: 40,
             width: 150,
             borderRadius: 20,
@@ -249,7 +250,7 @@ class DV{
             justifyContent: 'center',
             marginVertical: 20,
         },
-        resetVerticalMarginAndPadding: {
+        resetVerticalMarginAndPadding: {            // in Filter and NewTaskModal
             marginVertical: 0,
             marginBottom: 0,
             marginTop: 0,
@@ -260,15 +261,23 @@ class DV{
 
     });
 
+    // merged styles
     public static styles = StyleSheet.create(Platform.OS === 'android' ? {...DV.globalStyles, ...DV.androidStyles} : {...DV.globalStyles, ...DV.appleStyles});
-    public static tagColorStyles = (color) => StyleSheet.create({
-        circle: {
+
+    // styles depending on Color
+    public static colorStyles = (color) => StyleSheet.create({
+        circle: {                                   // In ColorSelection, SelectTagEntry, TagEntry
             height: DV.normalIconSize,
             width: DV.normalIconSize,
             borderRadius: DV.normalIconSize,
             backgroundColor: color,
             alignSelf: 'center'
-        }
+        },
+        onBoardingBackGround:{                      // In OnBoarding 1 and 2
+            backgroundColor: color,
+            alignItems: 'center',
+            textAlign: 'center',
+        },
     });
 
 }

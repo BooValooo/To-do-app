@@ -13,6 +13,7 @@ const OnBoarding2 = () => {
     const buText = "Sign in with Google"
     const checkText = "I accept the terms and privacy policy"
 
+    
     const handleButton = () => {
         console.log('Press!');
     }
@@ -25,7 +26,7 @@ const OnBoarding2 = () => {
       };
 
     return (
-        <View style={StyleSheet.compose(style.onBoardingBackGround, styles.background)}>
+        <View style={DV.colorStyles('#5352ED88').onBoardingBackGround}>
             <Text style={StyleSheet.compose(style.onBoardingHeader, style.headerCaptionText)}>{header}</Text>
             <Image
             source={require('../Assets/OnBoarding2.png')}
@@ -51,9 +52,6 @@ const OnBoarding2 = () => {
 }
 
 const styles = StyleSheet.create({
-    background:{
-        backgroundColor: '#5352ED88',
-    },
     checkbox:{
         flexDirection: 'row', // Change to row to display items horizontally
         justifyContent: 'space-between',

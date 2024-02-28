@@ -13,7 +13,7 @@ const SelectTagEntry = ({isSelected, tag, onPress}) => {
 
     return(
         <TouchableOpacity onPress={() => handlePress()} style={StyleSheet.compose(styles.box, isPressed?styles.pressed:styles.unpressed)}>
-            <View style={DV.tagColorStyles(tag.color).circle}/>
+            <View style={DV.colorStyles(tag.color).circle}/>
             <Text style={DV.styles.normalText}>{tag.name}</Text>
         </TouchableOpacity>
     )
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     pressed: {
-        backgroundColor: 'cyan',
+        backgroundColor: 'cyan',    // maybe green for dark mode
     },
     unpressed: {
         backgroundColor: 'gray',

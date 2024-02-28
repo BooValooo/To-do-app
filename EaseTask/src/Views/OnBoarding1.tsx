@@ -16,16 +16,15 @@ const OnBoarding1 = () => {
         // navigation.navigate(OnBoarding2);
     }
 
-
     return (
-        <View style={StyleSheet.compose(style.onBoardingBackGround, styles.background)}>
+        <View style={DV.colorStyles('#FF634888').onBoardingBackGround}>
             <Text style={StyleSheet.compose(style.headerCaptionText, style.onBoardingHeader)}>{header}</Text>
             <Image
             source={require('../Assets/OnBoarding1.png')}
             style={styles.image}
             resizeMode="contain" // Optional: Adjust the resizeMode as needed
               />
-            <Text style={StyleSheet.compose(style.normalText, style.onBoardingText)}>{caption}</Text>
+            <Text style={StyleSheet.compose(style.normalText, style.onBoardingCaption)}>{caption}</Text>
             <Text style={StyleSheet.compose(style.smallText, style.onBoardingText)}>{text}</Text>
             <TouchableOpacity onPress={() => handleButton()} style={[styles.button]}>
                 <Text style={styles.buttonText}>{buText}</Text>
@@ -35,9 +34,6 @@ const OnBoarding1 = () => {
 }
 
 const styles = StyleSheet.create({
-    background: {
-        backgroundColor: '#FF634888',
-    },
     buttonText:{
         fontSize: 18,
         fontWeight: 'bold',
