@@ -1,4 +1,4 @@
-import { View, Modal, StyleSheet, Touchable } from "react-native";
+import { View, Modal, StyleSheet, Touchable, ScrollView } from "react-native";
 import SelectTagEntry from "./SelectTagEntry";
 import Tag from "../Utils/tag";
 import { useState } from "react";
@@ -50,10 +50,10 @@ const SelectTag = ({isVisible, onClose, setTags, topPosition, tags, selectedTags
 
     return(
         <Modal transparent={true} visible={isVisible} animationType="slide" onRequestClose={onClose} >
-            <View style={StyleSheet.compose(position(topPosition).top, styles.box)}>
-                {tags.map((tag) => <SelectTagEntry key={tag.id} isSelected={selectedTags.includes(tag)} tag={tag} onPress={handlePress}/>
-                )}
-            </View>
+            <ScrollView style={StyleSheet.compose(position(topPosition).top, styles.box)}>
+                    {tags.map((tag) => <SelectTagEntry key={tag.id} isSelected={selectedTags.includes(tag)} tag={tag} onPress={handlePress}/>
+                    )}
+            </ScrollView>
         </Modal>
     );
 }
@@ -62,7 +62,6 @@ const position = (topPosition) => StyleSheet.create({
         top: {
             position: 'absolute',
             top: topPosition - 55,
-            borderWidth: 1
         }
     });
 
@@ -74,6 +73,8 @@ const styles = StyleSheet.create({
         margin: 10,
         minHeight: 10,
         borderBottomWidth: 2,
+        maxHeight: 250,
+        flex: 1,
     },
 });
 
