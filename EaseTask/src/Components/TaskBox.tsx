@@ -39,6 +39,27 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
     );
   };
 
+  const renderLeftActions = (progress, dragX) => {
+    const scale = dragX.interpolate({
+      inputRange: [0, 100],
+      outputRange: [0, 1],
+      extrapolate: 'clamp',
+    });
+
+    return (
+      <TouchableOpacity
+        onPress={() => {
+          swipeableRow.close(); 
+          onDelete(task.id); 
+        }}
+        style={styles.deleteButton}>
+        <Animated.Text style={[styles.deleteButtonText, { transform: [{ scale }] }]}>
+          Delete
+        </Animated.Text>
+      </TouchableOpacity>
+    );
+  };
+
 
   const handleMenuPressInternal = () => {
     setModalVisible(true);
@@ -53,6 +74,7 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
     <Swipeable
       ref={(ref) => setSwipeableRow(ref)}
       renderRightActions={renderRightActions}
+      renderLeftActions={renderLeftActions}
       rightThreshold={40}
     >
       <View style={[styles.taskContainer, { minHeight: minHeight }]}>
