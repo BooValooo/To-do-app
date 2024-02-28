@@ -36,7 +36,6 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: 'white',
-    paddingTop: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     width: '100%',

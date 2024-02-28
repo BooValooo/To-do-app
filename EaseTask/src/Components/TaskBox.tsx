@@ -89,7 +89,7 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
           {isExpanded ? (
             <View style={styles.expandedDetails}>
 
-              <Text style={styles.noteText}>{task.text}</Text>
+              <Text style={[styles.noteText, {marginTop: 32+ minHeight-85}]}>{task.text}</Text>
               <Text style={styles.modifiedDate}>Modified Sat, 27 Jan</Text>
             </View>
           ) : null}

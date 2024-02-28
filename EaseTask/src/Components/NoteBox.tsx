@@ -93,7 +93,7 @@ const NoteBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
           {isExpanded ? (
             <View style={styles.expandedDetails}>
 
-              <Text style={styles.noteText}>{task.text}</Text>
+              <Text style={[styles.noteText, {marginTop: 32+ minHeight-85}]}>{task.text}</Text>
               <Text style={styles.modifiedDate}>Modified Sat, 27 Jan</Text>
             </View>
           ) : null}
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
   noteText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 32,
   },
   modifiedDate: {
     fontSize: 14,

@@ -40,7 +40,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
         console.log('Task created:', { name, tag, date, time, text });
 
         // Call the createTask function to insert the task into the database
-        createTask(name, tag, year, month, day, timeTask, text);
+        createTask(name, year, month, day, timeTask, text);
 
         // Reset input fields and close modal
         setName('');
