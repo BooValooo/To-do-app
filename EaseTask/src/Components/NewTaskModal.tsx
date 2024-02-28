@@ -98,19 +98,13 @@ const NewTaskModal = ({isVisible, onClose}) => {
                 />
                 <Text style={DV.styles.normalText}>Tag</Text>
 
-                <View style={DV.styles.entry}>
+                <View style={StyleSheet.compose(DV.styles.entry, styles.noMarginVertical)}>
                     <Text style={StyleSheet.compose(styles.input, DV.styles.normalText)}>{selectedTagName}</Text>
                     <TouchableOpacity onPress={() => onOpenTag()} onLayout={handleLayout}>
                         <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
                     </TouchableOpacity>
                 </View>
                 <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Tag"
-                    value={tag}
-                    onChangeText={setTag}
-                />
                 {/* <RNPickerSelect
                     onValueChange={(value) => setTag(value)}
                     items={[
@@ -221,6 +215,9 @@ const styles = StyleSheet.create({
     negateMarginToIcon: {
         marginLeft: -15 - DV.normalIconSize,
         marginTop: -15
+    },
+    noMarginVertical: {
+        marginVertical: 0,
     },
 });
 
