@@ -9,13 +9,25 @@ export const database = SQLite.openDatabase('EaseTask.db');
 // We still have to decide on how to represent the data...
 export const databaseInit = () =>
   database.transaction(tx => {
-    tx.executeSql("DROP TABLE tasks;");
-    tx.executeSql("DROP TABLE notes;");
+    tx.executeSql("DROP TABLE IF EXISTS tasks;");
+    tx.executeSql("DROP TABLE IF EXISTS notes;");
+    tx.executeSql("DROP TABLE IF EXISTS tags;");
+    tx.executeSql("DROP TABLE IF EXISTS taskTags;");
+    tx.executeSql("DROP TABLE IF EXISTS noteTags;");
     tx.executeSql(
       "CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, text TEXT);"
-        );
+    );
     tx.executeSql(
       "CREATE TABLE IF NOT EXISTS notes (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority TEXT, year INTEGER, month INTEGER, day INTEGER, time TEXT, isChecked INTEGER, location TEXT, text TEXT);"
+    );
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS tags (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, priority INTEGER, color TEXT);"
+    );
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS taskTags (id INTEGER PRIMARY KEY AUTOINCREMENT, idTask INTEGER, idTag INTEGER);"
+    );
+    tx.executeSql(
+      "CREATE TABLE IF NOT EXISTS noteTags (id INTEGER PRIMARY KEY AUTOINCREMENT, idNote INTEGER, idTag INTEGER);"
     );
   });
 
@@ -38,7 +50,7 @@ export const deleteAllDataFromTable = (tablename) => {
 
 
 // Insert a new task into the table
-export const createTask = (name, priority, year, month, day, time, text) => {
+export async function createTask (name, priority, year, month, day, time, text) {
   database.transaction((tx) => {
     tx.executeSql(
       'INSERT INTO tasks (name, priority, year, month, day, time, text, isChecked) VALUES (?,?,?,?,?,?,?,0);',
@@ -68,7 +80,7 @@ export const printAllTasks = () => {
 }
 
 // Get all tasks (with a callback function)
-export const getAllTasks = (callback) => {
+export async function getAllTasks(callback) {
   database.transaction(tx => {
     tx.executeSql(
       'SELECT * FROM tasks;',
@@ -92,7 +104,7 @@ export const getAllTasks = (callback) => {
 }
 
 // Switches a task to completed or uncompleted
-export const toggleTaskChecked = (task) => {
+export async function toggleTaskChecked(task) {
   const newCheckedValue = task.isChecked ? 0 : 1; // Toggle isChecked value
 
   database.transaction(tx => {
@@ -121,6 +133,12 @@ export const deleteTask = (task) => {
           console.log('Task deleted successfully');
         }
       );
+      tx.executeSql(
+        'DELETE FROM taskTags WHERE idTask = ?',
+        [task.id],
+        (_, result) => {
+        }
+      );
     },
     (error) => {
       console.error('Error deleting task:', error);
@@ -132,7 +150,7 @@ export const deleteTask = (task) => {
 
 
 // Insert a new note into the table
-export const createNote = (name, priority, year, month, day, time, location, text) => {
+export async function createNote(name, priority, year, month, day, time, location, text) {
   database.transaction((tx) => {
     tx.executeSql(
       'INSERT INTO notes (name, priority, year, month, day, time, location, text, isChecked) VALUES (?,?,?,?,?,?,?,?,0);',
@@ -162,7 +180,7 @@ export const printAllNotes = () => {
 }
 
 // Get all notes (with a callback function)
-export const getAllNotes = (callback) => {
+export async function getAllNotes(callback) {
   database.transaction(tx => {
     tx.executeSql(
       'SELECT * FROM notes;',
@@ -187,7 +205,7 @@ export const getAllNotes = (callback) => {
 }
 
 // Switches a note to completed or uncompleted
-export const toggleNoteChecked = (note) => {
+export async function toggleNoteChecked (note) {
   const newCheckedValue = note.isChecked ? 0 : 1; // Toggle isChecked value
 
   database.transaction(tx => {
@@ -216,9 +234,186 @@ export const deleteNote = (note) => {
           console.log('Note deleted successfully');
         }
       );
+      tx.executeSql(
+        'DELETE FROM noteTags WHERE idNote = ?',
+        [note.id],
+        (_, result) => {
+        }
+      );
     },
     (error) => {
       console.error('Error deleting note:', error);
+    }
+  );
+};
+
+/* Tags */
+
+// Insert a new tag in the database
+export async function createTagDB (id, name, priority, color) {
+  database.transaction((tx) => {
+    tx.executeSql(
+      'INSERT INTO tags (id, name, priority, color) VALUES (?,?,?,?);',
+      [id, name, priority, color],
+      (_, result) => {
+        console.log('Tag created successfully');
+      },
+      (_, error) => {
+        console.error('Error creating tag:', error);
+        return true; // line to satisfy the required signature
+      }
+    );
+  });
+};
+
+// Get all tags (with a callback function)
+export async function getAllTags(callback) {
+  database.transaction(tx => {
+    tx.executeSql(
+      'SELECT * FROM tags;',
+      [],
+      (_, { rows }) => {
+        const tags = rows._array.map(tag => ({
+          id: tag.id,
+          name: tag.name,
+          priority: tag.priority,
+          color: tag.color,
+        }));
+        callback(tags);
+      }
+    );
+  });
+}
+
+// Allows the user to change the color of a tag
+export async function changeColorTag (tag, newColor) {
+  database.transaction(tx => {
+    tx.executeSql(
+      'UPDATE tags SET color = ? WHERE id = ?;',
+      [newColor, tag.id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          console.log(`Tag ${tag.id} color updated to ${newColor}`);
+        } else {
+          console.log(`No tag found with ID ${tag.id}`);
+        }
+      }
+    );
+  });
+}
+
+// Allows the user to change the name of a tag
+export async function changeNameTag (tag, newName) {
+  database.transaction(tx => {
+    tx.executeSql(
+      'UPDATE tags SET name = ? WHERE id = ?;',
+      [newName, tag.id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          console.log(`Tag ${tag.id} name updated to ${newName}`);
+        } else {
+          console.log(`No tag found with ID ${tag.id}`);
+        }
+      }
+    );
+  });
+}
+
+// Allows the user to change the name of a tag
+export async function changePriorityTag (tag, newPrio) {
+  database.transaction(tx => {
+    tx.executeSql(
+      'UPDATE tags SET priority = ? WHERE id = ?;',
+      [newPrio, tag.id],
+      (_, { rowsAffected }) => {
+        if (rowsAffected > 0) {
+          console.log(`Tag ${tag.id} priority updated to ${newPrio}`);
+        } else {
+          console.log(`No tag found with ID ${tag.id}`);
+        }
+      }
+    );
+  });
+}
+
+// Delete a specific tag from the table
+export const deleteTagDB = (tagId) => {
+  database.transaction(
+    (tx) => {
+      tx.executeSql(
+        'DELETE FROM tags WHERE id = ?',
+        [tagId],
+        (_, result) => {
+          console.log('Tag deleted successfully');
+        }
+      );
+      tx.executeSql(
+        'DELETE FROM taskTags WHERE idTag = ?',
+        [tagId],
+        (_, result) => {
+        }
+      );
+      tx.executeSql(
+        'DELETE FROM noteTags WHERE idTag = ?',
+        [tagId],
+        (_, result) => {
+        }
+      )
+    },
+    (error) => {
+      console.error('Error deleting tag:', error);
+    }
+  );
+};
+
+// Add a tag to a task
+export async function addTagTask (task, tag) {
+  database.transaction((tx) => {
+    tx.executeSql(
+      'INSERT INTO taskTags (idTask, idTag) VALUES (?,?);',
+      [task.id, tag.id],
+      (_, result) => {
+        console.log('Link created successfully');
+      },
+      (_, error) => {
+        console.error('Error creating link:', error);
+        return true; // line to satisfy the required signature
+      }
+    );
+  });
+};
+
+// Add a tag to a note
+export async function addTagNote (note, tag) {
+  database.transaction((tx) => {
+    tx.executeSql(
+      'INSERT INTO noteTags (idNote, idTag) VALUES (?,?);',
+      [note.id, tag.id],
+      (_, result) => {
+        console.log('Link created successfully');
+      },
+      (_, error) => {
+        console.error('Error creating link:', error);
+        return true; // line to satisfy the required signature
+      }
+    );
+  });
+};
+
+// Delete a specific link a task and a tag
+export const deleteTagTask = (task, tag) => {
+  database.transaction(
+    (tx) => {
+      tx.executeSql(
+        'DELETE FROM taskTags WHERE (idTask = ? AND idTag = ?);',
+        [task.id, tag.id],
+        (_, result) => {
+          console.log('Link deleted successfully');
+        }
+      );
+    },
+    (error) => {
+      console.error('Error deleting link:', error);
     }
   );
 };

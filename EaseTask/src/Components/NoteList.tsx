@@ -7,7 +7,7 @@ const NoteList = ({ notes, onCheckPress, onMenuPress, onDelete }) => {
       {notes.map(note => (
         <NoteBox 
           key={note.id}
-          note={note}
+          task={note}
           onCheckPress={() => onCheckPress(note)}
           onMenuPress={() => onMenuPress(note.id)}
           onDelete={() => console.log('Delete note')} 
