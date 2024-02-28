@@ -150,11 +150,11 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
      */
     const handleTags = (newTags) => {
         setSelectedTags(newTags)
-        if (selectedTags.length == tags.length){
+        if (newTags.length == tags.length){
             setSelectedTagName(allTagsSelected);
         } else {
             let list = ""
-            tags.forEach(tag => {
+            newTags.forEach(tag => {
                 list += tag.name + ", "
             })
             setSelectedTagName(list)

@@ -29,10 +29,10 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     pressed: {
-        backgroundColor: 'gray',
+        backgroundColor: 'cyan',
     },
     unpressed: {
-        backgroundColor: 'cyan',
+        backgroundColor: 'gray',
     }
 })
 
