@@ -10,6 +10,11 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [swipeableRow, setSwipeableRow] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const numTags = task.tags.length;
+  const minHeight = 85 + Math.max((numTags-2) * 20, 0); // Adjust the height based on the number of tags
+  const rowHeight = 10 + Math.max((numTags-2) * 10, 0);
+
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
@@ -50,8 +55,8 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
       renderRightActions={renderRightActions}
       rightThreshold={40}
     >
-      <View style={styles.taskContainer}>
-        <View style={styles.row}>
+      <View style={[styles.taskContainer, { minHeight: minHeight }]}>
+        <View style={[styles.row, {top: rowHeight}]}>
           <TouchableOpacity onPress={onCheckPress} >
             {task.isChecked ? (
               <AntDesign name="checkcircle" size={24} color="green" />
@@ -68,10 +73,11 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
           </TouchableOpacity>
           </View>
           <View style={styles.taskMeta}>
-                <View style={styles.priorityContainer}>
-                  <Icon name="flag" size={15} color="orange" />
-                  <Text style={styles.priorityText}>{task.priority}</Text>
-                </View>
+            {task.tags.map((tag, index) => (
+              <View key={index} style={styles.priorityContainer}>
+              <Text style={[styles.priorityText, {color: tag.color}]}>{tag.name}</Text>
+              </View>
+            ))}
                 <View style={styles.timeContainer}>
                   <Icon name="access-time" size={15} color="red" />
                   <Text style={styles.timeText}>{task.time}</Text>
@@ -83,7 +89,7 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
           {isExpanded ? (
             <View style={styles.expandedDetails}>
 
-              <Text style={styles.noteText}>{task.text}</Text>
+              <Text style={[styles.noteText, {marginTop: 32+ minHeight-85}]}>{task.text}</Text>
               <Text style={styles.modifiedDate}>Modified Sat, 27 Jan</Text>
             </View>
           ) : null}
@@ -108,7 +114,6 @@ const styles = StyleSheet.create({
   },
   priorityText: {
     marginLeft: 4,
-    color: 'orange',
   },
   timeText: {
     marginLeft: 4,
@@ -117,7 +122,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     alignItems: 'center',
-    top: 10,
   },
   expandedDetails: {
     flexDirection: 'column',
@@ -138,8 +142,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flex: 1,
     right: 35,
-  
-    alignItems: 'flex-start',
+    alignItems: "flex-end",
 
   },
   // taskMetaExpanded: {
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 4,
     elevation: 3,
-    minHeight: 85,
+    // minHeight: 85,
     // maxWidth: 150
   },
 
@@ -192,7 +195,7 @@ const styles = StyleSheet.create({
     color: '#333',
     marginBottom: 1,
     marginLeft: 12,
-
+    marginRight: 180,
   },
   priority: {
     fontSize: 14,

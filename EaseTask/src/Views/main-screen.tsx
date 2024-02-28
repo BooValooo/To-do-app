@@ -167,7 +167,7 @@ const MainScreen = () => {
   useEffect(() => {
     getAllTasks(setTasks);
     getAllNotes(setNotes)
-  }, [update]);
+  }, [update,newTaskVisible]);
 
   // Allows to update the UI when a task or note is edited or ticked from the calendar
   useFocusEffect(
@@ -177,10 +177,10 @@ const MainScreen = () => {
     }, [])
   );
 
-  // Called when a new task is created
+  // Called when a new task is created. The delay is necessary if we want the UI to update correctly. Without it, the tags do not appear on the new task. It is not noticeable by the user.
   const onCloseNewTaskModal = () => {
-    setNewTaskVisible(false);
-    setUpdate(update+1);
+    setTimeout(() => {setNewTaskVisible(false);
+                      setUpdate(update+1);} , 50);
   }
 
 
@@ -241,8 +241,9 @@ const MainScreen = () => {
       <TagManager
         isVisible={tagVisible}
         onClose={() => {
-          setTagVisible(false)
-          setModalVisible(false)}}
+          setTagVisible(false);
+          setModalVisible(false);
+          setUpdate(update+1)}}
       />
     </View>
   );

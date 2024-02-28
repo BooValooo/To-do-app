@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, View, TextInput, Button, StyleSheet, Platform, Text, TouchableOpacity } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { createTask, getAllTags } from '../Utils/database_utils';
+import { addTagTask, createTask, getAllTags } from '../Utils/database_utils';
 import Headbar from './Headbar';
 import DV from './defaultValues';
 import SelectTag from './SelectTag';
@@ -9,39 +9,16 @@ import { AntDesign, Fontisto } from '@expo/vector-icons';
 import Tag from '../Utils/tag';
 
 const NewTaskModal = ({isVisible, onClose}) => {
-
-    const testTags: Tag[] = [
-        { id: 1, name: 'Tag 1', priority: 1, color: 'red' },
-        { id: 2, name: 'Tag 2', priority: 2, color: 'blue' },
-        { id: 3, name: 'Tag 3', priority: 3, color: 'green' },
-        { id: 4, name: 'Tag 4', priority: 4, color: 'yellow' },
-        { id: 5, name: 'Tag 5', priority: 5, color: 'orange' },
-        { id: 6, name: 'Tag 6', priority: 6, color: 'purple' },
-        { id: 7, name: 'Tag 7', priority: 7, color: 'cyan' },
-        { id: 8, name: 'Tag 8', priority: 8, color: 'magenta' },
-        { id: 9, name: 'Tag 9', priority: 9, color: 'pink' },
-        { id: 10, name: 'Tag 10', priority: 10, color: 'black' },
-        { id: 11, name: 'Tag 1', priority: 1, color: 'red' },
-        { id: 12, name: 'Tag 2', priority: 2, color: 'blue' },
-        { id: 13, name: 'Tag 3', priority: 3, color: 'green' },
-        { id: 14, name: 'Tag 4', priority: 4, color: 'yellow' },
-        { id: 15, name: 'Tag 5', priority: 5, color: 'orange' },
-        { id: 16, name: 'Tag 6', priority: 6, color: 'purple' },
-        { id: 17, name: 'Tag 7', priority: 7, color: 'cyan' },
-        { id: 18, name: 'Tag 8', priority: 8, color: 'magenta' },
-        { id: 19, name: 'Tag 9', priority: 9, color: 'pink' },
-        { id: 20, name: 'Tag 10', priority: 10, color: 'black' }
-    ];
-
     const [name, setName] = useState('');
-    const [tag, setTag] = useState(testTags);
     const [text, setText] = useState('');
     const [date, setDate] = useState(new Date())
+    const [dateStr, setDateStr] = useState("PICK DEADLINE")
     const [tags, setTags] = useState([]);       //all Tags
     const [selectedTags, setSelectedTags] = useState([]);   // only selected once
     const [selectedTagName, setSelectedTagName] = useState("");
     const [showDatePicker, setShowDatePicker] = useState(false);
-    const [time, setTime] = useState(new Date())
+    const [time, setTime] = useState(new Date());
+    const [timeStr, setTimeStr] = useState("PICK TIME")
     const [showTimePicker, setShowTimePicker] = useState(false);
 
 
@@ -49,6 +26,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
         setShowDatePicker(Platform.OS === 'ios'); // For iOS, showDatePicker remains true
         if (selectedDate) {
             setDate(selectedDate);
+            setDateStr(selectedDate.getDate()+"/"+selectedDate.getMonth()+"/"+selectedDate.getFullYear());
         }
     };
 
@@ -56,6 +34,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
         setShowTimePicker(Platform.OS === 'ios'); // For iOS, showTimePicker remains true
         if (selectedTime) {
             setTime(selectedTime);
+            setTimeStr(selectedTime.toLocaleTimeString());
         }
     };
 
@@ -64,14 +43,14 @@ const NewTaskModal = ({isVisible, onClose}) => {
         const month = date.getMonth() + 1; // Months are zero-based, so we add 1
         const day = date.getDate();
         const timeTask = time.toLocaleTimeString(); // Extract time as a string
-        console.log('Task created:', { name, tag, date, time, text });
 
         // Call the createTask function to insert the task into the database
-        createTask(name, tag, year, month, day, timeTask, text);
+        createTask(name, year, month, day, timeTask, text,selectedTags);
 
         // Reset input fields and close modal
         setName('');
-        setTag([]);
+        setSelectedTags([]);
+        setSelectedTagName("");
         setDate(new Date());
         setTime(new Date());
         setText('');
@@ -80,7 +59,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
 
     useEffect(() => {
         getAllTags(setTags);
-      }, []);
+      }, [isVisible]);
 
     const handleTags = (newTags) => {
         setSelectedTags(newTags)
@@ -129,24 +108,11 @@ const NewTaskModal = ({isVisible, onClose}) => {
                         <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
                     </TouchableOpacity>
                 </View>
-                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={340} tags={tags} selectedTags={selectedTags}/>
-                {/* <RNPickerSelect
-                    onValueChange={(value) => setTag(value)}
-                    items={[
-                        { label: 'Tag 1', value: 'tag1' },
-                        { label: 'Tag 2', value: 'tag2' },
-                        { label: 'Tag 3', value: 'tag3' },
-                    ]}
-                    value={tag}
-                    placeholder={{
-                        label: 'Select a tag...',
-                        value: null,
-                    }}
-                /> */}
+                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
                 <View style={styles.dateTimeContainer}>
-                    <Text style={DV.styles.normalText}>Date</Text>
+                    <Text style={DV.styles.normalText}>Deadline</Text>
                     <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>
-                        <Text style={styles.buttonText}>{"PICK DATE"}</Text>
+                        <Text style={styles.buttonText}>{dateStr}</Text>
                     </TouchableOpacity>
                     {showDatePicker ? (
                         <DateTimePicker
@@ -158,7 +124,7 @@ const NewTaskModal = ({isVisible, onClose}) => {
                     ) : null}
                     <Text style={DV.styles.normalText}>Time</Text>               
                     <TouchableOpacity onPress={() => setShowTimePicker(true)} style={[styles.buttonTime]}>
-                        <Text style={styles.buttonText}>{"PICK TIME"}</Text>
+                        <Text style={styles.buttonText}>{timeStr}</Text>
                     </TouchableOpacity>
                     {showTimePicker ? (
                         <DateTimePicker
@@ -210,7 +176,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     buttonTime: {
-        width: 100,
+        width: 150,
         height: 30,
         marginBottom: 20,
         marginTop: 5,

@@ -6,34 +6,13 @@ import { AntDesign, Fontisto } from '@expo/vector-icons';
 import Headbar from '../Components/Headbar';
 import Note from '../Utils/note';
 import Task from '../Utils/task';
-import { getAllNotes, getAllTasks } from '../Utils/database_utils';
+import { getAllNotes, getAllTags, getAllTasks } from '../Utils/database_utils';
 import SelectTag from '../Components/SelectTag';
 import Tag from '../Utils/tag';
 
 const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
-    const testTags: Tag[] = [
-        { id: 1, name: 'Tag 1', priority: 1, color: 'red' },
-        { id: 2, name: 'Tag 2', priority: 2, color: 'blue' },
-        { id: 3, name: 'Tag 3', priority: 3, color: 'green' },
-        { id: 4, name: 'Tag 4', priority: 4, color: 'yellow' },
-        { id: 5, name: 'Tag 5', priority: 5, color: 'orange' },
-        { id: 6, name: 'Tag 6', priority: 6, color: 'purple' },
-        { id: 7, name: 'Tag 7', priority: 7, color: 'cyan' },
-        { id: 8, name: 'Tag 8', priority: 8, color: 'magenta' },
-        { id: 9, name: 'Tag 9', priority: 9, color: 'pink' },
-        { id: 10, name: 'Tag 10', priority: 10, color: 'black' },
-        { id: 11, name: 'Tag 1', priority: 1, color: 'red' },
-        { id: 12, name: 'Tag 2', priority: 2, color: 'blue' },
-        { id: 13, name: 'Tag 3', priority: 3, color: 'green' },
-        { id: 14, name: 'Tag 4', priority: 4, color: 'yellow' },
-        { id: 15, name: 'Tag 5', priority: 5, color: 'orange' },
-        { id: 16, name: 'Tag 6', priority: 6, color: 'purple' },
-        { id: 17, name: 'Tag 7', priority: 7, color: 'cyan' },
-        { id: 18, name: 'Tag 8', priority: 8, color: 'magenta' },
-        { id: 19, name: 'Tag 9', priority: 9, color: 'pink' },
-        { id: 20, name: 'Tag 10', priority: 10, color: 'black' }
-    ];
 
+    const [tags, setTags] = useState<Tag[]>([]);
     const [tasks, setTasks] = useState<Task[]>([]);
     const [notes, setNotes] = useState<Note[]>([]);
     // const [filteredTasks, setFilteredTasks] = useState<Task[]>([]);
@@ -94,20 +73,27 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         setShowFinishedTasks(!showFinishedTasks);
     }
 
-    // Fetches the tasks and notes in the DB (only once)
+    // Fetches the tasks and notes in the DB 
     useEffect(() => {
         getAllNotes(setNotes);
         getAllTasks(setTasks);
-    }, []);
+        getAllTags(setTags);
+        getAllTags(setSelectedTags);
+    }, [isVisible]);
 
     const filterTask = () => {
         const filtering = tasks.filter((task) => {
             const date = new Date(task.year,task.month - 1,task.day);
+            const taskHasSelectedTag = selectedTags.length != tags.length ? task.tags.some(taskTag => {
+                // Check if any of the task's tags exists in the selectedTags array
+                return selectedTags.some(selectedTag => selectedTag.id === taskTag.id);
+            }) : true;
             return (showTask &&
                 date >= startDate &&
                 date <= endDate &&
-                (showFinishedTasks || (!showFinishedTasks && !task.isChecked))
-                // Complete with conditions for "tags" and "search"
+                (showFinishedTasks || (!showFinishedTasks && !task.isChecked)) &&
+                taskHasSelectedTag
+                // Complete with conditions for "search"
             )
         })
         setTasksMain(filtering);
@@ -116,11 +102,16 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
     const filterNote = () => {
         const filtering = notes.filter((note) => {
             const date = new Date(note.year,note.month - 1,note.day);
+            const noteHasSelectedTag = selectedTags.length != tags.length ? note.tags.some(noteTag => {
+                // Check if any of the notes's tags exists in the selectedTags array
+                return selectedTags.some(selectedTag => selectedTag.id === noteTag.id);
+            }) : true;
             return (showNote &&
                 date >= startDate &&
                 date <= endDate &&
-                (showFinishedTasks || (!showFinishedTasks && !note.isChecked))
-                // Complete with conditions for "tags" and "search"
+                (showFinishedTasks || (!showFinishedTasks && !note.isChecked)) &&
+                noteHasSelectedTag
+                // Complete with conditions for "search"
             )
         })
         setNotesMain(filtering);
@@ -150,8 +141,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
     /*                                         tag selection                                                       */
     const allTagsSelected = "all Tags"
-    const [tags, setTags] = useState<Tag[]>(testTags);                    /* should be updated with all tags when tagManager changes them */
-    const [selectedTags, setSelectedTags] = useState<Tag[]>(testTags.filter(tag => tag.color.length < 5));    /* should remove tag when tagManager deletes one */
+    const [selectedTags, setSelectedTags] = useState<Tag[]>(tags);    /* should remove tag when tagManager deletes one */
     const [selectedTagName, setSelectedTagName] = useState(allTagsSelected);
 
     /**
