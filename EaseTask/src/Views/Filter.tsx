@@ -168,7 +168,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
                 <View style={DV.styles.entryContainer}>
                     {/** TaskNote */}
-                    <View style={DV.styles.taskNoteContainer}>
+                    <View style={styles.taskNoteContainer}>
                         <TouchableOpacity onPress={() => setShowTask(!showTask)} style={StyleSheet.compose(DV.styles.closeButton, (showTask?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
                             <Text style={DV.styles.normalText}>Task</Text>
                         </TouchableOpacity>
@@ -246,6 +246,18 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 };
 
 const styles = StyleSheet.create({
+    taskNoteContainer: {                        
+        width: 310,
+        height: 50,
+        borderRadius: 25,
+        flexDirection: 'row',
+        backgroundColor: 'lightgray',
+        marginVertical: 10,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        marginLeft: 14
+    },
     marginToIcon: {
         marginLeft: 15
     },

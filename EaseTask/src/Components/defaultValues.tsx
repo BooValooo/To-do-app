@@ -106,32 +106,6 @@ class DV{
             flex: 1,
             backgroundColor: '#fff',
             },
-            //AI Chat Bot
-        AIkeyboardAvoidingView: {                   // Not used
-            flex: 1,
-            justifyContent: 'flex-end',
-        },
-        AIcontainer: {                              // Not used
-            backgroundColor: '#FFF',
-            paddingTop: 20,
-            borderTopLeftRadius: 20,
-            borderTopRightRadius: 20,
-            maxHeight: '50%',
-        },
-        AImessagesContainer: {                      // Not used
-            paddingHorizontal: 10,
-        },
-        AIinputContainer: {                         // Not used
-            borderTopWidth: 1,
-            borderColor: '#EEE',
-            padding: 10,
-        },
-        AIinput: {                                  // Not used
-            height: 40,
-            borderWidth: 1,
-            borderRadius: 20,
-            paddingHorizontal: 15,
-        },
         //taskbox
         deleteButton: {                             // In NoteBox and TaskBox
             backgroundColor: 'red',
@@ -163,9 +137,6 @@ class DV{
             shadowOffset: { width: 0, height: 1 }, 
             shadowOpacity: 0.22, 
             shadowRadius: 2.22, 
-          },
-          checkbox: {                               // empty but in Onboarding2, SettingsShow, SettingsToggle
-            // style for the checkbox container, TODO: add styles if needed
           },
           taskDetails: {                            // In NoteBox and TaskBox
             flex: 1,
@@ -201,18 +172,6 @@ class DV{
             flexDirection: 'column',
             alignItems: 'flex-start',
             marginStart: 12,
-        },
-        taskNoteContainer: {                        // In Filter
-            width: 310,
-            height: 50,
-            borderRadius: 25,
-            flexDirection: 'row',
-            backgroundColor: 'lightgray',
-            marginVertical: 10,
-            alignSelf: 'center',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-            marginLeft: 14
         },
         taskNoteUnpressed:{                         // in Filter (could be used in SelectTag/Entry)
             backgroundColor: 'lightgray',
