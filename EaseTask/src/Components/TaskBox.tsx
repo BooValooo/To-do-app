@@ -6,6 +6,7 @@ import { AntDesign, Entypo, FontAwesome } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Swipeable } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import DV from './defaultValues';
 const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [swipeableRow, setSwipeableRow] = useState(null);
@@ -67,8 +68,8 @@ const TaskBox = ({ task, onCheckPress, onMenuPress, onDelete }) => {
           <Text style={styles.taskName}>
             {task.name}
           </Text>
-          <View style={styles.menuButton}>
-          <TouchableOpacity onPress={toggleExpand} style={styles.menuButton}>
+          <View style={DV.styles.menuButton}>
+          <TouchableOpacity onPress={toggleExpand} style={DV.styles.menuButton}>
             <FontAwesome name="bars" size={24} color="black" />
           </TouchableOpacity>
           </View>
@@ -207,10 +208,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
-  menuButton: {
-    position: 'absolute',
-    right: 0,
-    top: 0,},
 });
 // styles TaskBox;
 

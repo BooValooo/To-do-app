@@ -164,8 +164,10 @@ class DV{
             color: '#666',
           },
           menuButton: {                             // empty but in NoteBox and TaskBox
-            // Style if needed
-          },
+            position: 'absolute',
+            right: 0,
+            top: 0,
+        },
 
         // Filter
         entryContainer:{                            // In tagManager, Filter
