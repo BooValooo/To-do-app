@@ -169,11 +169,11 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                 <View style={DV.styles.entryContainer}>
                     {/** TaskNote */}
                     <View style={styles.taskNoteContainer}>
-                        <TouchableOpacity onPress={() => setShowTask(!showTask)} style={StyleSheet.compose(DV.styles.closeButton, (showTask?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
+                        <TouchableOpacity onPress={() => setShowTask(!showTask)} style={DV.colorStyles(showTask?'white':'lightgray').closeButton}>
                             <Text style={DV.styles.normalText}>Task</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => setShowNote(!showNote)} style={StyleSheet.compose(DV.styles.closeButton, (showNote?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
+                        <TouchableOpacity onPress={() => setShowNote(!showNote)} style={DV.colorStyles(showNote?'white':'lightgray').closeButton}>
                             <Text style={DV.styles.normalText}>Note</Text>
                         </TouchableOpacity>
                     </View>
@@ -182,7 +182,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
                     <View style={DV.styles.entry}>
                         <AntDesign name="clockcircleo" size={DV.normalIconSize} color="#24A19C" />
-                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
+                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={StyleSheet.compose(styles.entryField, styles.dateField)}>
                             <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{startDateText}</Text>
                         </TouchableOpacity>
                         {showStartDatePicker ? (
@@ -194,7 +194,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                         <Text style={DV.styles.normalText}>:</Text>
-                        <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
+                        <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(styles.entryField, styles.dateField)}>
                             <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{endDateText}</Text>
                         </TouchableOpacity>
                         {showEndDatePicker ? (
@@ -210,7 +210,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                         <View style={DV.styles.entry}>
                             <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
                             <TouchableOpacity onPress={() => onOpenTag()}  style={StyleSheet.compose(DV.styles.entry, DV.styles.resetVerticalMarginAndPadding)}>
-                                <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
+                                <Text style={StyleSheet.compose(styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
                                 <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon} />
                             </TouchableOpacity>
                         </View>
@@ -219,7 +219,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                     <View style={DV.styles.entry}>    
                         <AntDesign name="search1" size={DV.normalIconSize} color={"green"/* Color was #24A19C */}/>
                         <TextInput
-                            style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}
+                            style={StyleSheet.compose(styles.entryField, DV.styles.normalText)}
                             placeholder="search"
                             value={search}
                             onChangeText={setSearch}
@@ -236,7 +236,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                     </TouchableOpacity>
                     
                     {/** Save  */}
-                    <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.styles.closeButton}>
+                    <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.colorStyles('gray').closeButton}>
                         <Text style={DV.styles.normalText}> Close </Text>
                     </TouchableOpacity>
                 </View>
@@ -246,6 +246,19 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 };
 
 const styles = StyleSheet.create({
+    entryField: {
+        backgroundColor: 'lightgray',
+        width: 330,
+        height: 40,
+        borderRadius: 10,
+        paddingLeft: 10,
+        marginLeft: 5,
+        textAlignVertical: 'center',
+    },                                          
+    dateField: {
+        width: 156,
+        marginHorizontal: 5,
+    },
     taskNoteContainer: {                        
         width: 310,
         height: 50,

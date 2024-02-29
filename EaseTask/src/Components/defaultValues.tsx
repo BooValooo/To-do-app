@@ -173,41 +173,10 @@ class DV{
             alignItems: 'flex-start',
             marginStart: 12,
         },
-        taskNoteUnpressed:{                         // in Filter (could be used in SelectTag/Entry)
-            backgroundColor: 'lightgray',
-            marginVertical: 0,
-        },
-        taskNotePressed: {                          // in Filter (could be used in SelectTag/Entry)
-            backgroundColor: 'white',
-            marginVertical: 0,
-        },
         entry: {                                    // in tagManager, Filter, NewTaskModal
             flexDirection: 'row',
             alignItems: 'center',
             marginVertical: 10
-        },
-        entryField: {                               // in Filter
-            backgroundColor: 'lightgray',
-            width: 330,
-            height: 40,
-            borderRadius: 10,
-            paddingLeft: 10,
-            marginLeft: 5,
-            textAlignVertical: 'center',
-        },                                          
-        dateField: {                                // in Filter
-            width: 156,
-            marginHorizontal: 5,
-        },
-        closeButton: {                              // in tagManager and Filter
-            height: 40,
-            width: 150,
-            borderRadius: 20,
-            backgroundColor: 'gray',
-            alignItems: 'center',
-            alignSelf: 'center',
-            justifyContent: 'center',
-            marginVertical: 20,
         },
         resetVerticalMarginAndPadding: {            // in Filter and NewTaskModal
             marginVertical: 0,
@@ -237,6 +206,17 @@ class DV{
             alignItems: 'center',
             textAlign: 'center',
         },
+        closeButton: {                              // in tagManager and Filter
+            height: 40,
+            width: 150,
+            borderRadius: 20,
+            backgroundColor: color,                 // as closeButton 'gray'
+            alignItems: 'center',
+            alignSelf: 'center',
+            justifyContent: 'center',
+            marginVertical: 20,
+
+        }
     });
 
 }
