@@ -126,6 +126,12 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         close();
     }
 
+    const handleResetFilter = (close) => {
+        getAllNotes(setNotesMain);
+        getAllTasks(setTasksMain);
+        close();
+    }
+
     /**
      * State for tag selection visibility
      */
@@ -237,7 +243,11 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                     
                     {/** Save  */}
                     <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.colorStyles('gray').closeButton}>
-                        <Text style={DV.styles.normalText}> Close </Text>
+                        <Text style={DV.styles.normalText}> Apply filters </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity onPress={() => handleResetFilter(onClose)} style = {DV.colorStyles('gray').closeButton}>
+                        <Text style={DV.styles.normalText}> Reset filters </Text>
                     </TouchableOpacity>
                 </View>
             </View>
