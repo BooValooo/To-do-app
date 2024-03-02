@@ -46,7 +46,7 @@ const TagEntry = ({tag, moveDown, moveUp, newTag, deleteTag}) => {
 
     return (
         <View style={styles.tagEntry}>
-            <TouchableOpacity onPress={changeColor} style={DV.tagColorStyles(tagColor).circle}></TouchableOpacity>
+            <TouchableOpacity onPress={changeColor} style={DV.colorStyles(tagColor).circle}></TouchableOpacity>
             <TextInput
                 style={StyleSheet.compose(styles.textField, DV.styles.normalText)}
                 placeholder=""

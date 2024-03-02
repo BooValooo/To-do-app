@@ -14,7 +14,7 @@ const ColorSelection = ({isVisible, handleColorChange}) => {
                     {Colors.colors.map((c, index) => (
                         <TouchableOpacity
                             key={index}
-                            style={[DV.tagColorStyles(c).circle, {margin: 5}]}
+                            style={[DV.colorStyles(c).circle, {margin: 5}]}
                             onPress={() => handleColorChange(c)}
                         />
                     ))}

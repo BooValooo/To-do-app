@@ -123,7 +123,7 @@ const TagManager = ({isVisible, onClose}) => {
                 <TagEntry tag={null} moveDown={null} moveUp={null} newTag={createTag} deleteTag={null}/>
             </View>
 
-            <TouchableOpacity onPress={onClose} style = {DV.styles.closeButton}>
+            <TouchableOpacity onPress={onClose} style = {DV.colorStyles('gray').closeButton}>
                 <Text style={DV.styles.normalText}> Close </Text>
             </TouchableOpacity>
         </Modal>

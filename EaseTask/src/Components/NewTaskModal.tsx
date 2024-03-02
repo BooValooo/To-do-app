@@ -6,6 +6,7 @@ import Headbar from './Headbar';
 import DV from './defaultValues';
 import SelectTag from './SelectTag';
 import { AntDesign, Fontisto } from '@expo/vector-icons';
+import Tag from '../Utils/tag';
 
 const NewTaskModal = ({isVisible, onClose}) => {
     const [name, setName] = useState('');
@@ -75,12 +76,6 @@ const NewTaskModal = ({isVisible, onClose}) => {
     const onOpenTag = () => {
         setTagVisible(true);
     }
-    const [buttonPosition, setButtonPosition] = useState({x: 0, y: 0});
-    const handleLayout = (event) => {
-        const { x, y } = event.nativeEvent.layout;
-        setButtonPosition({ x, y });
-        console.log("Position: " + x + ", " + y)
-    };
 
 
     return (
@@ -102,12 +97,12 @@ const NewTaskModal = ({isVisible, onClose}) => {
                 <Text style={DV.styles.normalText}>Tag</Text>
 
                 <View style={StyleSheet.compose(DV.styles.entry, styles.noMarginVertical)}>
-                    <Text style={StyleSheet.compose(styles.input, DV.styles.normalText)}>{selectedTagName}</Text>
-                    <TouchableOpacity onPress={() => onOpenTag()} onLayout={handleLayout}>
+                    <TouchableOpacity onPress={() => onOpenTag()} style={StyleSheet.compose(DV.styles.entry, DV.styles.resetVerticalMarginAndPadding)}>
+                        <Text style={StyleSheet.compose(styles.input, DV.styles.normalText)}>{selectedTagName}</Text>
                         <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
                     </TouchableOpacity>
                 </View>
-                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
+                <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={340} tags={tags} selectedTags={selectedTags}/>
                 <View style={styles.dateTimeContainer}>
                     <Text style={DV.styles.normalText}>Deadline</Text>
                     <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.buttonTime]}>

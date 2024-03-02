@@ -137,8 +137,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
      */
     const [tagVisible, setTagVisible] = useState(false);
 
-    const handleTag = () => {
-        console.log(buttonPosition.x)
+    const onOpenTag = () => {
         setTagVisible(true)
     }
     const onCloseTag = () => {
@@ -167,19 +166,6 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
         }
     }
 
-    /* Safes the caller position from the tag modal */
-    const [buttonPosition, setButtonPosition] = useState({ x: 0, y: 0 });
-
-    /**
-     * Gets the position of the button that was pressed to display the tag Selection
-     * @param event 
-     */
-    const handleLayout = (event) => {
-        const { x, y } = event.nativeEvent.layout;
-        setButtonPosition({ x, y });
-        console.log("Position: " + x + ", " + y)
-    };
-
     return(
         <Modal transparent={false} visible={isVisible} animationType="slide">
             <View style={DV.styles.background}>
@@ -188,12 +174,12 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
                 <View style={DV.styles.entryContainer}>
                     {/** TaskNote */}
-                    <View style={DV.styles.taskNoteContainer}>
-                        <TouchableOpacity onPress={() => setShowTask(!showTask)} style={StyleSheet.compose(DV.styles.closeButton, (showTask?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
+                    <View style={styles.taskNoteContainer}>
+                        <TouchableOpacity onPress={() => setShowTask(!showTask)} style={DV.colorStyles(showTask?'white':'lightgray').closeButton}>
                             <Text style={DV.styles.normalText}>Task</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={() => setShowNote(!showNote)} style={StyleSheet.compose(DV.styles.closeButton, (showNote?DV.styles.taskNotePressed:DV.styles.taskNoteUnpressed))}>
+                        <TouchableOpacity onPress={() => setShowNote(!showNote)} style={DV.colorStyles(showNote?'white':'lightgray').closeButton}>
                             <Text style={DV.styles.normalText}>Note</Text>
                         </TouchableOpacity>
                     </View>
@@ -202,7 +188,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 
                     <View style={DV.styles.entry}>
                         <AntDesign name="clockcircleo" size={DV.normalIconSize} color="#24A19C" />
-                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
+                        <TouchableOpacity onPress={() => setShowStartDatePicker(true)} style={StyleSheet.compose(styles.entryField, styles.dateField)}>
                             <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{startDateText}</Text>
                         </TouchableOpacity>
                         {showStartDatePicker ? (
@@ -214,7 +200,7 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                         <Text style={DV.styles.normalText}>:</Text>
-                        <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(DV.styles.entryField, DV.styles.dateField)}>
+                        <TouchableOpacity onPress={() => setShowEndDatePicker(true)} style={StyleSheet.compose(styles.entryField, styles.dateField)}>
                             <Text style={StyleSheet.compose(DV.styles.normalText, styles.centeredText)}>{endDateText}</Text>
                         </TouchableOpacity>
                         {showEndDatePicker ? (
@@ -226,20 +212,20 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                             />
                         ) : null}
                     </View>
-                    <View>
+                    <View style={styles.tags}>
                         <View style={DV.styles.entry}>
                             <Fontisto name="propeller-4" size={DV.normalIconSize} color="green" />
-                            <Text style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
-                            <TouchableOpacity onPress={() => handleTag()} onLayout={handleLayout}>
-                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon}  />
+                            <TouchableOpacity onPress={() => onOpenTag()}  style={StyleSheet.compose(DV.styles.entry, DV.styles.resetVerticalMarginAndPadding)}>
+                                <Text style={StyleSheet.compose(styles.entryField, DV.styles.normalText)}>{selectedTagName}</Text>
+                                <AntDesign name="caretdown" size={DV.normalIconSize} color="black" style={styles.negateMarginToIcon} />
                             </TouchableOpacity>
                         </View>
-                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={buttonPosition.x} tags={tags} selectedTags={selectedTags}/>
+                        <SelectTag isVisible={tagVisible} onClose={onCloseTag} setTags={handleTags} topPosition={360} tags={tags} selectedTags={selectedTags}/>
                     </View>
                     <View style={DV.styles.entry}>    
                         <AntDesign name="search1" size={DV.normalIconSize} color={"green"/* Color was #24A19C */}/>
                         <TextInput
-                            style={StyleSheet.compose(DV.styles.entryField, DV.styles.normalText)}
+                            style={StyleSheet.compose(styles.entryField, DV.styles.normalText)}
                             placeholder="search"
                             value={search}
                             onChangeText={setSearch}
@@ -256,11 +242,11 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
                     </TouchableOpacity>
                     
                     {/** Save  */}
-                    <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.styles.closeButton}>
+                    <TouchableOpacity onPress={() => handleClose(onClose)} style = {DV.colorStyles('gray').closeButton}>
                         <Text style={DV.styles.normalText}> Apply filters </Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => handleResetFilter(onClose)} style = {DV.styles.closeButton}>
+                    <TouchableOpacity onPress={() => handleResetFilter(onClose)} style = {DV.colorStyles('gray').closeButton}>
                         <Text style={DV.styles.normalText}> Reset filters </Text>
                     </TouchableOpacity>
                 </View>
@@ -270,6 +256,31 @@ const Filter = ({ isVisible, onClose, setNotesMain, setTasksMain}) => {
 };
 
 const styles = StyleSheet.create({
+    entryField: {
+        backgroundColor: 'lightgray',
+        width: 330,
+        height: 40,
+        borderRadius: 10,
+        paddingLeft: 10,
+        marginLeft: 5,
+        textAlignVertical: 'center',
+    },                                          
+    dateField: {
+        width: 156,
+        marginHorizontal: 5,
+    },
+    taskNoteContainer: {                        
+        width: 310,
+        height: 50,
+        borderRadius: 25,
+        flexDirection: 'row',
+        backgroundColor: 'lightgray',
+        marginVertical: 10,
+        alignSelf: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        marginLeft: 14
+    },
     marginToIcon: {
         marginLeft: 15
     },
@@ -286,16 +297,18 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-      },
-      modalContainer: {
+    },
+    modalContainer: {
         position: 'absolute',
         backgroundColor: 'white',
         padding: 20,
         borderWidth: 1,
         borderColor: 'gray',
         borderRadius: 5,
-      },
-    
+    },
+    tags:{
+        flexDirection: 'column',
+    }
 })
 
 export default Filter;
